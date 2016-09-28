@@ -5,7 +5,7 @@ function censor(inStr) {
 		inStr = inStr.replace(censoreWords[idx], '****');
 	}
 	for (idx in customCensoredWords) {
-		inStr = inStr.replace(customCensoredWords[idx]. '****');
+		inStr = inStr.replace(customCensoredWords[idx], '****');
 	}
 	return inStr;
 }

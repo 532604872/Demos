@@ -1,16 +1,20 @@
 {
-	"author": "Mr.Z",
-	"name": "censorify",
-	"version": "0.1.1",
-	"description": "Censors words out of text",
-	"main": "censortext",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/532604872/Demos/tree/master/node/no_01/censorify"
-	},
-	"keywords": ["censor", "words"],
-	"dependencies": {},
-	"engines": {
-		"node": "*"
-	}
+  "author": "Mr.Z",
+  "name": "censorify_demo",
+  "version": "0.1.1",
+  "description": "Censors words out of text",
+  "main": "censortext.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/532604872/Demos/tree/master/node/no_01/censorify"
+  },
+  "keywords": ["censor", "words"],
+  "dependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "license": "ISC"
 }
