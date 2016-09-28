@@ -1,4 +1,4 @@
-ensoreWords = ['sad', 'bad', 'mad'];
+var censoreWords = ['sad', 'bad', 'mad'];
 var customCensoredWords = [];
 function censor(inStr) {
 	for (idx in censoreWords) {
