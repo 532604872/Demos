@@ -1,20 +1,26 @@
-var censoreWords = ['sad', 'bad', 'mad'];
-var customCensoredWords = [];
-function censor(inStr) {
-	for (idx in censoreWords) {
-		inStr = inStr.replace(censoreWords[idx], '****');
-	}
-	for (idx in customCensoredWords) {
-		inStr = inStr.replace(customCensoredWords[idx], '****');
-	}
-	return inStr;
+var events = require('events');
+function CarShow() {
+	events.EventEmitter.call(this);
+	this.seeCar = function (make) {
+		this.emit('sawCar', make);
+	};
 }
-function addCensoredWord(word) {
-	customCensoredWords.push(word);
+CarShow.prototype.__proto__ = events.EventEmitter.prototype;
+var show = new CarShow();
+function logCar(make) {
+	console.log('Saw a ' + make);
 }
-function getCensoredWords() {
-	return censoreWords.concat(customCensoredWords);
+function logColorCar(make, color) {
+	console.log('Saw a %s %s ', color, make);
 }
-exports.censor = censor;
-exports.addCensoredWord = addCensoredWord;
-exports.getCensoredWords = getCensoredWords;
+show.on('sawCar', logCar);
+show.on('sawCar', function (make) {
+	var colors = ['red', 'blue', 'blank'];
+	var color = colors[Math.floor(Math.random() * 3)];
+	logColorCar(make, color);
+});
+show.seeCar(('Ferrari'));
+show.seeCar(('Porsche'));
+show.seeCar(('Bugatti'));
+show.seeCar(('Lamborghini'));
+show.seeCar(('Aston Martin'));

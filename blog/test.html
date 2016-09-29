@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+	<script type="text/javascript" src="/js/jquery-3.1.0.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+	$.ajax({
+		url: '/api/test',
+		type: 'GET',
+		success: function (d) {
+			console.log(d);
+		},
+		error: function (xhr, statue) {
+			console.log(statue);
+		}
+	});
+	</script>
+</body>
+</html>
