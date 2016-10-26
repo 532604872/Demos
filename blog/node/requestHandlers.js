@@ -1,6 +1,7 @@
+/*导入需要用到的nodejs库*/
 var querystring = require("querystring"),
     fs = require("fs"),
-    formidable = require("../modules/node_modules/formidable");
+    formidable = require("../../modules/node_modules/formidable");
 
 function start(response) {
   console.log("Request handler 'start' was called.");

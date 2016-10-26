@@ -22,59 +22,116 @@
       <a class="hiddenanchor" id="tologin"></a>
       <div id="wrapper">
         <div id="login" class="animate form">
-          <form action="#" method="post" autocomplete="on">
-            <h2>Log in</h2>
-            <p>
-              <label for="username" class="uname" data-icon="u"><span>Your email or name</span></label>
-              <input id="username" name="username" required="required" type="text" placeholder="EMAIL OR USERNAME">
-            </p>
-            <p>
-              <label for="password" class="youpasswd" data-icon="p"><span>Your password</span></label>
-              <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO">
-            </p>
-            <p class="keeplogin">
-              <input type="checkbox" id="brand" value="">
-              <label for="brand"><span></span>Remember me?</label>
-            </p>
-            <p class="login button">
-              <input type="submit" value="Login">
-            </p>
-            <p class="change_link">
-              <span>Not a member yet ?</span>
-              <a href="#toregister" class="to_register">Register Now</a>
-            </p>
-          </form>
+          <h2>Log in</h2>
+          <p>
+            <label for="username" class="uname" data-icon="u"><span>Your email or name</span></label>
+            <input id="username" name="username" required="required" type="text" placeholder="EMAIL OR USERNAME">
+          </p>
+          <p>
+            <label for="password" class="youpasswd" data-icon="p"><span>Your password</span></label>
+            <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO">
+          </p>
+          <p class="keeplogin">
+            <input type="checkbox" id="brand" value="">
+            <label for="brand"><span></span>Remember me?</label>
+          </p>
+          <p class="login button">
+            <input type="submit" id="log_in" value="Login">
+          </p>
+          <p class="change_link">
+            <span>Not a member yet ?</span>
+            <a href="#toregister" class="to_register">Register Now</a>
+          </p>
         </div>
         <div id="register" class="animate form">
-          <form action="#" method="post" autocomplete="on">
-            <h2>Sign up </h2>
-            <p>
-             <label for="usernamesignup" class="uname" data-icon="u"><span>Your name</span></label>
-              <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="USERNAME">
-            </p>
-            <p>
-              <label for="emailsignup" class="youmail" data-icon="e"><span>Your email</span></label>
-              <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="EXAMPLE@MAIL.COM">
-            </p>
-            <p>
-              <label for="passwordsignup" class="youpasswd" data-icon="p"><span>Your password</span></label>
-              <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO">
-            </p>
-            <p>
-              <label for="passwordsignup_confirm" class="youpasswd" data-icon="p"><span>Please confirm your password</span></label>
-              <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO">
-            </p>
-            <p class="signin button">
-              <input type="submit" value="Sign up">
-            </p>
-            <p class="change_link"> 
-              <span>Already a member ?</span>
-              <a href="#tologin" class="to_register">Log In</a>
-            </p>
-          </form>
+          <h2>Sign up </h2>
+          <p>
+           <label for="usernamesignup" class="uname" data-icon="u"><span>Your name</span></label>
+            <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="USERNAME">
+          </p>
+          <p>
+            <label for="emailsignup" class="youmail" data-icon="e"><span>Your email</span></label>
+            <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="EXAMPLE@MAIL.COM">
+          </p>
+          <p>
+            <label for="passwordsignup" class="youpasswd" data-icon="p"><span>Your password</span></label>
+            <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO">
+          </p>
+          <p>
+            <label for="passwordsignup_confirm" class="youpasswd" data-icon="p"><span>Please confirm your password</span></label>
+            <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO">
+          </p>
+          <p class="signin button">
+            <input type="submit" id="sign_Up" value="Sign up">
+          </p>
+          <p class="change_link"> 
+            <span>Already a member ?</span>
+            <a href="#tologin" class="to_register">Log In</a>
+          </p>
         </div>
     	</div>
     </div>
-    <p class="agileits">© 2016 Blog Login Form. All Rights Reserved</p>
+    <p class="agileits">© 2016 Blog Login Form. All Rights Reserved 隔壁老王的隔壁老盛</p>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+    // 注册
+      $(sign_Up).click(function (e) {
+        var name  = $.trim(usernamesignup.value),
+            email = $.trim(emailsignup.value),
+            pwd = $.trim(passwordsignup.value),
+            pwd_confirm = $.trim(passwordsignup_confirm.value);
+        if (name != '' && email != '' && pwd != '' && pwd_confirm != '' && pwd === pwd_confirm) {
+          ajax_post({
+            name: name,
+            email: email,
+            pwd: pwd
+          });
+        }
+      });
+      function ajax_post(d) {
+        $.ajax({
+          url: '/api/signUp',
+          type: 'POST',
+          dataType: 'JSON',
+          data: d,
+          success: function (d) {
+            if (d.status) {
+              window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + '#tologin';
+            }
+          },
+          error: function (xhr) {
+            console.log(xhr);
+          }
+        });
+      }
+      // 登录
+      $(log_in).click(function (e) {
+        var name = $.trim(username.value),
+            pwd = $.trim(password.value);
+        if (name != '' && pwd != '') {
+          ajax_get({
+            name: name,
+            pwd: pwd
+          });
+        }
+      });
+      function ajax_get(d) {
+        $.ajax({
+          url: '/api/login',
+          type: 'GET',
+          dataType: 'JSON',
+          data: d,
+          success: function (d) {
+            if (d.status) {
+              window.location.href = window.location.protocol + '//' + window.location.host + '/publish.html';
+            }
+          },
+          error: function (xhr) {
+           console.log(xhr); 
+          }
+        });
+      }
+    </script>
   </body>
 </html>

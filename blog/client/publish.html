@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>发布手记</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta property="qc:admins" content="77103107776157736375">
+    <meta property="wb:webmaster" content="c4f857219bfae3cb">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta http-equiv="Cache-Control" content="no-transform ">
+
+    <link rel="stylesheet" href="/css/a.css" type="text/css">
+    <link charset="utf-8" rel="stylesheet" href="/css/editor.css">
+
+    <link type="text/css" rel="stylesheet" href="/css/king_editor.css">
+
+    <style type="text/css">
+      .webuploader-container{position: relative;}
+      .webuploader-element-invisible{position: absolute !important; clip: rect(1px 1px 1px 1px); /* IE6, IE7 */ clip: rect(1px,1px,1px,1px);}
+      .webuploader-pick{position: relative; display: inline-block; cursor: pointer; background: #00b33b; padding: 10px 15px; color: #fff; text-align: center; border-radius: 3px; overflow: hidden;}
+      .webuploader-pick-hover{background: #00d747;}
+      .webuploader-pick-disable{opacity: 0.6; pointer-events:none;}
+    </style>
+
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+
+  </head>
+  <body>
+    <div class="opus-wrap clearfix">
+
+      <div class="article-wrap">
+          <!-- article title -->
+          <h2 class="article-title">发布手记</h2>
+
+          <!-- article content -->
+          <div class="article-form">
+
+            <!-- 标题 -->
+            <div class="form-group">
+                <span class="needed">*</span>
+                <div class="form-ipt-wrap">
+                    <input id="art-title" class="art-title" placeholder="请在此输入标题，最多35中文字长度" type="text" maxlength="35">
+                    <p class="form-ipt-error"></p>
+                </div>
+            </div>
+
+            <!-- 上传图片 -->
+            <div class="form-group clearfix">
+                <div class="form-ipt-wrap">
+                    <div class="face-upload clearfix">
+                        <div id="js-face-upload" class="l webuploader-container">
+                          <div class="webuploader-pick">
+                              <button class="btn btn-green">上传图片</button>
+                          </div>
+                          <div id="rt_rt_1aum32vkg1coc11q11v5b19omupr1" style="position: absolute; top: 0px; left: 0px; width: 140px; height: 40px; overflow: hidden; bottom: auto; right: auto;">
+                            <input name="file" class="webuploader-element-invisible" accept="image/gif,image/png,image/jpeg" type="file">
+                            <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"></label>
+                          </div>
+                        </div>
+                        <span class="l">封面为420*260像素的 PNG/JPG/GIF 格式图片</span>
+                    </div>
+                    <div id="js-face-reault" class="face-result"></div>
+                    <input id="art-face" type="hidden">
+                </div>
+            </div>
+
+            <!-- 编辑 -->
+            <div class="form-group clearfix">
+              <span class="needed">*</span>
+              <div class="form-ipt-wrap edit-area">
+                <div class="tip" style="display: none;">本地保存成功 <i class="icon-close"></i></div>
+                <div class="wmd-wrap">
+                  <div id="kingEditor">
+                    <div id="kETools">
+                      <div id="kETool_b" class="kETool_btn kETool_bg"></div>
+                      <div id="kETool_i" class="kETool_btn kETool_bg"></div>
+                      <div id="kETool_u" class="kETool_btn kETool_bg"></div>
+                      <div id="kETool_p" class="kETool_btn kETool_bg"></div>
+                      <div id="kETool_getImg" class="kETool_btn kETool_bg"><input type='file' id="kETool_img"></div>
+                      <div id="kETool_l" class="kETool_btn kETool_bg"></div>
+                      <div id="kETool_c" class="kETool_btn kETool_bg"></div>
+                      <div id="kETool_r" class="kETool_btn kETool_bg"></div>
+                      <div id="kETool_j" class="kETool_btn kETool_bg"></div>
+                      <div id="kETool_LH" class="kETool_btn">
+                        <div id="kETool_LHL" class="kETool_bg"></div>
+                        <div class='kETool_down kETool_bg'></div>
+                        <div class='kETool_LHDown'>
+                          <div class='option' value='1'>1</div>
+                          <div class='option' value='1.5'>1.5</div>
+                          <div class='option' value='1.75'>1.75</div>
+                          <div class='option' value='2'>2</div>
+                          <div class='option' value='3'>3</div>
+                          <div class='option' value='4'>4</div>
+                          <div class='option' value='5'>5</div>
+                        </div>
+                      </div>
+                      <div id='kETool_border' class='kETool_btn kETool_bg'></div>
+                    </div>
+                    <div id="kEMain" contenteditable="true">
+                      <div id="kEMainContent"><p><br/></p></div>
+                      <div id='focusImg' contenteditable="false">
+                        <div id='modifyImg'>
+                          <span id='modifyImg_lt'></span>
+                          <span id='modifyImg_mt'></span>
+                          <span id='modifyImg_rt'></span>
+                          <span id='modifyImg_lm'></span>
+                          <span id='modifyImg_rm'></span>
+                          <span id='modifyImg_lb'></span>
+                          <span id='modifyImg_mb'></span>
+                          <span id='modifyImg_rb'></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="form-ipt-error"></p>
+              </div>
+            </div>
+
+            <!-- 编辑 -->
+            <div class="form-group clearfix" style="cursor: no-drop;">
+                <span class="needed">*</span>
+                <div class="form-ipt-wrap edit-area">
+                    <div class="tip" style="display: none;">本地保存成功 <i class="icon-close"></i></div>
+                    <div id="js-mk" class="mk-container"><div id="js-wmd-wrap-js-mk" class="wmd-wrap"><div id="wmd-button-bar-js-mk" class="wmd-button-bar-js-mk wmd-button-bar"><ul id="wmd-button-bar-right-js-mk" class="l wmd-button-bar-right"><li class="wmd-button wmd-button-fullscreen" title="全屏"><span></span></li></ul><div class="wmd-line"></div><p class="r preview-title">预览</p><ul id="wmd-button-row-js-mk" class="wmd-button-row"><li class="wmd-button wmd-bold-button" id="wmd-bold-button-js-mk" title="加粗 &lt;strong&gt; Ctrl+B"><span></span></li><li class="wmd-button wmd-italic-button" id="wmd-italic-button-js-mk" title="斜体 &lt;em&gt; Ctrl+I"><span></span></li><li class="wmd-spacer wmd-spacer1" id="wmd-spacer1-js-mk"></li><li class="wmd-button wmd-link-button" id="wmd-link-button-js-mk" title="链接 &lt;a&gt; Ctrl+L"><span></span></li><li class="wmd-button wmd-quote-button" id="wmd-quote-button-js-mk" title="引用 &lt;blockquote&gt; Ctrl+Q"><span></span></li><li class="wmd-button wmd-code-button" id="wmd-code-button-js-mk" title="代码 &lt;pre&gt;&lt;code&gt; Ctrl+K"><span></span></li><li class="wmd-button wmd-image-button" id="wmd-image-button-js-mk" title="图片 &lt;img&gt; Ctrl+G"><span></span></li><li class="wmd-spacer wmd-spacer2" id="wmd-spacer2-js-mk"></li><li class="wmd-button wmd-olist-button" id="wmd-olist-button-js-mk" title="数字列表 &lt;ol&gt; Ctrl+O"><span></span></li><li class="wmd-button wmd-ulist-button" id="wmd-ulist-button-js-mk" title="普通列表 &lt;ul&gt; Ctrl+U"><span></span></li><li class="wmd-button wmd-heading-button" id="wmd-heading-button-js-mk" title="中字号/大字号 Ctrl+H"><span></span></li><li class="wmd-button wmd-hr-button" id="wmd-hr-button-js-mk" title="分割线 &lt;hr&gt; Ctrl+R"><span></span></li><li class="wmd-spacer wmd-spacer3" id="wmd-spacer3-js-mk"></li><li class="wmd-button wmd-undo-button" id="wmd-undo-button-js-mk" title="撤消 - Ctrl+Z"><span></span></li><li class="wmd-button wmd-redo-button wmd-button-disabled" id="wmd-redo-button-js-mk" title="重做 - Ctrl+Y"><span></span></li></ul></div><div id="js-wmd-input-wrap-js-mk" class="wmd-input-wrap"><textarea id="wmd-input-js-mk" disabled="disabled"></textarea></div><div id="js-wmd-preview-wrap-js-mk" class="wmd-preview-wrap"><div id="wmd-preview-js-mk" class="wmd-preview"></div></div></div></div>
+                    <p class="form-ipt-error"></p>
+                </div>
+            </div>
+
+            <!-- 选择标签 -->
+            <div class="form-group tag-selector">
+                <span class="needed">*</span>
+                <div class="tag-selector-wrap">
+                    <p class="tip">选择手记合适的标签，最多可选3个</p>
+                    <div id="js-tags" class="tag-box clearfix">
+                      <span class="for-choice" tag-id="2">PHP</span>
+                      <span class="for-choice" tag-id="3">JAVA</span>
+                      <span class="for-choice" tag-id="5">Html/CSS</span>
+                      <span class="for-choice" tag-id="12">Android</span>
+                      <span class="for-choice" tag-id="25">CSS3</span>
+                      <span class="for-choice" tag-id="19">iOS</span>
+                      <span class="for-choice" tag-id="14">Html5</span>
+                      <span class="for-choice" tag-id="10">Photoshop</span>
+                      <span class="for-choice" tag-id="11">Mysql</span>
+                      <span class="for-choice" tag-id="13">Node.js</span>
+                      <span class="for-choice" tag-id="17">JavaScript</span>
+                      <span class="for-choice" tag-id="18">Python</span>
+                      <span class="for-choice" tag-id="15">JQuery</span>
+                      <span class="for-choice" tag-id="20">Linux</span>
+                      <span class="for-choice" tag-id="8">MongoDB</span>
+                      <span class="for-choice" tag-id="22">AngularJS</span>
+                      <span class="for-choice" tag-id="7">Maya</span>
+                      <span class="for-choice" tag-id="9">Premiere</span>
+                      <span class="for-choice" tag-id="21">云计算</span>
+                      <span class="for-choice" tag-id="24">Bootstrap</span>
+                      <span class="for-choice" tag-id="26">前端工具</span>
+                      <span class="for-choice" tag-id="27">WebApp</span>
+                      <span class="for-choice" tag-id="28">C</span>
+                      <span class="for-choice" tag-id="29">Oracle</span>
+                      <span class="for-choice" tag-id="30">C++</span>
+                      <span class="for-choice" tag-id="31">Go</span>
+                      <span class="for-choice" tag-id="33">Unity 3D</span>
+                      <span class="for-choice" tag-id="34">Cocos2d-x</span>
+                      <span class="for-choice" tag-id="35">大数据</span>
+                      <span class="for-choice" tag-id="36">SQL Server</span>
+                      <span class="for-choice" tag-id="38">C#</span>
+                      <span class="for-choice" tag-id="39">数据结构</span>
+                      <span class="for-choice" tag-id="40">ZBrush</span>
+                      <span class="for-choice" tag-id="46">职场生活</span>
+                      <span class="for-choice" tag-id="47">设计</span>
+                      <span class="for-choice" tag-id="49">产品</span>
+                      <span class="for-choice" tag-id="50">React.JS</span>
+                      <span class="for-choice" tag-id="51">测试</span>
+                      <span class="for-choice" tag-id="52">Vue.js</span>
+                      <span class="for-choice" tag-id="53">Sass/Less</span>
+                    </div>
+                    <p class="form-ipt-error"></p>
+                </div><!-- tag-selector-wrap end -->
+            </div>
+            <!-- tag-selector end -->
+
+            <!-- 发布 -->
+            <div class="form-group form-bottom">
+                <label for="" class="form-label l"></label>
+                <div class="form-ipt-wrap">
+                    <button id="js-submit" class="btn btn-red">发布<span> (Ctrl+Enter)</span></button>
+                    <a target="_blank" href="#" class="edit-tip">手记频道发布手记规范</a>
+                    <span class="submit-tip js-submit-tip"></span>
+                    <p id="js-msg" class="form-ipt-error"></p>
+                </div>
+            </div>
+
+          </div>
+      </div>
+
+      <div id="js-modal-mk-image" class="modal article-modal" style="display:none;">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                      <h4 class="modal-title">插入图片</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="article-modal-upload">
+                          <div id="js-amu-btn" class="amu-inner">
+                              <input id="js-amu-ipt" value="请选择不大于5M的图片" readonly="readonly" type="text">
+                          </div>
+                      </div>
+                      <p id="js-amu-msg"></p>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-normal" data-dismiss="modal">取消</button>
+                      <button id="js-amu-upload-btn" type="button" class="btn btn-green">插入</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <div id="js-modal-mk-link" class="modal article-modal" style="display:none;">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                      <h4 class="modal-title">插入链接</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="article-modal-upload">
+                          <div class="aml-inner">
+                              <input id="js-aml-ipt" value="请输入链接" placeholder="请输入链接" type="text">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-normal" data-dismiss="modal">取消</button>
+                      <button id="js-aml-btn" type="button" class="btn btn-green">插入</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!-- markdown提示框 -->
+      <div id="js-editTip" class="edit-tip-wrap clearfix" style="display: none;">
+          <div class="setup-popl-top clearfix">
+              <span class="title">手记markdown编辑器使用贴士</span>
+              <i class="icon-close close"></i>
+          </div>
+          <img src="/img/editTip.png">
+          <span class="save">去编辑手记</span>
+      </div>
+      <div id="js-mask" style="display: none;"></div>
+      <!-- markdown提示框 end -->
+    </div>
+    <!--opus-wrap end-->
+
+    <script src="/js/editor.js" type="text/javascript"></script>
+    <script src="/js/editor_method.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+      // 上传封面图片
+      var cover = '';
+      var btn = $('#js-face-upload').click(function (e) {
+        f[0].click();
+      });
+      var reault = $('#js-face-reault')[0];
+      var f = $("input[type='file']", btn[0]).change(function (e) {
+        img_ajax(this);
+        reault.innerHTML = '正在上传中...';
+      });
+
+      function img_ajax(o) {
+        var formdata = new FormData();
+        var files = o.files;
+        formdata.append("upload", files[0]);
+        var method = {
+          createReaultInner : function (url) {
+            reault.innerHTML = '';
+            var inner = document.createElement('div');
+            inner.className = 'face-result-inner';
+            var img = document.createElement('img');
+            img.src = url;
+            img.width = '120';
+            inner.appendChild(img);
+            var del = document.createElement('span');
+            del.className = 'rm-face-reault';
+            del.innerText = '删除';
+            $(del).click(function (e) {
+              inner.parentNode.removeChild(inner);
+            });
+            inner.appendChild(del);
+            reault.appendChild(inner);
+          }
+        };
+        $.ajax({
+          url: '/api/upload/img',
+          type: 'POST',
+          dataType: 'json',
+          data: formdata,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (d) {
+            console.log(d);
+            method.createReaultInner(d.url);
+            cover = d.url;
+          },
+          error: function (xhr) {
+            console.log(xhr);
+            reault.innerHTML = '';
+          }
+        });
+      }
+      // 选择标签
+      var tags = $("#js-tags").click(function (e) {
+        if (e.target.nodeName.toLowerCase() === 'span') {
+          var tar = e.target,
+              id = tar.getAttribute('tag-id');
+          if (tar.active) {
+            tar.className = tar.className.replace(' onactive', '');
+            tar.active = 0;
+            for (var i = 0, l = this.actives.length; i < l; i++) {
+              if (this.actives[i] === id) {
+                this.actives.splice(i);
+              }
+            }
+          } else {
+            if(this.actives.length === 3) return false;
+            tar.className = tar.className + ' onactive';
+            tar.active = 1;
+            this.actives.push(id);
+          }
+        }
+      })[0];
+      tags.actives = [];
+      // 提交按钮
+      $("#js-submit").click(function (e) {
+        var obj = sub_check();
+        if (typeof obj === 'object') sub_ajax(obj);
+      });
+      // 提交上传
+      function sub_ajax(obj) {
+        $.ajax({
+          url: '/api/sub_blog',
+          type: 'POST',
+          dataType: 'JSON',
+          data: obj,
+          success: function (d) {
+            window.location.href = window.location.protocol + '//' + window.location.host + '/blog/' + d.id + '.html';
+          },
+          error: function (xhr) {
+            console.log(xhr);
+          }
+        });
+      }
+      // 提交检查
+      function sub_check() {
+        var tit = $('#art-title');
+        var obj = {
+          title: $.trim($('#art-title').val()),
+          cover: cover,
+          content: KE.getContent(),
+          tags: tags.actives
+        };
+        if (obj.title === '') {
+          tit[0].focus && tit[0].focus() || tit[0].select();
+          return false;
+        }
+        if (obj.content === '') {
+          KE.body.parentNode.focus && KE.body.parentNode.focus();
+          return false;
+        }
+        if (tags.actives.length === 0) {
+          alert("请选择标签");
+          return false;
+        }
+        return obj;
+      }
+    </script>
+  </body>
+</html>

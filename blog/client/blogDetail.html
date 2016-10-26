@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta content="width=device-width,minimum-scale=1.0" name="viewport">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="referrer" content="always">
+	<meta name="description" content="ES6 新增了几种集合类型，本文介绍其中的 Set、Map 和 WeakMap。">
+
+	<link rel="stylesheet" type="text/css" href="/css/blogDetail.css">
+	<script src="/js/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+					<div class="profilepic">
+						<a href="/"></a>
+					</div>
+					<h1><a href="/">隔壁老王的<br/>隔壁老盛</a></h1>
+					<p class="subtitle">
+						专注 WEB 端开发
+					</p>
+					<nav id="main-nav">
+						<ul>
+							<li><a href="/"><span>首页</span></a></li>
+							<li><a href="/series.html"><span>专题</span></a></li>
+							<li><a href="/archives.html"><span>归档</span></a></li>
+							<li><a href="/post/blogroll.html"><span>友链</span></a></li>
+							<li><a href="/post/about.html"><span>关于</span></a></li>
+						</ul>
+					</nav>
+					<nav id="sub-nav">
+						<div class="social">
+							<a target="_blank" class="twitter external" rel="nofollow" href="//twitter.com/qgy18" title="Twitter" aria-label="Twitter">Twitter</a>
+							<a target="_blank" class="rss" href="//imququ.com/rss.html" title="RSS 订阅" aria-label="RSS 订阅">RSS</a>
+							<a class="search" href="/search.html" title="站内搜索" aria-label="站内搜索">Search</a>
+						</div>
+					</nav>
+					<embed wmode="transparent" src="../img/honehone_clock_tr.swf" bgcolor="#ffffff" quality="high" width="160" height="70" name="honehoneclock" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+				</header>
+			</div>
+		</div>
+		<div class="mid-col">
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+					<article class="post post-140" itemscope="" itemtype="">
+					<div class="meta">
+						<div class="date">
+							<time id="datePublished" itemprop="datePublished" content="2013-09-23T01:59:30+08:00">Sep 23, 2013</time>
+						</div>
+						<div class="date-modified">
+							<time id="dateModified" itemprop="dateModified" content="2013-09-23T01:59:30+08:00">Sep 23, 2013</time>
+						</div>
+						<div class="comment">
+							<a href="#comments">4 Comments</a>
+						</div>
+					</div>
+					<h1 id="blogTitle" class="title" itemprop="headline"></h1>
+					<div id="blogContent" class="entry-content" itemprop="articleBody">
+						<div id="toc-container">
+							<div id="toc">
+								<p>
+									<strong>文章目录</strong>
+								</p>
+								<ul>
+									<li><a href="#toc-0">Set</a></li>
+									<li><a href="#toc-1">Map</a></li>
+									<li><a href="#toc-2">迭代</a></li>
+									<li><a href="#toc-3">WeakMap</a></li>
+									<li><a href="#toc-4">WeakSet？</a></li>
+								</ul>
+							</div>
+						</div>
+						<p>
+							ES6 新增了几种集合类型，本文介绍&nbsp;<a href="">Set</a>、<a href="">Map</a> 和 <a href="">WeakMap</a>。比较新的 Firefox、Chrome（需要在 about:flags 启用实验性 JavaScript）以及 IE11 都有不同程度的实现。需要注意的是，ES6 规范会一直调整，本文只以当前规范及浏览器实现为准。
+						</p>
+						<h3><a name="toc-0"></a>Set</h3>
+						<p>
+							Set 是 ES6 新增的有序列表集合，它不会包含重复项。之前我们通常用对象（Object）或者数组（Array）来实现没有重复项的集合。但对象会对 key 进行 toString() 操作，这会导致某些 key 会意外覆盖之前的数据；如果 key 本身是一个对象，toString() 也得不到想要的结果，如下：
+						</p>
+						<pre>
+							<b class="name">JS</b><code class="lang-js"><span class="hljs-keyword">var</span> o = {};
+							<span class="hljs-keyword">var</span> key1 = <span class="hljs-number">2</span>;
+							<span class="hljs-keyword">var</span> key2 = { toString : <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{ <span class="hljs-keyword">return</span><span class="hljs-number">2</span> } };
+							<span class="hljs-keyword">var</span> key3 = { x : <span class="hljs-number">1</span> };
+							<span class="hljs-keyword">var</span> key4 = { y : <span class="hljs-number">2</span> };
+		o[key1] = 
+							<span class="hljs-number">1</span>;
+		o[key2] = 
+							<span class="hljs-number">2</span>;
+		o[key3] = 
+							<span class="hljs-number">3</span>;
+		o[key4] = 
+							<span class="hljs-number">4</span>;
+							<span class="hljs-comment">// o : Object {2: 2, [object Object]: 4}</span>
+							</code>
+						</pre>
+						<p>
+							数组可以存放任何类型的数据，不过数据除重需要自己实现。
+						</p>
+						<p>
+							Set 支持 add(item) 方法，用来向 Set 添加任意类型的元素，如果已经添加过则自动忽略；has(item) 方法用来检测 Set 中是否存在指定元素；delete(item) 方法用来从 Set 中删除指定元素；clear() 用来清空 Set；获取 Set 集合长度用 size 属性。如下：
+						</p>
+						<pre>
+							<b class="name">JS</b><code class="lang-js"><span class="hljs-keyword">var</span> set = <span class="hljs-keyword">new</span><span class="hljs-built_in">Set</span>();
+		set.add(
+							<span class="hljs-built_in">window</span>);
+		set.has(
+							<span class="hljs-built_in">window</span>); <span class="hljs-comment">// true</span>
+		set.size; 
+							<span class="hljs-comment">// 1</span>
+		set.add(
+							<span class="hljs-built_in">window</span>);
+		set.add(
+							<span class="hljs-number">1</span>);
+		set.size; 
+							<span class="hljs-comment">// 2</span>
+		set.delete(
+							<span class="hljs-built_in">window</span>);
+		set.has(
+							<span class="hljs-built_in">window</span>); <span class="hljs-comment">// false</span>
+		set.clear();
+		set.size; 
+							<span class="hljs-comment">// 0</span>
+							</code>
+						</pre>
+						<p>
+							Set 调用 add、has、delete 等方法时对 key 进行的比较，不做类型转换。可以认为使用「===」进行比较，当然也不全是「===」：
+						</p>
+						<ul>
+							<li>Set 中，NaN 只能添加一次（虽然NaN === NaN 返回 false）；</li>
+							<li>Set 中，「-0」和「0 或 +0」可以同时存在，因为符号不一样（虽然 -0 === 0 或 -0 === +0 返回 true）；</li>
+						</ul>
+						<h3><a name="toc-1"></a>Map</h3>
+						<p>
+							Map 是 ES6 新增的有序键值对集合。键值对的 key 和 value 都可以是任何类型的元素。通过 set(key, value) 方法为 Map 设置新的键值对，如果设置的 key 已经存在则用新的 value 覆盖，Map 在比较 key 时也不做类型转换，跟 Set 类似；Map 的 get(key) 方法用来获取指定 key 的值；Map 的 has(key) 、 delete(key) 、clear() 这些方法和 size 属性，与 Set 类似，直接看代码：
+						</p>
+						<pre>
+							<b class="name">JS</b><code class="lang-js"><span class="hljs-keyword">var</span> map = <span class="hljs-keyword">new</span><span class="hljs-built_in">Map</span>();
+							<span class="hljs-keyword">var</span> key1 = {toString : <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{ <span class="hljs-keyword">return</span><span class="hljs-number">2</span>}};
+							<span class="hljs-keyword">var</span> key2 = <span class="hljs-number">2</span>;
+		map.set(key1, 
+							<span class="hljs-number">1</span>);
+		map.set(key2, 
+							<span class="hljs-number">2</span>);
+		map.has(key1); 
+							<span class="hljs-comment">// true</span>
+		map.has(
+							<span class="hljs-string">'2'</span>); <span class="hljs-comment">// false，类型不同</span>
+		map.delete(
+							<span class="hljs-number">2</span>);
+		map.size; 
+							<span class="hljs-comment">// 1</span>
+		map.get(key2); 
+							<span class="hljs-comment">// undefined</span>
+							</code>
+						</pre>
+						<h3><a name="toc-2"></a>迭代</h3>
+						<p>
+							我们没办法像数组一样用 for 循环来迭代 Set，也没办法像对象一样用 for...in 来迭代 Map。但是可以用 ES6 提供的新方法&nbsp;for...of&nbsp;来遍历它们。
+						</p>
+						<p>
+							Set 和 Map 有几个方法会返回可迭代对象（Iterator Objects），分别是 entries()、keys() 和 values()。直接遍历 Set/Map，等同于遍历 entries()；keys() 和 values() 则分别返回 key 和 value 的集合；对于 Set，key 和 value 是一样的。这些方法和 for...of 现阶段都只有 Firefox 支持，下面的例子需要在 Firefox 下运行：
+						</p>
+						<pre>
+							<b class="name">JS</b><code class="lang-js"><span class="hljs-keyword">var</span> set = <span class="hljs-keyword">new</span><span class="hljs-built_in">Set</span>();
+		set.add(
+							<span class="hljs-string">'this is a demo.'</span>);
+		set.add(
+							<span class="hljs-built_in">window</span>);
+		set.add(top);
+							<span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> item <span class="hljs-keyword">of</span> set) {
+							<span class="hljs-built_in">console</span>.log(item);
+		}
+							</code>
+						</pre>
+						<h3><a name="toc-3"></a>WeakMap</h3>
+						<p>
+							WeakMap 相对于普通的 Map，也是键值对集合，只不过 WeakMap 的 key 只能是非空对象（non-null object）。WeakMap 对它的 key 仅保持弱引用，也就是说它不阻止垃圾回收器回收它所引用的 key。WeakMap 最大的好处是可以避免内存泄漏。一个仅被 WeakMap 作为 key 而引用的对象，会被垃圾回收器回收掉。
+						</p>
+						<p>
+							WeakMap 拥有和 Map 类似的 set(key, value) 、get(key)、has(key)、delete(key) 和 clear() 方法，但没有 size 属性，也没有任何与迭代有关的方法。
+						</p>
+						<p>
+							为了演示 WeakMap 与内存回收的关系，我用 IE11 做了一个简单的测试。IE11 的 F12 开发者工具改进很大，下次找机会单独介绍。测试流程如下：
+						</p>
+						<ol>
+							<li>创建一个全局的 Map/WeakMap 对象；</li>
+							<li>进入局部作用域，创建大量对象作为 key，加到 Map/WeakMap 中；</li>
+							<li>离开局部作用域，检查第 2 步创建的大量对象是否被回收；</li>
+							<li>手动回收 Map/WeakMap 对象；</li>
+						</ol>
+						<p>
+							内存使用结果如下：
+						</p>
+						<p>
+							<img alt="map &amp; weakmap" src="" class="loaded" width="393" height="461">
+						</p>
+						<p>
+							红线位置即为测试的第 2 步，可以看到给 Map/WeakMap 添加大量对象后，内存使用大幅增加；但 WeakMap 没有阻止这些对象随后被回收，内存使用马上跌落，与 Map 对比非常明显；最后手动回收 Map/WeakMap 之后，全部内存都会被回收。
+						</p>
+						<h3><a name="toc-4"></a>WeakSet？</h3>
+						<p>
+							ES6 还定义了另外一种集合类型：<a href="">WeakSet</a>，但目前还没有浏览器实现。顾名思义，它应该是没有 size 属性、不能迭代的 Set；且只能添加非空对象。这里有 <a href="">V8 引擎实现 WeakSet 的代码</a>，大家可以先看看。
+						</p>
+						<p>
+							本文链接：<a rel="bookmark" title="Permalink to ES6 中的 Set、Map 和 WeakMap" href="//imququ.com/post/set-map-weakmap-in-es6.html" itemprop="url">https://imququ.com/post/set-map-weakmap-in-es6.html</a>，<a href="">参与评论 »</a>
+						</p>
+						<p>
+							--<acronym title="End of File">EOF</acronym>--
+						</p>
+						<p class="post-info">
+							发表于&nbsp;<span class="date">2013-09-23 01:59:30</span>，并被添加「<a href="/search.html?s=tag%3AES6">ES6</a>、<a href="/search.html?s=tag%3AJavaScript">JavaScript</a>」标签。<a href="">查看本文 Markdown 版本 »</a>
+						</p>
+						<p class="copyright-info">
+							本站使用「<a href="">署名 4.0 国际</a>」创作共享协议，<a href="//imququ.com/post/about.html#toc-1">相关说明 »</a>
+						</p>
+						<p class="expire-tips">
+							提醒：本文最后更新于&nbsp;1116&nbsp;天前，文中所描述的信息可能已发生改变，请谨慎使用。
+						</p>
+						<div class="entry-series">
+							<h3>专题「JavaScript 漫谈」的其他文章&nbsp;<a href="/series.html#toc-8" title="更多">»</a></h3>
+							<ul>
+								<li><a href="/post/thinkjs-async-coding.html">改进 ThinkJS 的异步编程方式</a>&nbsp;<span class="date">(May 15, 2015)</span></li>
+								<li><a href="/post/bom-and-javascript-trim.html">BOM 和 JavaScript 中的 trim</a>&nbsp;<span class="date">(Dec 07, 2013)</span></li>
+								<li><a href="/post/amd-simplified-commonjs-wrapping.html">AMD 的 CommonJS wrapping</a>&nbsp;<span class="date">(Dec 05, 2013)</span></li>
+								<li><a href="/post/a-downloader-with-filesystem-api-2.html">FileSystem API 实现文件下载器 2</a>&nbsp;<span class="date">(Oct 01, 2013)</span></li>
+								<li><a href="/post/a-downloader-with-filesystem-api.html">用 FileSystem API 实现文件下载器</a>&nbsp;<span class="date">(Oct 01, 2013)</span></li>
+								<li><a href="/post/generator-function-in-es6.html">ES6 中的生成器函数介绍</a>&nbsp;<span class="date">(Sep 20, 2013)</span></li>
+								<li><a href="/post/arrow-function-in-es6.html">尝试 ES6 中的箭头函数</a>&nbsp;<span class="date">(Sep 11, 2013)</span></li>
+								<li><a href="/post/use-canvas-as-background-image.html">使用 Canvas 绘制背景图</a>&nbsp;<span class="date">(Aug 18, 2013)</span></li>
+								<li><a href="/post/promises-when-js.html">异步编程：When.js快速上手</a>&nbsp;<span class="date">(Jun 23, 2013)</span></li>
+								<li><a href="/post/js-animation.html">JavaScript动画漫谈</a>&nbsp;<span class="date">(Nov 15, 2012)</span></li>
+							</ul>
+						</div>
+					</div>
+					</article>
+					<nav class="page-navi" id="pageNavi">
+						<a href="/post/generator-function-in-es6.html" class="prev">« ES6 中的生成器函数介绍</a><a href="/post/ios-none-freeze-timer.html" class="next">不会被 iOS 停掉的网页定时器 »</a>
+					</nav>
+					<section id="comments" style="display: none;">
+						<h1 class="title">Comments<span id="switch_thread_mode">「<a href="#disqus_thread">切换到评论完整模式</a>」</span></h1>
+						<div id="disqus_thread" class="ds-thread" data-identifier="post-set-map-weakmap-in-es6" data-url="" style="display: none;">
+						</div>
+						<div id="simple_thread" data-id="set-map-weakmap-in-es6">
+							<div class="thread">
+								<header><nav class="nav clearfix">
+								<ul>
+									<li class="nav-tab tab-conversation active"><a class="publisher-nav-color"><span>4 </span>Comments</a></li>
+								</ul>
+								</nav></header><section>
+								<div class="thread-tips">
+									本模式仅提供基础浏览功能。如需发表评论请<a href="#disqus_thread">点击这里</a>（请确保你能流畅访问 disq.us | disquscdn.com | disqus.com）
+								</div>
+								</section><section>
+								<ul class="post-list" data-id="0">
+									<li class="post" id="post-2792928720">
+									<div class="post-content clearfix">
+										<div class="indicator">
+										</div>
+										<div class="avatar">
+											<div class="user">
+												<a href=""><img src="" class="loaded"></a>
+											</div>
+										</div>
+										<div class="post-body">
+											<header class="post-header"><span class="post-byline"><span class="author publisher-anchor-color"><a href="">罗晶辉</a></span></span><span class="post-meta"><span class="bullet">&nbsp;•&nbsp;</span><a data-id="2792928720" href="" class="time-ago" title="2016-07-20T08:43:57">3个月前</a></span></header>
+											<div class="post-body-inner">
+												<p>
+													WeekMap也没有clear()方法，你那里写错了。
+												</p>
+											</div>
+										</div>
+									</div>
+									<ul class="children" data-id="2792928720">
+										<li class="post" id="post-2792931198">
+										<div class="post-content clearfix">
+											<div class="indicator">
+											</div>
+											<div class="avatar">
+												<div class="user">
+													<a href=""><img src="" class="loaded"></a>
+												</div>
+											</div>
+											<div class="post-body">
+												<header class="post-header"><span class="post-byline"><span class="author publisher-anchor-color"><a href="">Jerry Qu</a></span></span><span class="post-meta"><span class="bullet">&nbsp;•&nbsp;</span><a data-id="2792931198" href="" class="time-ago" title="2016-07-20T08:47:04">3个月前</a></span></header>
+												<div class="post-body-inner">
+													<p>
+														应该是规范改了。这篇文章写于一千多天前，可以不用看了。
+													</p>
+												</div>
+											</div>
+										</div>
+										<ul class="children" data-id="2792931198">
+										</ul>
+										</li>
+									</ul>
+									</li>
+									<li class="post" id="post-2378341799">
+									<div class="post-content clearfix">
+										<div class="indicator">
+										</div>
+										<div class="avatar">
+											<div class="user">
+												<a href="#"><img src="" class="loaded"></a>
+											</div>
+										</div>
+										<div class="post-body">
+											<header class="post-header"><span class="post-byline"><span class="author publisher-anchor-color"><a href="">hax</a></span></span><span class="post-meta"><span class="bullet">&nbsp;•&nbsp;</span><a data-id="2378341799" href="" class="time-ago" title="2015-11-25T16:45:28">1年前</a></span></header>
+											<div class="post-body-inner">
+												<p>
+													es6规范后来改了，+0和-0在map/set里视同了。
+												</p>
+											</div>
+										</div>
+									</div>
+									<ul class="children" data-id="2378341799">
+										<li class="post" id="post-2379057016">
+										<div class="post-content clearfix">
+											<div class="indicator">
+											</div>
+											<div class="avatar">
+												<div class="user">
+													<a href=""><img src="" class="loaded"></a>
+												</div>
+											</div>
+											<div class="post-body">
+												<header class="post-header"><span class="post-byline"><span class="author publisher-anchor-color"><a href="">Jerry Qu</a></span></span><span class="post-meta"><span class="bullet">&nbsp;•&nbsp;</span><a data-id="2379057016" href="" class="time-ago" title="2015-11-26T00:25:52">1年前</a></span></header>
+												<div class="post-body-inner">
+													<p>
+														改得合理！
+													</p>
+												</div>
+											</div>
+										</div>
+										<ul class="children" data-id="2379057016">
+										</ul>
+										</li>
+									</ul>
+									</li>
+								</ul>
+								<div class="load-more">
+									<a href="#" class="btn" style="display: none;">Load more comments</a>
+								</div>
+								</section>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+			<footer id="footer" class="inner">© 2016 Blog Detail. All Rights Reserved 隔壁老王的隔壁老盛</footer>
+		</div>
+	</div>
+	<script type="text/javascript">
+		// 时间格式
+		function timeFormat(stamp) {
+			var mouth = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+				myDate = new Date(stamp);
+				y = myDate.getFullYear(),
+				m = myDate.getMonth(),
+				d = myDate.getDate();
+			return mouth[m] + ' ' + d + '，' + y;
+		}
+
+		var bid = window.location.pathname.match(/[0-9a-z]{23}[^\/|\.]/).shift(),
+			method = {
+				// 创建目录
+				createCatalog: function (node) {
+					var childs = node.childNodes,
+						h3List = [];
+					for (var i = 0, l = childs.length; i < l; i++) {
+						if (childs[i].nodeName.toLowerCase() === 'h3') h3List.push(childs[i]);
+					}
+					if (!h3List.length) return ;
+
+					// 创建结构
+					var tocCon = document.createElement('div');
+					tocCon.id = 'toc-container';
+					var toc = document.createElement('div');
+					toc.id = 'toc';
+					tocCon.appendChild(toc);
+					var p = document.createElement('p');
+					p.innerHTML = '<strong>文章目录</strong>';
+					toc.appendChild(p);
+					var ul = document.createElement('ul');
+					toc.appendChild(ul);
+					for (var j = 0, m = h3List.length; j < m; j++) {
+						var li = document.createElement('li');
+						var a = document.createElement('a');
+						a.href = '#toc-' + j;
+						a.innerText = h3List[j].innerText;
+						li.appendChild(a);
+						ul.appendChild(li);
+					}
+					node.insertBefore(tocCon, childs[0]);
+				},
+				// 其他文章
+				outherBlog: function (tags) {
+					$.ajax({
+						url: '/api/relatedBlog',
+						type: 'GET',
+						dataType: 'JSON',
+						data: {
+							tags: tags
+						},
+						success: function (d) {
+							method.createOuterBlog(d.data);
+						},
+						error: function (xhr) {
+							console.log(xhr);
+						}
+					});
+				},
+				// 创建其他文章列表
+				createOuterBlog: function (d) {
+					if (!d.length) return ;
+					var str = '', query = '';
+					for (var i = 0, l = blogDate.tags.length; i < l; i++) {
+						str += blogDate.tags[i] + '、';
+						query += 'tags[]=' + blogDate.tags[i];
+					}
+
+					var entry = document.createElement('div');
+					entry.className = 'entry-series';
+					var h3 = document.createElement('h3');
+					h3.innerHTML = '专题「' + str.substring(0, str.length - 1) + '」的其他文章 <a href="/search.html?' + query + '" title="更多">»</a>';
+					entry.appendChild(h3);
+					var ul = document.createElement('ul');
+					for (var i = 0, l = d.length; i < l; i++) {
+						var li = document.createElement('li');
+						var a = document.createElement('a');
+						a.href = '/blog/' + d[i].id + '.html';
+						a.innerText = d[i].title;
+						li.innerHTML = a.outerHTML + ' <span class="date">(' + timeFormat(d[i].time) + ')</span>';
+						ul.appendChild(li);
+					}
+					entry.appendChild(ul);
+					blogContent.appendChild(entry);
+				},
+				// 创建上下分页
+				createUpOrDown: function (d) {
+					pageNavi.innerHTML = '';
+					if (d.pare) {
+						var pare = document.createElement('a');
+						pare.href = '/blog/' + d.pare.id + '.html';
+						pare.innerText = '« ' + d.pare.title;
+						pare.className = 'pare';
+						pageNavi.appendChild(pare);
+					}
+					if (d.next) {
+						var next = document.createElement('a');
+						next.href = '/blog/' + d.next.id + '.html';
+						next.innerText = d.next.title + ' »';
+						next.className = 'next';
+						pageNavi.appendChild(next);
+					}
+				},
+				// 创建详情
+				createDetail: function (d) {
+					var myDate = new Date(d.time),
+						time = myDate.toLocaleString().replace(/\//g, '-').replace(/(上午|下午)/, ''),
+						day = parseInt((new Date().getTime() - myDate.getTime())/86400000);
+
+					blogTitle.innerText = d.title;
+					
+					blogContent.innerHTML = '';
+					blogContent.innerHTML = d.content;
+
+					// create catalog
+					method.createCatalog(blogContent);
+
+					var link = document.createElement('p');
+					link.innerText = '本文链接：';
+					var a = document.createElement('a');
+					a.href = a.innerHTML = window.location.href;
+					a.title = d.title;
+					a.setAttribute('rel', 'bookmark');
+
+					var commentsLink = document.createElement('a');
+					commentsLink.href = '#';//正在施工 程序员回丈母娘家被他的小姨子拐跑了还没回来！！！
+					commentsLink.innerText = '参与评论 »';
+					link.innerHTML += a.outerHTML + '，' + commentsLink.outerHTML;
+					blogContent.appendChild(link);
+
+					// end of file
+					var eof  = document.createElement('p');
+					eof.innerHTML = '--<acronym title="End of File">EOF</acronym>--';
+					blogContent.appendChild(eof);
+
+					// post info
+					var info = document.createElement('p');
+					info.className = 'post-info';
+					info.innerHTML = '发表于&nbsp;<span class="date">' + time + '</span>，并被添加「' + (function () {
+						for (var i = 0, l = d.tags.length; i < l; i++) {
+							var a = document.createElement('a');
+							a.href = '/search?tag=' + d.tags[i];
+							a.innerText = d.tags[i];
+							info.appendChild(a);
+						}
+						return info;
+					})() + '」标签。</a>' ;
+					blogContent.appendChild(info);
+
+					// expire tips
+					if (day) {
+						var tips = document.createElement('p');
+						tips.className = 'expire-tips';
+						tips.innerHTML = '提醒：本文最后更新于&nbsp;' + day + '&nbsp;天前，文中所描述的信息可能已发生改变，请谨慎使用。';
+						blogContent.appendChild(tips);
+					}
+
+					// outher blog
+					method.outherBlog(d.tags);
+
+					method.createUpOrDown(d);
+				},
+				// 获取bolg数据
+				getBlogInfo: function () {
+					$.ajax({
+						url: '/api/blogDetail?bid=' + bid,
+						type: 'GET',
+						dataType: 'JSON',
+						success: function (d) {
+							window.blogDate = d.data;
+
+							// 设置时间
+							dateModified.innerText = datePublished.innerText = timeFormat(d.data.time);
+							dateModified.getAttribute('content', new Date(d.data.time));
+							datePublished.getAttribute('content', new Date(d.data.time));
+
+							method.createDetail(d.data);
+						},
+						error: function (xhr) {
+							console.log(xhr);
+						}
+					});
+				}
+			};
+			method.getBlogInfo();
+	</script>
+</body>
+</html>

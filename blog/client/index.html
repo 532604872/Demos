@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta content="width=device-width,minimum-scale=1.0" name="viewport">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="referrer" content="always">
+	<meta name="description" content="ES6 新增了几种集合类型，本文介绍其中的 Set、Map 和 WeakMap。">
+
+	<link rel="stylesheet" type="text/css" href="/css/blogDetail.css">
+	<script src="/js/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+					<div class="profilepic">
+						<a href="/"></a>
+					</div>
+					<h1><a href="/">隔壁老王的<br/>隔壁老盛</a></h1>
+					<p class="subtitle">
+						专注 WEB 端开发
+					</p>
+					<nav id="main-nav">
+						<ul>
+							<li><a href="/"><span>首页</span></a></li>
+							<li><a href="/series.html"><span>专题</span></a></li>
+							<li><a href="/archives.html"><span>归档</span></a></li>
+							<li><a href="/post/blogroll.html"><span>友链</span></a></li>
+							<li><a href="/post/about.html"><span>关于</span></a></li>
+						</ul>
+					</nav>
+					<nav id="sub-nav">
+						<div class="social">
+							<a target="_blank" class="twitter external" rel="nofollow" href="//twitter.com/qgy18" title="Twitter" aria-label="Twitter">Twitter</a>
+							<a target="_blank" class="rss" href="//imququ.com/rss.html" title="RSS 订阅" aria-label="RSS 订阅">RSS</a>
+							<a class="search" href="/search.html" title="站内搜索" aria-label="站内搜索">Search</a>
+						</div>
+					</nav>
+					<embed wmode="transparent" src="../img/honehone_clock_tr.swf" bgcolor="#ffffff" quality="high" width="160" height="70" name="honehoneclock" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+				</header>
+			</div>
+		</div>
+		<div class="mid-col">
+			<div class="mid-col-container">
+				<div id="content" class="inner"></div>
+			</div>
+			<footer id="footer" class="inner">© 2016 Blog Detail. All Rights Reserved 隔壁老王的隔壁老盛</footer>
+		</div>
+	</div>
+	<script type="text/javascript">
+		// 时间格式
+		function timeFormat(stamp) {
+			var mouth = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+				myDate = new Date(stamp);
+				y = myDate.getFullYear(),
+				m = myDate.getMonth(),
+				d = myDate.getDate();
+			return mouth[m] + ' ' + d + '，' + y;
+		}
+
+		// 创建列表项
+		function createList(d) {
+			var item = document.createElement('article');
+			item.className = 'post post-list';
+			var meta = document.createElement('div');
+			meta.className = 'meta';
+			meta.innerHTML = '<div class="date"><time>' + timeFormat(d.time) + '</time></div>';
+			item.appendChild(meta);
+			var h1 = document.createElement('h1');
+			h1.className = 'title';
+			var a = document.createElement('a');
+			a.href = '/blog/' + d.id + '.html';
+			a.innerHTML = d.title;
+			h1.appendChild(a);
+			item.appendChild(h1);
+			var entry = document.createElement('div');
+			entry.innerHTML = '<p>' + d.content.replace(/<.[^<]*>/g, '').substring(0, 200) + '</p>';
+			var move = document.createElement('p');
+			var moveLink = document.createElement('a');
+			moveLink.href = '/blog/' + d.id + '.html';
+			moveLink.className = 'more-link';
+			moveLink.innerHTML = '继续阅读 »';
+			move.appendChild(moveLink);
+			var edit = document.createElement('a');
+			edit.href = '/blog/' + d.id + '/edit';
+			edit.className = 'meta';
+			edit.innerText = '编辑';
+			move.appendChild(edit);
+			entry.appendChild(move);
+			item.appendChild(entry);
+			return item;
+		}
+
+		// 创建上下分页
+		function createUpOrDownPaging(page) {
+			var nav = document.createElement('nav');
+			nav.className = 'page-navi';
+			if (page.p != 1) {
+				var pare = document.createElement('a');
+				pare.className = 'pare';
+				pare.href = 'javascript: blogs_ajax(' + (page.p*1 - 1) + ');';
+				pare.innerText = '上一页';
+				nav.appendChild(pare);
+			} else if (page.p != page.total) {
+				var next = document.createElement('a');
+				next.className = 'next';
+				next.href = 'javascript: blogs_ajax(' + (page.p*1 + 1) + ');';
+				next.innerText = '下一页';
+				nav.appendChild(next);
+			}
+			var center = document.createElement('div');
+			center.className = 'center';
+			center.innerHTML = '<a href="/archives.html">博客归档</a>';
+			nav.appendChild(center);
+			return nav;
+		}
+
+		// blog 的ajax请求
+		function blogs_ajax(p) {
+			$.ajax({
+				url: '/api/blogs',
+				type: 'GET',
+				dataType: 'JSON',
+				data: {
+					p: p || 1
+				},
+				success: function (d) {
+					content.innerHTML = '';
+					for (var i = 0, l = d.data.length; i < l; i++) {
+						content.appendChild(createList(d.data[i]));
+					}
+					content.appendChild(createUpOrDownPaging(d.page));
+				},
+				error: function (xhr) {
+					console.log(xhr);
+				}
+			});
+		}
+		blogs_ajax();
+		
+	</script>
+</body>
+</html>
