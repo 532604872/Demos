@@ -1,4 +1,4 @@
-代码成果
+成果代码
 ==========================
 知识储备中心
 
@@ -19,4 +19,5 @@
 <h4>html：<h4>
 <ol>
 	<li><a href="https://github.com/532604872/Demos/tree/master/center">center</a>——居中方法</li>
+	<li><a href="https://github.com/532604872/Demos/tree/master/verify">verify</a>——验证码（js随机数产生）</li>
 </ol>
