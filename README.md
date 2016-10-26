@@ -16,3 +16,7 @@
 	<li><a href="https://github.com/532604872/Demos/tree/master/javascript/underscore.js">underscore.js</a>——js扩展函数（转载）</li>
 	<li><a href="https://github.com/532604872/Demos/tree/master/javascript/prototype.js">prototype.js</a>——js原型函数（转载）</li>
 </ol>
+<h4>html：<h4>
+<ol>
+	<li><a href="https://github.com/532604872/Demos/tree/master/center">center</a>——居中方法</li>
+</ol>
