@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>服务详情</title>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<meta http-equiv="Content-Language" content="zh-cn" />
-	<style>
+<style>
 	*{padding: 0;margin: 0;box-sizing:border-box;}
 	.group{width: 500px;height: 300px;float: left;margin: 50px;}
 	.group.bg{width: 100%;height: 100%;position: fixed;margin: 0;}
@@ -120,77 +114,73 @@
         display:table-cell; 
         vertical-align:middle;
     }
-	</style>
-</head>
-<body>
-	<div class="group">
-		<div class="Center-Container">
-			<div class="Absolute-Center"></div>
+</style>
+<div class="group">
+	<div class="Center-Container">
+		<div class="Absolute-Center"></div>
+	</div>
+</div>
+<div class="group bg" style="display: none;">
+	<div class="Center-Container">
+	</div>
+		<div class="Absolute-Center is-Fixed"></div>
+</div>
+<div class="group">
+	<div class="Center-Container">
+		<div class="Absolute-Center is-Responsive"></div>
+	</div>
+</div>
+<div class="group">
+	<div class="Center-Container">
+		<div class="Absolute-Center is-Overflow">
+		<div style="height: 1000px;"></div>
 		</div>
 	</div>
-	<div class="group bg" style="display: none;">
-		<div class="Center-Container">
-		</div>
-			<div class="Absolute-Center is-Fixed"></div>
-	</div>
-	<div class="group">
-		<div class="Center-Container">
-			<div class="Absolute-Center is-Responsive"></div>
+</div>
+<div class="group">
+	<div class="Center-Container">
+		<div class="Absolute-Center is-Resizable">
+		<div style="height: 1000px;"></div>
 		</div>
 	</div>
-	<div class="group">
-		<div class="Center-Container">
-			<div class="Absolute-Center is-Overflow">
-			<div style="height: 1000px;"></div>
-			</div>
+</div>
+<div class="group">
+	<div class="Center-Container">
+		<div class="Absolute-Center is-Image">
+		<img src="QQ头像.jpg">
 		</div>
 	</div>
-	<div class="group">
-		<div class="Center-Container">
-			<div class="Absolute-Center is-Resizable">
-			<div style="height: 1000px;"></div>
-			</div>
-		</div>
+</div>
+<div class="group">
+	<div class="Center-Container">
+		<div class="is-Negative"></div>
 	</div>
-	<div class="group">
-		<div class="Center-Container">
-			<div class="Absolute-Center is-Image">
-			<img src="QQ头像.jpg">
-			</div>
-		</div>
+</div>
+<div class="group">
+	<div class="Center-Container">
+		<div class="is-Transformed"></div>
 	</div>
-	<div class="group">
-		<div class="Center-Container">
-			<div class="is-Negative"></div>
-		</div>
-	</div>
-	<div class="group">
-		<div class="Center-Container">
-			<div class="is-Transformed"></div>
-		</div>
-	</div>
-	<div class="group">
-		<div class="Center-Container is-Table">
-		  <div class="Table-Cell">
-		    <div class="Center-Block">
-		    <!-- CONTENT --><img src="QQ头像.jpg">	
-		    </div>
-		  </div>
-		</div>
-	</div>
-	<div class="group">
-		<div class="Center-Container is-Inline">  
-		  <div class="Center-Block">  
-		    <!-- CONTENT --> <img src="QQ头像.jpg">	
-		  </div>  
-		</div> 
-	</div>
-
-	<!-- besides -->
-	<div class="group wrapper">  
-	    <div class="cell">
-	        <div class="content"> Content goes here</div>
+</div>
+<div class="group">
+	<div class="Center-Container is-Table">
+	  <div class="Table-Cell">
+	    <div class="Center-Block">
+	    <!-- CONTENT --><img src="QQ头像.jpg">	
 	    </div>
+	  </div>
 	</div>
-</body>
-</html>
+</div>
+<div class="group">
+	<div class="Center-Container is-Inline">  
+	  <div class="Center-Block">  
+	    <!-- CONTENT --> <img src="QQ头像.jpg">	
+	  </div>  
+	</div> 
+</div>
+
+<!-- besides -->
+<div class="group wrapper">  
+    <div class="cell">
+        <div class="content"> Content goes here</div>
+    </div>
+</div>
