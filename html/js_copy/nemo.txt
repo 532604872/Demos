@@ -1,0 +1,14 @@
+(function (global, fun) {
+	fun(global);
+	/*!function (_) {
+		_.b = function () {
+			console.log(2);
+			return _;
+		};
+	}.call(this, A);*/
+})( typeof window !== "undefined" ? window : this, function (w) {
+	var lay = function () {
+		
+	};
+	w.layout = lay;
+});

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+</head>
+<body>
+	<div  id="txt" class="zm-editable-content clearfix" style="font-size: 12px;">
+	从这个问题可以看出知乎的特点，提问者本身一个比较单纯的问题，但回答的人由于自身的行业背景和知识结构，对问题本身做出了最大化的开放式回答。从货币本源、内部控制、商业信用等不同方面都给予了回答。<br><br>作为一个银行从业人员，特别是与支付结算比较相关的产品研发人士，也想从系统的角度来回答一下。供题主参考。<br><br>这个问题，题主其实分为三大部分。一是【马云】可以【随意修改】自己的支付宝余额吗？（包括他愿不愿，能不能和是否便捷三个内涵）；二是改了之后，能够实现无限购买或提现吗？；三是怎样规避这种行为。<br><br>第一点，（1）愿不愿？<br>答案是：肯定不愿。这样一是会造成【支付宝余额】这个具有货币支付结算功能的额度失去信用；二是马云老师不需要包邮的物件。<br>（2）能不能？能不能包含两个前提，一是马云对支付宝系统拥有绝对的需求控制权，也就是说他要求改成什么样就是什么样；二是系统本身能够实现这种需求的修改。<br>答案是：肯定能啊。<br>（3）改起来容易吗？<br>答案是：容易啊。（反正我不是程序猿……）<br><br>第二点，这个又分为购买和提现两部分。<br>（1）购买。<br>支付宝里的余额，是某个银行转入的资金流入形成。因为在中国，资金结算账户只能由银行开设和管理，受人民银行直接监管。所以这个余额按照<b><u>规范</u></b>的流程，是必须有资金同步变动的。你可以改为1亿，前提是你的银行账户流入支付宝一亿，更准确的说，是从你的<b>银行账户资金流入支付宝在银行的备付金存管账户（或是收付账户）</b>。<br><br>（说到这里，可以更开放的一个问题是，银行有没有可能随意更改我的账户余额，并且用于购买和提现呢？答案是可能发生的。大家难道忘记了曾经因为ATM超额取现被判无期的那位同学了吗？）<br><br>上面既然说的是<b><u>规范</u></b>流程，但如果<b><u>不规范</u></b>呢？题主问的就是这种不规范的情况。假设马云改了自己的支付宝余额，多了9.9去买了一个包邮的鼠标垫。在淘宝的随后购物流程，以及跳转支付宝支付的流程中，这些肯定都是可以通过的。<br><br>以上，购买是可能发生的。<br><br>（2）提现。<br>由于提现的过程，是从<b>支付宝在银行的备付金存管账户（或是收付账户）流出到你的银行账户里</b>。所以在系统的流程里，你的支付宝只要有余额，那就允许资金的流出到你指定的银行账户。<br><br>以上，提现是可能发生的。<br><br>-----------------------------备付金账户的一点知识补充-----------------------------<br>支付宝的备付金账户，是汇聚了许许多多在网络上进行收付交易的资金。账户资金的流入流出，按人民银行的《支付机构客户备付金存管办法》进行监管。具体内容，大家可以百度一下。<br>所以只要马云改的金额没有超过这个备付金账户的余额，那就完全可以实现。<br>--------------------------<br><br>第三点，如何规避。<br>很多前辈说到的内部控制当然是最基本的要求，但题主提到的这个问题本身大约是假设了内部控制已经失效了。因为是马云要求的嘛。。。。<br>那外部如何监管呢？<br>其实也非常简单。根据备付金存管办法要求，每天存管银行都要和支付机构进行对账。这个对账很容易就可以看出来，在题主的这个假设发生的情况下，资金流出远远大于资金流入，形成了单边账。<br><br>-----------------------<br>所以，最后这个问题大约结果应该是这样。<br><b>马云如果真想这么干，在次日对账之前，完成这一系列操作，是有可能的。但随后就会被发现。</b><br><br>以上。（这个结束语是高端黑……希望大家能看出来这一点……）<br><br>----------------------<br>鉴于原题和回答对马云老师造成不够尊重的影响，特此声明，上述回答中涉及马老师的，仅仅用于举例，请马老师原谅，也向各位读者致歉。
+	</div>
+	<script type="text/javascript">
+		var IC = function(a, b) {// 复制会出现作者信息（阻止复制）
+	        var c = -1
+	          , d = -1
+	          , f = JC();
+	        a.on("mousedown", function(a) {
+	            3 === a.which && (c = a.pageX,
+	            d = a.pageY)
+	        });
+	        a.on("copy", function(g) {
+	            var h = z.wu()
+	              , k = Math.floor(22 * Math.random() + 44);
+	            if (h && h.Id() && (0,
+	            z.ab)(h.Id()).length > k) {
+	                g.preventDefault();
+	                (0,
+	                window.$)(".user-image", f).attr("src", b);
+	                g = h.fy();
+	                var h = h.Xx()
+	                  , k = z.Xn(window).y
+	                  , m = z.Pe(window).height
+	                  , n = $o(k + 45 + 15, Math.min(g.y, h.y) + k, k + m - 15)
+	                  , r = $o(k + 45 + 15, Math.max(g.y, h.y) + k, k + m - 15);
+	                z.sm.Ab ? (m = (z.Pe(window).width - 265) / 2,
+	                g = z.Ml ? h.y > g.y ? h.y + k + 10 : g.y + k - 10 : -1 !== d ? d + 3 : n + (r - n) / 2 - 15) : (m = -1 !== c ? c + 3 : a.offset().left + a.width() / 2 - 15,
+	                g = -1 !== d ? d + 3 : n + (r - n) / 2 - 15);
+	                f.css({
+	                    position: "absolute",
+	                    left: m,
+	                    top: g
+	                }).finish().fadeIn(300).delay(2E3).fadeOut(300)
+	            }
+	            d = c = -1
+	        })
+	    };
+		var KC = function(element, url, userName) {// 复制会出现来源信息（添加信息）
+	        function j(a, b, c) {
+	            a = ["作者：" + b, "链接：" + a, "来源：知乎", "著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"];
+	            b = ["", ""];
+	            return a = c ? a.concat(b) : b.concat(a)
+	        }
+	        function f(a, b, c, f) {
+	            b = j(b, c, f).join("\x3cbr /\x3e");
+	            return "\x3cdiv\x3e" + (f ? b + a : a + b) + "\x3c/div\x3e"
+	        }
+	        function g(a, b, c, f) {
+	            b = j(b, c, f).join("\n");
+	            return f ? b + a : a + b
+	        }
+	        function h() {
+	            var a = "";
+	            window.getSelection ? a = window.getSelection().toString() : window.document.selection && "Control" !== window.document.selection.type && (a = window.document.selection.createRange().text);
+	            return a
+	        }
+	        function k(a) {
+	            var k = d = z.wu();
+	            k = z.ab(d.Id());
+	            if (k && !(128 > k.length)) {
+	                k = 512 <= k.length;
+	                if ("object" === typeof a.originalEvent.clipboardData) {
+	                	a.originalEvent.clipboardData.setData("text/html", f(d.cg(), url, userName, k));
+	                	a.originalEvent.clipboardData.setData("text/plain", g(h(), url, userName, k));
+	                	if (0 < a.originalEvent.clipboardData.getData("text/plain").length) {
+	                		a.preventDefault();
+	                		return
+	                	}
+	                }
+	                // ie
+	                if (window.getSelection) {
+	                    a = d.cg();
+	                    var w = (0,
+	                    window.$)(f(a, b, c, k)).css({
+	                        position: "fixed",
+	                        left: "-9999px"
+	                    }).appendTo("body");
+	                    window.getSelection().selectAllChildren(w.get(0));
+	                    (0,
+	                    window.setTimeout)(function() {
+	                        d.select();
+	                        w.remove()
+	                    }, 200)
+	                }
+	            }
+	        }
+	        if (!z.Ja(url, "http")) {
+	        	url = window.location.protocol + "//" + window.location.host + url;
+	        }
+	        element.on("copy", k);
+	    };
+
+		var z = function () {
+			function wu(a) {
+				a = Dt(a || window);
+				return xu(a);
+			};
+			var Dt = function(a) {
+		        if (a.getSelection)
+		            return a.getSelection();
+		        // ie
+		        a = a.document;
+		        var b = a.selection;
+		        if (b) {
+		            try {
+		                var c = b.createRange();
+		                if (c.parentElement) {
+		                    if (c.parentElement().document != a)
+		                        return null
+		                } else if (!c.length || c.item(0).document != a)
+		                    return null
+		            } catch (d) {
+		                return null
+		            }
+		            return b
+		        }
+		        return null
+		    };
+		    var xu = function(sel) {
+	            var b, c = !1;
+	            if (sel.createRange)
+	                try {
+	                    b = sel.createRange()
+	                } catch (f) {
+	                    return null
+	                }
+	            else if (sel.rangeCount) {
+	                if (1 < sel.rangeCount) {
+	                    b = new z.ru;
+	                    for (var c = 0, d = sel.rangeCount; c < d; c++)
+	                        b.Of.push(sel.getRangeAt(c));
+	                    return b
+	                }
+	                b = sel.getRangeAt(0);
+	                c = iu(sel.anchorNode, sel.anchorOffset, sel.focusNode, sel.focusOffset)
+	            } else
+	                return null ;
+	            return z.yu(b, c)
+	        };
+	        var iu = function(a, b, c, d) {
+                if (a == c)
+                    return d < b;
+                var f;
+                if (1 == a.nodeType && b)
+                    if (f = a.childNodes[b])
+                        a = f,
+                        b = 0;
+                    else if (z.mf(a, c))
+                        return !0;
+                if (1 == c.nodeType && d)
+                    if (f = c.childNodes[d])
+                        c = f,
+                        d = 0;
+                    else if (z.mf(c, a))
+                        return !1;
+                return 0 < (No(a, c) || b - d)
+            };
+            var No = function(a, b) {
+                if (a == b)
+                    return 0;
+                if (a.compareDocumentPosition)
+                    return a.compareDocumentPosition(b) & 2 ? 1 : -1;
+                if (z.C && !(9 <= z.Ug)) {
+                    if (9 == a.nodeType)
+                        return -1;
+                    if (9 == b.nodeType)
+                        return 1
+                }
+                // ie
+                if ("sourceIndex"in a || a.parentNode && "sourceIndex"in a.parentNode) {
+                    var c = 1 == a.nodeType
+                      , d = 1 == b.nodeType;
+                    if (c && d)
+                        return a.sourceIndex - b.sourceIndex;
+                    var f = a.parentNode
+                      , g = b.parentNode;
+                    return f == g ? Yn(a, b) : !c && z.mf(f, b) ? -1 * jo(a, b) : !d && z.mf(g, a) ? jo(b, a) : (c ? a.sourceIndex : f.sourceIndex) - (d ? b.sourceIndex : g.sourceIndex)
+                }
+                d = z.Je(a);
+                c = d.createRange();
+                c.selectNode(a);
+                c.collapse(!0);
+                d = d.createRange();
+                d.selectNode(b);
+                d.collapse(!0);
+                return c.compareBoundaryPoints(z.t.Range.START_TO_END, d)
+            };
+			function yu(range, bool) {
+				return range && range.rangeddElement ? mu(range) : gu(eu(range), bool)
+			}
+			var mu = function(a) {
+		        var b = new z.lu;
+		        b.O = a;
+		        return b
+		    };
+		    var eu = function(range) {
+	            return z.Vl ? new z.Ut(range,z.Je(range.parentElement())) : z.D ? new du(range) : z.B ? new Tt(range) : z.vg ? new cu(range) : new Pt(range)
+	        };
+	        var du = function(range) {
+                this.O = range
+            };
+            var gu = function(du, bool) {
+                var c = new z.fu;
+                c.Th = du;
+                c.sf = !!bool;
+                return c
+            };
+			function fu() {
+                this.Ba = this.ta = this.Ca = this.xa = this.Th = null ;
+                this.sf = !1
+            }
+            function ju(fu) {
+               var b;
+               if (!(b = fu.Th)) {
+                   b = fu.aa();
+                   var c = fu.va()
+                     , d = fu.la()
+                     , f = fu.Ma();
+                   if (!z.C || 9 <= z.Ug)
+                       b = z.D ? new du(St(b, c, d, f)) : z.B ? new Tt(St(b, c, d, f)) : z.vg ? new cu(St(b, c, d, f)) : new Pt(St(b, c, d, f));
+                   else {
+                       var g = b
+                         , h = c
+                         , k = d
+                         , m = f
+                         , n = !1;
+                       1 == g.nodeType && (h = g.childNodes[h],
+                       n = !h,
+                       g = h || g.lastChild || g,
+                       h = 0);
+                       var r = Vt(g);
+                       h && r.move("character", h);
+                       g == k && h == m ? r.collapse(!0) : (n && r.collapse(!1),
+                       n = !1,
+                       1 == k.nodeType && (k = (h = k.childNodes[m]) || k.lastChild || k,
+                       m = 0,
+                       n = !h),
+                       g = Vt(k),
+                       g.collapse(!n),
+                       m && g.moveEnd("character", m),
+                       r.setEndPoint("EndToEnd", g));
+                       m = new z.Ut(r,z.Je(b));
+                       m.xa = b;
+                       m.Ca = c;
+                       m.ta = d;
+                       m.Ba = f;
+                       b = m
+                   }
+                   b = fu.Th = b
+               }
+               return b
+           	}
+
+   	       	e = fu.prototype;
+   	        e.Id = function() {
+                return z.ju(this).Id()
+            };
+	        e.cg = function() {
+                return z.ju(this).cg()
+            };
+
+
+            f = du.prototype;
+		    f.Id = function() {
+	            return this.O.toString()
+	        };
+	        f.cg = function() {
+                var a = z.J(this.O.startContainer).B("DIV");
+                a.appendChild(this.O.cloneContents());
+                a = a.innerHTML;
+                if (z.Ja(a, "\x3c") || !this.isCollapsed() && !z.Va(a, "\x3c"))
+                    return a;
+                var b = this.tc()
+                  , b = 1 == b.nodeType ? b : b.parentNode;
+                return z.Lo(b.cloneNode(!1)).replace("\x3e", "\x3e" + a)
+            };
+            f.isCollapsed = function() {
+                return this.O.collapsed
+            };
+            f.tc = function() {
+                return this.O.commonAncestorContainer
+            };
+
+
+            ab = String.prototype.trim ? function(a) {
+                return a.trim()
+            }: function(a) {
+		        return a.replace(/^[\s\xa0]+|[\s\xa0]+$/g, "")
+		    };
+		    function Ja(a, b) {
+		        return 0 == a.lastIndexOf(b, 0)
+		    }
+	    	function J(a) {
+	            return a ? new z.Ie(z.Je(a)) : Ke || (Ke = new z.Ie)
+	        }
+        	function Je(a) {
+                return 9 == a.nodeType ? a : a.ownerDocument || a.document
+            }
+        	function Ie(a) {
+                this.La = a || z.t.document || window.document
+            }
+            i = Ie.prototype;
+			i.B = function(a, b, c) {
+				return Te(this.La, arguments)
+			}
+			var Qb = function() {
+		        return Ab("Trident") || Ab("MSIE")
+		    };
+			
+			var Te = function(a, b) {
+		        var c = b[0]
+		          , d = b[1];
+		        if (!Ue && d && (d.name || d.type)) {
+		            c = ["\x3c", c];
+		            d.name && c.push(' name\x3d"', z.Na(d.name), '"');
+		            if (d.type) {
+		                c.push(' type\x3d"', z.Na(d.type), '"');
+		                var f = {};
+		                z.Mb(f, d);
+		                delete f.type;
+		                d = f
+		            }
+		            c.push("\x3e");
+		            c = c.join("")
+		        }
+		        c = a.createElement(c);
+		        d && (z.pa(d) ? c.className = d : z.na(d) ? c.className = d.join(" ") : Ne(c, d));
+		        2 < b.length && Ve(a, c, b, 2);
+		        return c
+		    };
+		    function Va(a, b) {
+		        return -1 != a.indexOf(b)
+		    };
+		    function Lo(a) {
+	            if ("outerHTML"in a)
+	                return a.outerHTML;
+	            var b = z.Je(a).createElement("DIV");
+	            b.appendChild(a.cloneNode(!0));
+	            return b.innerHTML
+	        };
+	        var Bb = "";
+	        function Ab(a) {
+	        	var Il = this.navigator;
+    	        if (Il) {
+    	            var Jl = Il.userAgent;
+    	            if (Jl) {
+    	                Bb = Jl;
+    	            }
+    	        }
+		        return Va(Bb, a)
+		    }
+		    var Fc = function() {
+	            var a = Bb;
+	            if (B)
+	                return /rv\:([^\);]+)(\)|;)/.exec(a);
+	            if (Gc)
+	                return /Edge\/([\d\.]+)/.exec(a);
+	            if (C)
+	                return /\b(?:MSIE|rv)[: ]([^\);]+)(\)|;)/.exec(a);
+	            if (D)
+	                return /WebKit\/(\S+)/.exec(a)
+	        };
+		    var Pb = function() {
+	            return Ab("Opera") || Ab("OPR")
+	        };
+	        var Qb = function() {
+	            return Ab("Trident") || Ab("MSIE")
+	        };
+	        var Rb = function() {
+	            return Ab("Firefox")
+	        };
+	        var Sb = function() {
+	            return (Ab("Chrome") || Ab("CriOS")) && !Pb() && !Ab("Edge")
+	        };
+	        var Tb = function() {
+	            function a(a) {
+	                a = z.qb(a, d);
+	                return c[a] || ""
+	            }
+	            var b = z.Bb;
+	            if (Qb())
+	                return Ub(b);
+	            var b = Cb(b)
+	              , c = {};
+	            z.y(b, function(a) {
+	                c[a[0]] = a[1]
+	            });
+	            var d = z.Ba(Ib, c);
+	            return Pb() ? a(["Version", "Opera", "OPR"]) : z.Ab("Edge") ? a(["Edge"]) : Sb() ? a(["Chrome", "CriOS"]) : (b = b[2]) && b[1] || ""
+	        };
+	        var Ub = function(a) {
+	            var b = /rv: *([\d\.]*)/.exec(a);
+	            if (b && b[1])
+	                return b[1];
+	            var b = ""
+	              , c = /MSIE +([\d\.]+)/.exec(a);
+	            if (c && c[1])
+	                if (a = /Trident\/(\d.\d)/.exec(a),
+	                "7.0" == c[1])
+	                    if (a && a[1])
+	                        switch (a[1]) {
+	                        case "4.0":
+	                            b = "8.0";
+	                            break;
+	                        case "5.0":
+	                            b = "9.0";
+	                            break;
+	                        case "6.0":
+	                            b = "10.0";
+	                            break;
+	                        case "7.0":
+	                            b = "11.0"
+	                        }
+	                    else
+	                        b = "7.0";
+	                else
+	                    b = c[1];
+	            return b
+	        };
+		   
+	        var Hc = function() {
+                var a = z.t.document;
+                return a ? a.documentMode : void 0
+            };
+            var Ec = function() {
+                return Ab("iPhone") && !Ab("iPod") && !Ab("iPad")
+            };
+		    var t = window;
+
+		    var Ic, Nl;
+	        vg = Pb();
+	        C = Qb();
+	        Gc = Ab("Edge");
+	        Kl = Gc || C;
+	        B = Ab("Gecko") && !(Va(Bb.toLowerCase(), "webkit") && !Ab("Edge")) && !(Ab("Trident") || Ab("MSIE")) && !Ab("Edge");
+	        D = Va(Bb.toLowerCase(), "webkit") && !Ab("Edge");
+	        Vj = D && Ab("Mobile");
+	        Uc = Ab("Macintosh");
+	        ml = Ab("Windows");
+	        Ll = Ab("Linux") || Ab("CrOS");
+	        Ml = Ec();
+	        Jc = function() {
+	            if (vg && t.opera) {
+	                var a;
+	                var b = t.opera.version;
+	                try {
+	                    a = b()
+	                } catch (c) {
+	                    a = b
+	                }
+	                return a
+	            }
+	            a = "";
+	            (b = Fc()) && (a = b ? b[1] : "");
+	            return C && (b = Hc(),
+	            b > (0,
+	            window.parseFloat)(a)) ? String(b) : a
+	        }();
+	        Ic = {};
+	        Nl = t.document;
+	        Ug = Nl && C ? Hc() || ("CSS1Compat" == Nl.compatMode ? (0,
+	        window.parseInt)(Jc, 10) : 5) : void 0;
+	        var Ue = !C || 9 <= Ug;
+	        var Jc = function() {
+	            if (vg && z.t.opera) {
+	                var a;
+	                var b = z.t.opera.version;
+	                try {
+	                    a = b()
+	                } catch (c) {
+	                    a = b
+	                }
+	                return a
+	            }
+	            a = "";
+	            (b = Fc()) && (a = b ? b[1] : "");
+	            return C && (b = Hc(),
+	            b > (0,
+	            window.parseFloat)(a)) ? String(b) : a
+	        }();
+	        var Vl = C && !(9 <= Ug);
+	        var D = Va(Bb.toLowerCase(), "webkit") && !Ab("Edge");
+			return {
+				Vl: Vl,
+				D: D,
+				wu: wu,
+				yu: yu,
+				fu: fu,
+				ju: ju,
+				ab: ab,
+				Ja: Ja,
+				J: J,
+				Je: Je,
+				Ie: Ie,
+				Va: Va,
+				Lo: Lo,
+				Ab: Ab,
+				C : C,
+				Ug: Ug,
+				Jc: Jc,
+				t: t,
+				Hc: Hc,
+				Ub: Ub,
+				vg: vg,
+				Fc: Fc,
+				Bb: Bb,
+				B: B
+			};
+		}();
+
+		KC($(txt), "https://www.zhihu.com/question/20697644/answer/22848986", "Peng Xu");
+	</script>
+</body>
+</html>

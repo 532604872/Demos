@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+</head>
+<body>
+	<div contenteditable="true" style="border: 1px solid #000;min-height: 200px;">请选中这里的部分文字。</div><div><input type="button" value="加粗" onclick="javascript :Bold();" /></div>
+	<label>请选中这里的部分文字。<input type="text" name="" value="1234567890" id="sel"><input type="button" name="" value="insert" onclick="javascript: setSelectUBB(sel, '你好', '大家好');"></label>
+  
+	<script  language="javascript">   
+	  
+	function Bold(){   
+	  
+	var bo = getSelectionText();
+	
+	document.execCommand("Bold");
+	// setSelectText(sel, 2, 4);
+	  
+	}
+
+
+	//Firefox, Safari, Opera下，可以用window.getSelection(), 参考MDC
+	//IE下，可以用document.selection.createRange().text, 参考MSDN放在一起：
+	//注意：当选中的是input[type=text]里面的值时getSelection在Firefox和Opera下无法获取到选取值
+	//，在Safari下没问题。
+
+	function getSelectionText() {
+	    if(window.getSelection) {
+	    return window.getSelection().toString();
+	    } else if(document.selection && document.selection.createRange) {
+	    return document.selection.createRange().text;
+	    }
+		return '';
+	}
+	//设光标
+
+	function setSelectText(el, start, end) {
+	    if (el.createTextRange) {
+	        var Range = el.createTextRange();
+	        Range.collapse();
+	        Range.moveEnd('character', end);
+	        Range.moveStart('character', start);
+	        Range.select();
+	    }
+	    if (el.setSelectionRange) {
+	        el.focus();
+	        el.setSelectionRange(start, end);
+	    }
+	} 
+
+	// 设置插入文本内容 
+	function setSelectUBB(el, ts, te) {
+	    if (el.setSelectionRange) {
+	        var val = el.value,
+	        start = el.selectionStart,
+	        end = el.selectionEnd,
+	        len = val.length;
+
+	        el.value = val.substring(0, start) + ts + val.substring(start, end) + te + val.substring(end, len);
+	    } else {
+	        //ie
+	        document.selection.createRange().text = ts + document.selection.createRange().text + te;
+	        //第二种写法
+	        var o = document.getElementByIdx_x("loginName");
+
+	        var r = document.selection.createRange();
+
+	        if (o.createTextRange().inRange(r)) alert(r.text);
+
+	    }
+	}
+	</script> 
+</body>
+</html>
