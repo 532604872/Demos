@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>任我吃！放肆美！</title>
+	<meta name="keywords" content="厉害了word颜！任我吃！放肆美！" />
+	<meta name="description" content="厉害了word颜！任我吃！放肆美！" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<link rel="icon" href="../favicon.ico"    type="image/x-icon">
+
+	<!-- 阻止页面放大缩小 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+
+	<style type="text/css">
+		ul{margin: 0;border: 0 none;padding: 0;}
+		.index{background-color: #fffded;}
+		.index .tit{text-align: left;margin: 15px;}
+		.index b{font-size: 110%;}
+		.upload, .Photograph{float: inherit;margin-top: 20px;}
+
+		/*animation*/
+		@keyframes a_after{
+			0%{top: -100px;}
+			50%{top: 0;}
+			100%{top: -100px;}
+		}
+		@keyframes a_shadow{
+			0%{top: -50px;transform: scale(0);}
+			50%{top: 50px;transform: scale(1);}
+			100%{top: -50px;transform: scale(0);}
+		}
+
+		/* loading*/
+		.loading{position: absolute;top: 0;height: 100%;width: 100%;}
+		.fruitList{position: absolute;width: 50px;height: 50px;overflow: hidden;left: 0;right: 0;top: 0;bottom: 0;margin: auto;animation: a_after 1s linear infinite;z-index: 1001;}
+		.fruitList li{background: url('../img/fruits.png') no-repeat;list-style-type: none;height: 50px;width: 50px;float: left;}
+		.fruitList li:nth-child(1){background-position: -18px -27px;}
+		.fruitList li:nth-child(2){background-position: -75px -27px;animation-delay:1s;-webkit-animation-delay12s;}
+		.fruitList li:nth-child(3){background-position: -130px -27px;animation-delay:2s;-webkit-animation-delay:2s;}
+		.fruitList li:nth-child(4){background-position: -185px -22px;animation-delay:3s;-webkit-animation-delay:3s;}
+		.fruitList li:nth-child(5){background-position: -14px -80px;animation-delay:4s;-webkit-animation-delay:4s;}
+		.fruitList li:nth-child(6){background-position: -75px -82px;animation-delay:5s;-webkit-animation-delay:5s;}
+		.fruitList li:nth-child(7){background-position: -127px -86px;animation-delay:6s;-webkit-animation-delay:6s;}
+		.fruitList li:nth-child(8){background-position: -190px -76px;animation-delay:7s;-webkit-animation-delay:7s;}
+		.fruitList li:nth-child(9){background-position: -9px -133px;animation-delay:8s;-webkit-animation-delay:8s;}
+		.fruitList li:nth-child(10){background-position: -71px -133px;animation-delay:9s;-webkit-animation-delay:9s;}
+		.fruitList li:nth-child(11){background-position: -132px -138px;animation-delay:10s;-webkit-animation-delay:10s;}
+		.fruitList li:nth-child(12){background-position: -199px -138px;animation-delay:11s;-webkit-animation-delay:211;}
+		.shadow{position: absolute;width: 30px;height: 15px;overflow: hidden;left: 0;right: 0;top: -50px;bottom: 0;margin: auto;background-color: #ccc;border-radius: 50%;transform: rotateX(45deg);animation: a_shadow 1s linear infinite;z-index: 1000;}
+	</style>
+</head>
+<body class="index">
+	<!-- 分享封面 -->
+	<div style="margin:0 auto;width:0px;height:0px;overflow:hidden;">
+		<img src="./img/cover.jpg" width='700' alt="厉害了word颜！任我吃！放肆美！">
+	</div>
+	<section class="container text-center">
+		<div id="start" class="row">
+			<h1 class="tit">厉害了word颜！<br><b>任性吃放肆美！</b></h1>
+			<div class="concat_img"><img src="./img/concat.jpg" class="col-xs-12"></div>
+			<div class="upload col-xs-8 btn btn-success" id="uploadImage">上传照片
+				<input type="file" name="image" class="hide" id="uploadFile" accept="image/jpeg,image/gif,image/png">
+			</div>
+			<!-- <div class="Photograph col-xs-8 btn btn-primary" id="takePhoto">马上拍照</div> -->
+		</div>
+		<div  id="loading" class="row loading hide">
+			<ul class="fruitList clearfix"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+			<div class="shadow"></div>
+		</div>
+	</section>
+	<script type="text/javascript">
+		$(uploadImage).click(function (e) {
+			uploadFile.click();
+		});
+
+		// 马上拍照
+		// $(takePhoto).click(function (e) {
+		// 	uploadFile.click();
+		// });
+
+		$(uploadFile).change(function (e) {
+		  var formdata = new FormData();
+		  var files = this.files;
+		  formdata.append("upload", files[0]);
+
+		  $.ajax({
+		    url: '/api/upload/img',
+		    type: 'POST',
+		    dataType: 'json',
+		    data: formdata,
+		    cache: false,
+		    contentType: false,
+		    processData: false,
+		    success: function (d) {
+		      console.log(d);
+		      // window.loaction.href = d.url;
+		    },
+		    error: function (xhr) {
+		      console.log(xhr);
+		    }
+		  });
+		});
+	</script>
+</body>
+</html>

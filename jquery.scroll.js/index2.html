@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scroll</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <script src="./jquery-1.9.1.js"></script>
+    <style type="text/css">
+        body{
+            background: #ccc;
+        }
+        .scroll-demo{
+            width: 540px;
+            border: 1px solid #e5e5e5;
+            background: #fff;
+            margin:30px auto;
+        }
+        .scroll-tab{
+            height: 34px ;
+            border-bottom: 1px solid #e5e5e5;
+            background: #f8f8f8;
+        }
+        .scroll-tab .tab-item{
+            cursor: pointer;
+            float: left;
+            font:14px/34px 'Microsoft YaHei';
+            border-right: 1px solid #e5e5e5;
+            padding: 0 20px;
+        }
+        .scroll-tab .tab-active{
+            color: #00be3c;
+            background: #fff;
+            border-top:2px solid #00be3c;
+            margin: -1px 0;
+        }
+        .scroll-wrap{
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+        .scroll-wrap .scroll-cont{
+            height: 100%;
+            overflow: hidden;
+            padding: 0 15px;
+        }
+        .scroll-wrap .scroll-cont h3{
+            font:16px/3 'Microsoft YaHei';
+            text-align: center;
+        }
+        .scroll-wrap .scroll-cont p{
+            font-size: 14px;
+            line-height: 20px;
+            text-indent: 2em;
+            margin-bottom: 10px;
+        }
+        .scroll-bar{
+            position: absolute;
+            top:0;
+            right: 0;
+            width: 10px;
+            height: 100%;
+            background: #eaeaea;
+        }
+        .scroll-bar .scroll-slider{
+            position: absolute;
+            top:0;
+            left:1px;
+            width: 8px;
+            height: 30px;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="scroll-demo">
+    <ul class="scroll-tab clearfix">
+        <li class="tab-item tab-active">第一篇</li>
+        <li class="tab-item">第二篇</li>
+        <li class="tab-item">第三篇</li>
+        <li class="tab-item">第四篇</li>
+    </ul>
+    <div class="scroll-wrap">
+        <div class="scroll-cont">
+            <h3 class="anchor">春天来了</h3>
+            <div class="scroll-ol">
+                <p>
+                    其实我平时非常忙，我的朋友们曾称呼我“忙神”，很多时候，可能大家的QQ留言等，我看到后都只能暂时记录一下，需要在晚上，有时可能需要隔几天才进行回复，但一定都会很用心的回复大家的。而平时忙，压力就会很大，但每一次，看到核心们在为我们共同的事业，Wind Punish的发展坚定的掌舵，看到每一位Wind Punish伙伴们在Wind Punish获得的成长与记忆，当伙伴们说，“看好Wind Punish”等等时，我都想说，感谢Wind Punish，感谢兄弟们，你们，是我坚持下去的动力！站在技术山峰的人只有凤毛麟角，我自己也有很多需要磨练和学习的地方，但因为Wind Punish的所在，我和兄弟们共同努力，相互支持，Wind Punish在走向更高的山峰的路上，这一路，我有幸和曾经以为几乎接触不到的很多公司负责人，技术大牛，书籍作者结识。Wind Punish，正在慢慢改变，正在默默支撑起，我们的未来 。
+                </p>
+            </div>
+
+            <h3 class="anchor">夏天来了</h3>
+            <div class="scroll-ol">
+
+                <p>历史上俄罗斯是一个骁勇善战的民族，无止境的侵略扩张、武力反对外来侵袭与殖民，然而这群东斯拉夫人也有温柔的面相。在古典音乐里，他们有柴可夫斯基这样的奠基人，斯特拉文斯基、肖斯塔科维奇、拉赫玛尼诺夫这样的古典名家；在舞蹈上，他们有享誉世界的芭蕾舞，即便芭蕾舞并不诞生于该国度，但是它在俄国实现了表演舞蹈的转型，代表作有《天鹅湖》、《睡美人 》、《胡桃夹子》等；在文学上，他们有数不尽的璀璨、耀眼的大师，列夫·托尔斯泰、普希金、莱蒙托夫、陀思妥耶夫斯基、契诃夫、索尔仁尼琴、纳博科夫等。</p>
+
+            </div>
+            <h3 class="anchor">秋天来了</h3>
+            <div class="scroll-ol">
+
+                <p>这是一个强大的邻国，最起码在文化上是这样的，即便是在当下他们仍然非常优秀。俄罗斯的现代音乐除来了受传统的民间音乐和宗教音乐、古典音乐影响之外，还兼容并蓄的融入了西方的摇滚乐，北欧的民谣音乐等，并逐渐形成自己的特色。俄罗斯的音乐形态多样，摇滚、独立、流行、另类、金属、电子、实验等应有尽有。值得一提的是俄罗斯是世界上最早出现、并公开表演电子音乐的国家之一。
+
+                    Nickholas Koniwzski从小便在文化氛围浓厚的莫斯科长大。作为一个90后，他身上带有的随性气质随处可见。几乎让人联想不到，他成长在曾经的铁幕与强权的政治中心。Nickholas从小学习古典音乐，作为科班出生的小提琴手。他并不愿意过多的谈论自己早年学习的经历，他坦言，作为一个孩子，其实我并不特别喜欢这种刻板、系统的音乐教育，所以在我14岁的时候，我主动放弃继续学习古典音乐。随后的两年时间里我没有做任何很跟音乐有关的事情，直到我的一个朋友让我深深地迷恋上了电吉他。</p>
+            </div>
+            <h3 class="anchor">冬天来了</h3>
+            <div class="scroll-ol">
+
+                <p>小提琴让他接触到了古典音乐，而电吉他让他进入了摇滚乐的世界。在迷恋上电吉他之后，他给自己买了一把非常便宜的电吉他。他说，现在看来那把吉他简直是糟糕透了，但当时我非常高兴能拥有一件自己主动喜欢并演奏的乐器。不久之后，他开始学习弹一些喜欢的歌，意识到自己在练习的过程中有很多有意思的想法冒出来，于是有了组建乐队的打算，Aesthesys便从空想变为了现实。
+
+                    Nickholas虽然年纪不大，但是对于经营团队倒是很有经验。他告诉我，在经营乐队的这几年里，他明白了一件非常重要的事情，要想把事情做得更好、更专业，就必须找一些志同道合的人跟自己一起创作。就像他在中国巡演的宣传片里所讲到的，我们的音乐旅程在我们遇见彼此之前就开始了，也是在那时我们第一次意识到我们对音乐的热爱，它是一种能够让我们比任何其它方式表达得都要多的东西。</p>
+                <div class="correct-bot"></div>
+            </div>
+        </div>
+        <div class="scroll-bar">
+            <div class="scroll-slider"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var Scroll = {};
+    (function(win,doc,$){
+        function CusScrollBar(options){
+            this._init(options);
+        }
+        $.extend(CusScrollBar.prototype,{
+          _init:function(options){
+              var self = this;
+//              console.log('this',this);
+              self.options = {
+                  scrollDir :'y',//滚动的方向
+                  contSelector : "",//滚动条内容选择器
+                  barSelector : "",//滚动条选择器
+                  sliderSelector : "" ,//滚动滑块选择器
+                  tabItemSelector:".tab-item",//标签选中器
+                  tabActiveClass:"tab-active",//选中标签类名
+                  anchorSelector:".anchor",//锚点选择器
+                  correctSelector:".correct-bot",//校正元素
+                  articleSelector:".scroll-ol",//文章选择器
+                  wheelStep :10 //滚轮步长
+              }
+              $.extend(true,self.options,options||{});
+              self._initDomEvent();
+              return self;
+          },
+
+            //计算滑块当前的位置
+            getSliderPosition:function(){
+                var self = this,
+                        maxSliderPosition = self.getMaxSliderPosition();
+                return Math.min(maxSliderPosition,maxSliderPosition * self.$cont[0].scrollTop/self.getMaxScrollPosition());
+            },
+            //内容可滚动的高度
+            getMaxScrollPosition:function(){
+              var self = this;
+                var a = Math.max(self.$cont.height(),self.$cont[0].scrollHeight) - self.$cont.height();
+                return a;
+            },
+            //滑块可移动距离
+            getMaxSliderPosition:function(){
+                var self = this;
+                return self.$bar.height() - self.$slider.height();
+            },
+            //锚点位置
+            getAnchorPosition:function(index){
+                return this.$anchor.eq(index).position().top;
+            },
+            //获取每个锚点位置信息的数组
+            getAllAnchorPosition:function(){
+              var self = this,
+                  allPositionArr = [];
+                for(var i=0;i<self.$anchor.length;i++){
+                    allPositionArr.push(self.$cont[0].scrollTop + self.getAnchorPosition(i));
+                }
+                return allPositionArr;
+            },
+            //滚动到目的点
+            scrollTo:function(positionVal){
+                var self = this;
+                var posArr = self.getAllAnchorPosition();
+                function getIndex(positionVal){
+                    for(var i = posArr.length-1;i>=0;i--){
+                        if (positionVal >= posArr[i]){
+                            return i;
+                        }else{
+                            continue;
+                        }
+                    }
+                }
+                //锚点数与标签数相同
+                if(posArr.length == self.$tabItem.length){
+                    self.changeTabSelect(getIndex(positionVal));
+                }
+                self.$cont.scrollTop(positionVal);
+            },
+            //初始化DOM引用
+            _initDomEvent : function(){
+                var opts = this.options;
+                //滚动内容区对象，必填项
+                this.$cont = $(opts.contSelector);
+                //滚动条滑块对象，必填项
+                this.$slider = $(opts.sliderSelector);
+                //滚动滑块对象
+                this.$bar = opts.barSelector?$(opts.barSelector):self.$slider.parent();
+                //标签项
+                this.$tabItem = $(opts.tabItemSelector);
+                //锚点项
+                this.$anchor = $(opts.anchorSelector);
+                //校正元素对象
+                this.$correct = $(opts.correctSelector);
+                //正文
+                this.$article = $(opts.articleSelector);
+                //获取文档对象
+                this.$doc = $(doc);
+                this._initSliderDragEvent()._bindContScroll()._bindMouseWheel()._initTabEvent()._initArticleHeight();
+            },
+            //监听内容的滚动，同步滑块的位置
+            _bindContScroll:function(){
+                var self = this ;
+                self.$cont.on("scroll",function(){
+                    var sliderEl = self.$slider&&self.$slider[0];
+                    if (sliderEl){
+                        sliderEl.style.top = self.getSliderPosition() + 'px';
+                    }
+                });
+                return self;
+            },
+            //标签切换功能
+            _initTabEvent:function(){
+                var self = this;
+                self.$tabItem.on('click',function(e){
+                    e.preventDefault();
+                    var index = $(this).index();
+                    self.changeTabSelect(index);
+                    //已经滚出可视区的内容高度
+                    //+指定锚点与内容容器的距离
+                    self.scrollTo(self.$cont[0].scrollTop + self.getAnchorPosition(index));
+                })
+                return self;
+            },
+            //初始化文档高度
+            _initArticleHeight:function(){
+                var self = this,
+                    lastArticle = self.$article.last();
+                var lastArticleHeight = lastArticle.height(),
+                        contHeight = self.$cont.height();
+                if (lastArticleHeight<contHeight){
+                    self.$correct[0].style.height = contHeight - lastArticleHeight - self.$anchor.outerHeight() + 'px';
+                }
+                return self;
+            },
+            //切换标签的选中
+            changeTabSelect:function(index){
+                var self = this,
+                    active = self.options.tabActiveClass;
+                return self.$tabItem.eq(index).addClass(active).siblings().removeClass(active);
+            },
+            //滚轮事件
+            _bindMouseWheel:function(){
+                var self = this;
+                self.$cont.on("mousewheel DOMMouseScroll",function(e){
+                    e.preventDefault();
+                    var oEv = e.originalEvent,
+                        wheelRange = oEv.wheelDelta ? -oEv.wheelDelta/120 : (oEv.detail||0)/3;
+                    self.scrollTo(self.$cont[0].scrollTop + wheelRange * self.options.wheelStep);
+                });
+                return self;
+            },
+            //初始化滑块拖动功能
+            _initSliderDragEvent : function(){
+                var self = this;
+                var slider = self.$slider,sliderEl = slider[0];
+                if(sliderEl){
+                    var doc = self.$doc,
+                        dragStartPagePosition,//内容初始高度
+                        dragStartScrollPosition,//内容滚动高度
+                        dragContBarRate;//滚动比率
+                    function mousemoveHandler(e){
+                        e.preventDefault();
+                        console.log("mousemove");
+                        if(dragStartPagePosition == null){
+                            return;
+                        }
+                        self.scrollTo(dragStartScrollPosition + (e.pageY - dragStartPagePosition) * dragContBarRate);
+                    }
+                    slider.on('mousedown',function(e){
+                        e.preventDefault();
+                        console.log("mousedown");
+                        dragStartPagePosition = e.pageY;
+                        dragStartScrollPosition = self.$cont[0].scrollTop;
+                        dragContBarRate = self.getMaxScrollPosition()/self.getMaxSliderPosition();
+                        doc.on("mousemove.scroll",mousemoveHandler).on("mouseup.scroll",function(e){
+                            console.log('mouseup');
+                            doc.off(".scroll");
+                        });
+                    });
+                }
+                return self;
+            },
+        })
+
+        Scroll.CusScrollBar = CusScrollBar;
+    })(window,document,jQuery);
+    var scroll1 = new Scroll.CusScrollBar({
+        contSelector : ".scroll-cont",//滚动条内容选择器
+        barSelector : ".scroll-bar",//滚动条选择器
+        sliderSelector : ".scroll-slider" //滚动滑块选择器
+    });
+    console.log(scroll1);
+</script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>任我吃！放肆美！</title>
+	<meta name="keywords" content="厉害了word颜！任我吃！放肆美！" />
+	<meta name="description" content="厉害了word颜！任我吃！放肆美！" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<link rel="icon" href="../favicon.ico"    type="image/x-icon">
+
+	<!-- 阻止页面放大缩小 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+<body class="share">
+	<!-- <div class="container edit">
+		<canvas id="content" class="content"></canvas>
+	</div> -->
+	<img class="bg" src="./img/bg_apple.png">
+	<img id="scream" class="headPhoto" src="/tmp/img/5dafd77bc36a9a1f8e7d1ec2e9d0b095.jpg">
+	<div id="box" class="box" draggable="true"></div>
+	<script type="text/javascript">
+		//禁用手机默认的触屏滚动行为
+		document.addEventListener('touchmove', function(event) {
+		    event.preventDefault();
+		}, false);
+		//touchstart事件
+		function touchSatrtFunc(evt) {
+		    try {
+		        //evt.preventDefault(); //阻止触摸时浏览器的缩放、滚动条滚动等
+		 
+		        var touch = evt.touches[0]; //获取第一个触点
+		        var x = Number(touch.pageX); //页面触点X坐标
+		        var y = Number(touch.pageY); //页面触点Y坐标
+		        //记录触点初始位置
+		        startX = x;
+		        startY = y;
+		 
+		 
+		    } catch (e) {
+		        alert('touchSatrtFunc：' + e.message);
+		    }
+		}
+		 
+		//touchmove事件，这个事件无法获取坐标
+		function touchMoveFunc(evt) {
+		    try {
+		        //evt.preventDefault(); //阻止触摸时浏览器的缩放、滚动条滚动等
+		        var touch = evt.touches[0]; //获取第一个触点
+		        var x = Number(touch.pageX); //页面触点X坐标
+		        var y = Number(touch.pageY); //页面触点Y坐标
+		 
+		 
+		//document.getElementById("version").innerHTML = "原:"+startY+"   "+"现:"+y;
+		        //判断滑动方向 上下
+		         
+		        if (y - startY > 100) {
+		            swipeDown();//你自己的方法 我是用来翻页的一样的
+		        } else if(y - startY < -100){
+		            swipeUp();//你自己的方法
+		        }
+		    } catch (e) {
+		        alert('touchMoveFunc：' + e.message);
+		    }
+		}
+		 
+		//touchend事件
+		function touchEndFunc(evt) {
+		    try {
+		        //evt.preventDefault(); //阻止触摸时浏览器的缩放、滚动条滚动等
+		 
+		 
+		    } catch (e) {
+		        alert('touchEndFunc：' + e.message);
+		    }
+		}
+		 
+		//绑定事件
+		function bindEvent() {
+		    document.addEventListener('touchstart', touchSatrtFunc, false);
+		    document.addEventListener('touchmove', touchMoveFunc, false);
+		    document.addEventListener('touchend', touchEndFunc, false);
+		}
+		 
+		//判断是否支持触摸事件
+		function isTouchDevice() {
+		    //document.getElementById("version").innerHTML = navigator.appVersion;
+		 
+		    try {
+		        document.createEvent("TouchEvent");
+		        //alert("支持TouchEvent事件！");
+		 
+		        bindEvent(); //绑定事件
+		    } catch (e) {
+		        alert("不支持TouchEvent事件！" + e.message);
+		    }
+		}
+	</script>
+	<script type="text/javascript">var x = 0, y = 0; 
+		$(box).bind('dragstart', function (e) {
+			e = e || window.event;
+			// this.style.left = e.pageX + 'px';
+			// this.style.top = e.pageY + 'px';
+			x = e.offsetX, y = e.offsetY;
+		}).bind('drag', function (e) {
+			e = e || window.event;
+			this.style.display = "none";
+			this.style.left = e.pageX + 'px';
+			this.style.top = e.pageY + 'px';
+		}).bind('dragend', function (e) {
+			e = e || window.event;
+			this.style.left = e.pageX - x + 'px';
+			this.style.top = e.pageY - y + 'px';
+			this.style.display = "block";
+		}).bind('touchstart', function (e) {
+			e = window.event;
+			// this.style.left = e.pageX + 'px';
+			// this.style.top = e.pageY + 'px';
+			// x = e.touches[0].offsetX, y = e.offsetY;
+		}).bind('touchmove', function (e) {
+			e = window.event;
+			// this.style.display = "none";
+			this.style.left = e.touches[0].pageX + 'px';
+			this.style.top = e.touches[0].pageY + 'px';
+		}).bind('touchend', function (e) {
+			e = window.event;
+			// this.style.left = e.touches[0].pageX - x + 'px';
+			// this.style.top = e.touches[0].pageY - y + 'px';
+			// this.style.display = "block";
+		});
+		// (function (id) {
+		// 	var canvas=document.getElementById(id),
+		// 		cW = canvas.scrollWidth,
+		// 		cH = canvas.scrollHeight;
+		// 	var ctx=canvas.getContext('2d');
+		// 	// var img = document.getElementById('scream');
+		// 	// ctx.drawImage(img, 0, 0, cW, cH);
+		// 	var cImg = new Image();
+		// 	cImg.onload = function () {
+		// 		ctx.drawImage(cImg, 0, 0, cW - 20, cH / 2 - 100);
+		// 		// ctx.beginRath();
+		// 	};
+		// 	cImg.src = './img/bg_apple.png';
+		// })('content');
+
+		/*
+		   @作者：外号老徐
+		   @邮箱：442413729@qq.com
+		   @网址：http://www.loveqiao.com
+		*/
+		function hecheng(){
+			draw(function(){
+				document.getElementById('imgBox').innerHTML='<p style="padding:10px 0">合成图片成功！可以鼠标另存图片查看我是否是一张图片~~！</p><img src="'+base64[0]+'">';
+			})	
+		}
+
+		var data=['img1.png','img2.png','img3.png','img4.png'],base64=[];
+		function draw(fn){
+			var c=document.createElement('canvas'),
+				ctx=c.getContext('2d'),
+				len=data.length;
+			c.width=290;
+			c.height=290;
+			ctx.rect(0,0,c.width,c.height);
+			ctx.fillStyle='#fff';
+			ctx.fill();
+			function drawing(n){
+				if(n<len){
+					var img=new Image;
+					//img.crossOrigin = 'Anonymous'; //解决跨域
+					img.src=data[n];
+					img.onload=function(){
+						ctx.drawImage(img,0,0,290,290);
+						drawing(n+1);//递归
+					}
+				}else{
+					//保存生成作品图片
+					base64.push(c.toDataURL("image/jpeg",0.8));
+					//alert(JSON.stringify(base64));
+					fn();
+				}
+			}
+			drawing(0);
+		}
+	</script>
+</body>
+</html>

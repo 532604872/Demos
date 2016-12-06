@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>首页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<link rel="stylesheet" type="text/css" href="bootstrap.css" media="all">
+	<link rel="stylesheet" type="text/css" href="common.css" media="all">
+	<link rel="stylesheet" type="text/css" href="font-awesome.min.css" media="all">
+
+	<style type="text/css">
+	.header a:hover,.header a:active,.header a:focus{background-color: rgba(0,0,0,0);color: #fff;}
+	.con{width: 100%;background: url(bg.jpg) no-repeat;background-size: auto 100%;height: 100%;position: absolute;top: 0;background-position: center;}
+	@-webkit-keyframes ac-gn-apple-searchshow {
+	    0% {
+	        -webkit-transform: none;
+	        transform: none;
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: translate3d(0, -100%, 0);
+	        transform: translate3d(0, -100%, 0)
+	    }
+	}
+
+	@keyframes ac-gn-apple-searchshow {
+	    0% {
+	        -webkit-transform: none;
+	        transform: none;
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: translate3d(0, -100%, 0);
+	        transform: translate3d(0, -100%, 0)
+	    }
+	}
+	@-webkit-keyframes ac-gn-apple-searchhide {
+	    0% {
+	        -webkit-transform: translate3d(0, -100%, 0);
+	        transform: translate3d(0, -100%, 0);
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: none;
+	        transform: none
+	    }
+	}
+
+	@keyframes ac-gn-apple-searchhide {
+	    0% {
+	        -webkit-transform: translate3d(0, -100%, 0);
+	        transform: translate3d(0, -100%, 0);
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: none;
+	        transform: none
+	    }
+	}
+
+	@-webkit-keyframes ac-gn-searchview-close-searchshow-small {
+	    0% {
+	        -webkit-transform: translateY(100%);
+	        transform: translateY(100%);
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: translateY(0);
+	        transform: translateY(0)
+	    }
+	}
+
+	@keyframes ac-gn-searchview-close-searchshow-small {
+	    0% {
+	        -webkit-transform: translateY(100%);
+	        transform: translateY(100%);
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: translateY(0);
+	        transform: translateY(0)
+	    }
+	}
+
+	@-webkit-keyframes ac-gn-searchview-close-searchhide-small {
+	    0% {
+	        -webkit-transform: translateY(0);
+	        transform: translateY(0);
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: translateY(100%);
+	        transform: translateY(100%)
+	    }
+	}
+
+	@keyframes ac-gn-searchview-close-searchhide-small {
+	    0% {
+	        -webkit-transform: translateY(0);
+	        transform: translateY(0);
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: translateY(100%);
+	        transform: translateY(100%)
+	    }
+	}
+
+	@-webkit-keyframes ac-gn-list-searchshow {
+	    0% {
+	        -webkit-transform: translateY(0);
+	        transform: translateY(0);
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: translateY(-100%) translateY(106px);
+	        transform: translateY(-100%) translateY(106px)
+	    }
+	}
+
+	@keyframes ac-gn-list-searchshow {
+	    0% {
+	        -webkit-transform: translateY(0);
+	        transform: translateY(0);
+	        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+	        animation-timing-function: cubic-bezier(1, 0, 0, 1)
+	    }
+
+	    100% {
+	        -webkit-transform: translateY(-100%) translateY(106px);
+	        transform: translateY(-100%) translateY(106px)
+	    }
+	}
+
+	.header{transition: background 0.35s linear,height 0.35s ease-in;height: 60px;background: rgba(0,0,0,0.8);}
+	.header.show{transition: background 0.35s linear,height 0.35s ease-in 200ms;height: 100%;background: #000;}
+	.header .bottombar{min-height: 100%;background-color: rgba(0,0,0,0);height: 100%;position: absolute;width: 100%;z-index: 222;}
+	.header .bottombar .container{padding-bottom: 10px;position: absolute;width: 100%;overflow: hidden;z-index: 333;}
+	.header .navbar-collapse{border-top: none;left: 0;top: 60px;max-height: none;background-color: rgba(0,0,0,0);right: 0;margin: auto;visibility: hidden;transition: visibility 0s linear 1s;overflow: hidden;overflow-y: auto;display: block;position: absolute;height: auto;box-sizing: border-box;bottom: 0;padding: 0 48px;z-index: 222;}
+	@media only screen and (max-width: 767px) {
+		.header.searchshow .navbar-collapse {bottom: auto; -webkit-animation: ac-gn-list-searchshow 800ms both; animation: ac-gn-list-searchshow 800ms both; }
+		.header.search .navbar-collapse {display: none; }
+		.header.searchhide .navbar-collapse {bottom: auto; -webkit-animation: ac-gn-list-searchshow 800ms reverse both; animation: ac-gn-list-searchshow 800ms reverse both; }
+	}
+	.header.show .navbar-collapse{visibility: visible;transition-delay: 0s;;}
+	/*.header .navbar-collapse.a{transition: all 3s ease-in-out;}*/
+	/*.header .navbar-collapse.a>.row{transition: bottom .1s ease-in-out, opacity .15s ease-in-out;}*/
+	/*.header .navbar-collapse.b>.row{transition: bottom .1s ease-in-out .2s, opacity .2s ease-in-out .1s;}*/
+	.header .navbar-collapse .navBtn .btn:first-child{width: 55%;}
+	.header .navbar-collapse .navSubmit .btn{width: 80%;}
+	@media screen and (max-width: 767px){
+		.header .navbar-collapse .logo{width: 125px;margin-top: 16px;}
+		.header .navbar-collapse .logo>a{overflow: hidden;height: 30px;}
+		.header .navbar-collapse>.row{position: relative;}
+		.header .navbar-collapse>.row>.col-xs-12{transform: scale(1.1) translateY(-24px);transition: opacity 0.35s ease-out, transform 0.35s ease-out;opacity: 0;}
+		.header.show .navbar-collapse>.row>.col-xs-12{opacity: 1;transform: none;}
+		.header .navbar-collapse>.row>.col-xs-12:nth-child(1){transition-delay: 200ms,200ms;}
+		.header .navbar-collapse>.row>.col-xs-12:nth-child(2){transition-delay: 150ms,150ms;}
+		.header .navbar-collapse>.row>.col-xs-12:nth-child(3){transition-delay: 100ms,100ms;}
+		.header .navbar-collapse>.row>.col-xs-12:nth-child(4){transition-delay: 50ms,50ms;}
+	}
+	.header .navbar-collapse .navBtn{margin-top: 50px;}
+	.header .listBtn{position: fixed;right: 62px;z-index: 10000;}
+	.header .listBtn span{width: 80%;height: 3px;background-color: #fff;display: block;margin: 5px auto;transition: all .2s ease-in-out;}
+	/*.header .listBtn.transform span{background-color: #fff;}*/
+	.header .listBtn.transform span:nth-child(1){transform: rotateZ(45deg) translate3d(5px, 6px, 0);}
+	.header .listBtn.transform span:nth-child(2){opacity: 0;}
+	.header .listBtn.transform span:nth-child(3){transform: rotateZ(-45deg) translate3d(5px, -6px, 0);}
+
+
+	.header .topbar-right .name_new{transition: transform 0.25s 0.55s ease-out;}
+	.header.show .topbar-right .name_new, .header.search .topbar-right .name_new{transform: translateX(200%);transition: transform 0.55s 0.25s ease-out;}
+
+	.header .navbar-collapse .fixed{height: 34px;border-bottom: 1px solid #fff;width: 100%;line-height: 34px;padding-left: 34px;display: block;color: #fff;font-size: 16px;text-decoration: none;}
+	.header .navbar-collapse .navList li a{color: #fff;}
+
+
+	.ac-gn-searchview{display: none;}
+	.header.show.searchshow .ac-gn-searchview,.header.show.search .ac-gn-searchview,.header.show.searchhide .ac-gn-searchview {display: block }
+	.ac-gn-searchview .ac-gn-searchview-close {opacity: 1; -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=$ieopacity)'; filter: alpha(opacity=100); position: absolute; z-index: 3; width: 38px; height: 44px; right: 12px; top: 0; color: #fff; cursor: pointer; -webkit-transition: opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); transition: opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); -webkit-tap-highlight-color: transparent }
+	.ac-gn-searchview .ac-gn-searchview-close:hover,.ac-gn-searchview .ac-gn-searchview-close:active {
+	    opacity: 0.65;
+	    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=$ieopacity)';
+	    filter: alpha(opacity=65)
+	}
+	.header.show .ac-gn-searchview .ac-gn-searchview-close:hover,.header.show .ac-gn-searchview .ac-gn-searchview-close:active {
+	    opacity: 1
+	}
+	@media only screen and (max-width: 767px) {
+		.ac-gn-searchview .ac-gn-searchview-close {left:50%; margin-left: -24px; width: 48px; height: 48px; z-index: 333; overflow: hidden;outline: none; }
+	}
+	.header.searchshow .ac-gn-searchview .ac-gn-searchview-close {-webkit-transform: translateZ(0); transform: translateZ(0) }
+	.header.searchhide .ac-gn-searchview .ac-gn-searchview-close {-webkit-transform: translateZ(0); transform: translateZ(0) }
+	.ac-gn-searchview .ac-gn-searchview-close-wrapper{width: 100%;height: 100%;display: block;}
+	@media only screen and (max-width: 767px) {
+		.header.show.searchshow .ac-gn-searchview .ac-gn-searchview-close-wrapper {-webkit-animation:ac-gn-searchview-close-searchshow-small 600ms 150ms both; animation: ac-gn-searchview-close-searchshow-small 600ms 150ms both }
+		.header.show.search .ac-gn-searchview .ac-gn-searchview-close-wrapper {-webkit-transform: none; -ms-transform: none; transform: none }
+		.header.show.searchhide .ac-gn-searchview .ac-gn-searchview-close-wrapper {-webkit-animation: ac-gn-searchview-close-searchhide-small 600ms 200ms both; animation: ac-gn-searchview-close-searchhide-small 600ms 200ms both }
+	 }
+	.ac-gn-searchview .ac-gn-searchview-close-left, .ac-gn-searchview .ac-gn-searchview-close-right{height: 18px; width: 1px; background: #fff; position: absolute; display: block; top: 11px; z-index: 1;transition: all .2s ease-in-out;}
+	.ac-gn-searchview .ac-gn-searchview-close-left{top: 20px; height: 1px; width: 12px;left: auto;right: 50%;transform-origin: 100% 100%;transform: rotate(40deg);}
+	.header.search .ac-gn-searchview .ac-gn-searchview-close-left{top: 20px; height: 1px; width: 12px;left: auto;right: 50%;transform-origin: 100% 100%;transform: rotate(-40deg);}
+	@media only screen and (max-width: 767px) {
+		.ac-gn-searchview .ac-gn-searchview-close-left {left:auto; right: 50%; -webkit-transform: rotate(40deg); -ms-transform: rotate(40deg); transform: rotate(40deg); -webkit-transform-origin: 100% 100%; -ms-transform-origin: 100% 100%; transform-origin: 100% 100% }
+		.header.show.searchshow .ac-gn-searchview .ac-gn-searchview-close-left {-webkit-animation: ac-gn-searchview-close-left-searchshow-small 600ms 225ms both; animation: ac-gn-searchview-close-left-searchshow-small 600ms 225ms both }
+		.header.show.search .ac-gn-searchview .ac-gn-searchview-close-left {-webkit-transform: rotate(-40deg); -ms-transform: rotate(-40deg); transform: rotate(-40deg) }
+		.header.show.searchhide .ac-gn-searchview .ac-gn-searchview-close-left {-webkit-animation: ac-gn-searchview-close-left-searchhide-small 600ms 150ms both; animation: ac-gn-searchview-close-left-searchhide-small 600ms 150ms both } 
+	}
+	.ac-gn-searchview .ac-gn-searchview-close-right{top: 20px; height: 1px; width: 12px;left: 50%;transform-origin: 0 0;transform: rotate(-40deg);}
+	.header.search .ac-gn-searchview .ac-gn-searchview-close-right{top: 20px; height: 1px; width: 12px;left: 50%;transform-origin: 0 0;transform: rotate(40deg);}
+	.ac-gn-searchview .ac-gn-searchview-content{position: absolute;top: 58px; left: 0; bottom: 0; right: 0; width: 100%; height: auto;opacity: 0;z-index: 333;}
+	.header.search .ac-gn-searchview .ac-gn-searchview-content{animation: none;opacity: 1;}
+
+
+	.ac-gn-searchview .ac-gn-searchform{height: 48px; line-height: 48px; padding: 0 48px;}
+	.ac-gn-searchview .ac-gn-searchform-wrapper {padding-left: 40px; position: relative; z-index: 2; }
+	.ac-gn-searchview .ac-gn-searchform-wrapper {background: #000; border-bottom: 1px solid #ccc; right: 200%; padding: 0 28px; height: 47px; }
+	.header.search .ac-gn-searchview .ac-gn-searchform-wrapper {right: auto; }
+	.ac-gn-searchview,.ac-gn-searchview select,.ac-gn-searchview button,#ac-gn-segmentbar,#ac-gn-segmentbar select,#ac-gn-segmentbar button {font-family: "Myriad Set Pro","Helvetica Neue","Helvetica","Arial",sans-serif; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; -moz-font-feature-settings: 'liga', 'kern';}
+	.ac-gn-searchview input,.ac-gn-searchview button {border: none; background-color: transparent; }
+
+	.ac-gn-searchview .ac-gn-searchform-input {font-size: 16px; line-height: 1.375; font-weight: 400; letter-spacing: normal; color: #fff; outline: none; width: 100%; height: 1.375em }
+	@media only screen and (max-width: 767px) {
+		.ac-gn-searchview .ac-gn-searchform-input {font-size:20px; line-height: 1.2; font-weight: 200; letter-spacing: normal } 
+	}
+	.header.search.searchshow .ac-gn-searchview .ac-gn-searchform-input {-webkit-transform: translateY(-200px); -ms-transform: translateY(-200px); transform: translateY(-200px) }
+	.header.search.search .ac-gn-searchview .ac-gn-searchform-input {-webkit-animation: ac-gn-searchinput-fade 200ms both; animation: ac-gn-searchinput-fade 200ms both }
+	@media only screen and (max-width: 767px) {
+		.ac-gn-searchview .ac-gn-searchform-input {height:1.2em }
+		.header.search.searchshow .ac-gn-searchview .ac-gn-searchform-input {-webkit-transform: none; -ms-transform: none; transform: none }
+		.header.search.search .ac-gn-searchview .ac-gn-searchform-input {-webkit-animation: none; animation: none } 
+	}
+	.ac-gn-searchview .ac-gn-searchform-input::-webkit-input-placeholder {color: #999; opacity: 1 }
+	.ac-gn-searchview .ac-gn-searchform-input::-moz-placeholder {color: #999; opacity: 1 }
+	.ac-gn-searchview .ac-gn-searchform-input:-ms-input-placeholder {color: #999; opacity: 1 }
+	.ac-gn-searchview .ac-gn-searchform-input::placeholder {color: #999; opacity: 1 }
+	@media only screen and (max-width: 767px) {
+	 	.ac-gn-searchview .ac-gn-searchform-input::-webkit-input-placeholder {color:#666 }
+		.ac-gn-searchview .ac-gn-searchform-input::-moz-placeholder {color: #666 }
+		.ac-gn-searchview .ac-gn-searchform-input:-ms-input-placeholder {color: #666 } 
+		.ac-gn-searchview .ac-gn-searchform-input::placeholder {color: #666 } 
+	}
+	.ac-gn-searchview  .ac-gn-searchform-input::-ms-clear {display: none; width: 0; height: 0 }
+	.ac-gn-searchview .ac-gn-searchform-submit {position: absolute; z-index: 1; top: 0; left: 0; width: 40px; height: 44px; cursor: pointer; background-repeat: no-repeat; background-size: 20px 44px; background-image: url("image_large.svg"); background-position: 10px 50%; background-repeat: no-repeat; -webkit-transition: opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); transition: opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); }
+	.ac-gn-searchview .ac-gn-searchform-submit {background-size:22px 48px; background-image: url("image_search.svg"); }
+	.ac-gn-searchview .ac-gn-searchform-submit {width:20px; height: 48px; background-position: 0 50%; }
+	.ac-gn-searchview .ac-gn-searchform-submit[disabled] {opacity: 1; cursor: default; }
+	.ac-gn-searchview .ac-gn-searchform-reset {background-repeat: no-repeat; display: none; position: absolute; z-index: 1; top: 0; right: 0; cursor: pointer; }
+	.ac-gn-searchview .ac-gn-searchform-reset {background-size:24px 48px; height: 48px; width: 24px; background-image: url("icon_reset_small.svg"); }
+	.ac-gn-searchview .ac-gn-searchform-reset {cursor:default; display: block; opacity: 0; pointer-events: none; -webkit-transition: opacity 300ms ease; transition: opacity 300ms ease; }
+	@media only screen and (max-width: 767px) {
+	    .header.show.search.reset .ac-gn-searchview .ac-gn-searchform-reset {cursor:pointer; opacity: 1; pointer-events: auto }
+	}
+
+	.ac-gn-searchview .ac-gn-searchresults {font-size: 15px; line-height: 2; font-weight: 400; letter-spacing: normal; display: none; background: #fff; border-top: none; color: #999; max-height: calc(100% - 44px); overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; white-space: nowrap }
+	.ac-gn-searchview .ac-gn-searchresults {font-size:16px; line-height: 2.8125; font-weight: 400; letter-spacing: normal }
+	.ac-gn-searchview .ac-gn-searchresults {background:transparent; border: none; color: #999; max-height: none; padding: 48px; padding-bottom: 0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 1 }
+	.ac-gn-searchview .ac-gn-searchresults.with-content {display: block }
+	.ac-gn-searchview .ac-gn-searchresults-section {border-top: 1px solid #d6d6d6; margin: 0 40px; padding: 24px 0 15px }
+	.ac-gn-searchview .ac-gn-searchresults-section {border-color:#ccc; margin: 0; padding: 24px 0 }
+	.ac-gn-searchview .ac-gn-searchresults-section:first-child {border-top: none }
+	.ac-gn-searchview .ac-gn-searchresults-header {font-size: 12px; line-height: 1; font-weight: 400; letter-spacing: normal; color: #999 }
+	.ac-gn-searchview .ac-gn-searchresults-list {list-style: none; padding-top: 5px }
+	@media only screen and (max-width: 767px) {.ac-gn-searchview .ac-gn-searchresults-list {padding:0 30px } }
+	@media only screen and (max-width: 419px) {.ac-gn-searchview .ac-gn-searchresults-list {padding:0 } }
+	.ac-gn-searchview .ac-gn-searchresults-item {margin: 4px -32px }
+	@media only screen and (max-width: 767px) {
+		.ac-gn-searchview .ac-gn-searchresults-item {margin:0; border-top: 1px solid #333 }
+		.ac-gn-searchview .ac-gn-searchresults-item:first-child {border-top: none }
+	}
+	.ac-gn-searchview .ac-gn-searchresults-link {color: #999; display: block; padding: 0 48px; text-decoration: none }
+	.ac-gn-searchview .ac-gn-searchresults-link b {color: #333; font-weight: 400 }
+	.ac-gn-searchview .ac-gn-searchresults-link.current {background-color: #f2f2f2 }
+	.ac-gn-searchview .ac-gn-searchresults-link.current,.ac-gn-searchview .ac-gn-searchresults-link.current b {color: #08c }
+	@media only screen and (max-width: 767px) {
+	.ac-gn-searchview .ac-gn-searchresults-link {color:#ccc; padding: 0 }
+	.ac-gn-searchview .ac-gn-searchresults-link b {color: #fff }
+	.ac-gn-searchview .ac-gn-searchresults-link.current {background-color: transparent }
+	.ac-gn-searchview .ac-gn-searchresults-link.current,.ac-gn-searchview .ac-gn-searchresults-link.current b {color: #5cc3f6 } 
+	}
+
+	/*iphone logo*/
+	.header .ac-gn-item {display: inline-block; position: relative; height: 44px; z-index: 1; vertical-align: top }
+	@media only screen and (max-width: 767px) {
+		.header .ac-gn-item {width:100%; height: 48px } 
+	}
+	@media only screen and (max-width: 767px) {
+		.header .ac-gn-apple {display:none } 
+	}
+	.header .container .ac-gn-apple {position: absolute; width: 48px; top: 0; left: 50%; margin-left: -24px; text-align: center; z-index: 1 }
+	@media only screen and (max-width: 767px) {
+		.header .container {display:block }
+		.header.searchshow .container,.header.search .container,.header.searchhide .container {background: #000; -webkit-transform: translateZ(0); transform: translateZ(0) }
+		.header .container .ac-gn-apple {display: block }
+		.header.searchshow .container .ac-gn-apple {-webkit-animation: ac-gn-apple-searchshow 600ms 200ms both; animation: ac-gn-apple-searchshow 600ms 200ms both }
+		.header.search .container .ac-gn-apple {display: none }
+		.header.searchhide .container .ac-gn-apple {-webkit-animation: ac-gn-apple-searchhide 600ms 200ms both; animation: ac-gn-apple-searchhide 600ms 200ms both }
+		.header .container .ac-gn-bag-small {display: block }
+	}
+	.header .ac-gn-link {font-size: 16px; line-height: 2.75; font-weight: 400; letter-spacing: normal; opacity: 1; -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=$ieopacity)'; filter: alpha(opacity=100); color: #fff; position: relative; z-index: 1; display: inline-block; padding: 0 10px; height: 44px; background: no-repeat; text-decoration: none; white-space: nowrap; -webkit-transition: opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); transition: opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); -webkit-tap-highlight-color: transparent; outline-offset: -7px }
+	@media only screen and (max-width: 767px) {
+		.header .ac-gn-link {font-size:20px; line-height: 2.35; font-weight: 200; letter-spacing: normal }
+	}
+	@media only screen and (max-width: 767px) {
+	    .header .ac-gn-link {height:48px }
+	}
+	.header .ac-gn-link-apple {background-repeat: no-repeat; background-size: 20px 44px; background-image: url("image_large.svg"); background-position: center center; width: 20px }
+	@media only screen and (max-width: 767px) {
+	    .header .ac-gn-link-apple {background-size:21px 48px; background-image: url("image_small.svg") }
+	}
+	.header .ac-gn-link-text {position: absolute; top: 0; left: 0; clip: rect(1px 1px 1px 1px); clip: rect(1px, 1px, 1px, 1px); -webkit-clip-path: inset(0px 0px 99.9% 99.9%); clip-path: inset(0px 0px 99.9% 99.9%); overflow: hidden; height: 1px; width: 1px; padding: 0; border: 0 }
+
+	.ac-gn-bagview{display: none;}
+	.ac-gn-bagview,.ac-gn-notification {margin-right: -114px; position: absolute; top: 48px; right: 0; z-index: 1 }
+	@media only screen and (max-width: 1266px) {
+		.ac-gn-bagview,.ac-gn-notification {right:5px; margin-right: calc(512px - 50vw) } 
+	}
+	@media only screen and (max-width: 767px) {
+		.ac-gn-bagview,.ac-gn-notification {margin-right:0; top: 52px } }
+		.ac-gn-bagview {font-size: 15px; line-height: 1.73333; font-weight: 400; letter-spacing: normal; background: #fff; border: 1px solid #d6d6d6; border-radius: 2px; display: none; width: 288px }
+	@media only screen and (max-width: 767px) {
+		.ac-gn-bagview {font-size:16px; line-height: 1.625; font-weight: 400; letter-spacing: normal } 
+	} 
+	@media only screen and (max-width: 419px) {
+		.ac-gn-bagview {border-radius:0; border-width: 0 0 1px 0; top: 60px; left: 0; right: 0; width: 100% } 
+	}
+	.ac-gn-bagview {font-size: 15px; line-height: 1.23333; font-weight: 400; letter-spacing: normal; background: #fff }
+	@media only screen and (max-width: 767px) {
+		.ac-gn-bagview {font-size:16px; line-height: 1.15625; font-weight: 400; letter-spacing: normal } 
+	}
+	.header.user .ac-gn-bagview {display: block }
+	.ac-gn-bagview .ac-gn-bagview-caret,.ac-gn-bagview .ac-gn-notification-caret {overflow: hidden; position: absolute; bottom: -5px; left: 0; width: 100%; height: 10px; z-index: 1 }
+	@media only screen and (max-width: 767px) {
+		.header .ac-gn-bagview-caret,.header .ac-gn-notification-caret {bottom:100% } 
+	}
+	@media only screen and (max-width: 419px) {
+		.header .ac-gn-bagview-caret,.header .ac-gn-notification-caret {height:9px; margin-bottom: 0 } 
+	} 
+	.header .ac-gn-bagview-caret {display: none }
+	.header.user .ac-gn-bagview-caret {display: block }
+	.header.user .ac-gn-bagview-caret-small {display: none } 
+	@media only screen and (max-width: 767px) {
+		.header.user .ac-gn-bagview-caret-small {display:block }
+	} 
+	.header .ac-gn-bagview-caret:after,.header .ac-gn-notification-caret:after {border: 1px solid; content: ""; display: block; position: absolute; top: 0; left: 50%; width: 12px; height: 12px; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); -webkit-transform-origin: 0 0; -ms-transform-origin: 0 0; transform-origin: 0 0; z-index: 1 }
+	@media only screen and (max-width: 767px) {
+		.header .ac-gn-bagview-caret:after,.header .ac-gn-notification-caret:after {left:auto; right: 4px } 
+	} 
+	.header .ac-gn-bagview-caret:after {background: #fff; border-color: #d6d6d6 }
+	@media only screen and (max-width: 419px) {
+		.header .ac-gn-bagview-caret:after {border-color:#fff; right: 20px } 
+	}
+
+	#ac-globalnav .ac-gn-bagview-content {
+	    margin: 0 auto;
+	    min-height: 90px;
+	    padding: 0 20px;
+	    position: relative;
+	    z-index: 2
+	}
+	@media only screen and (max-width: 419px) {
+	    #ac-globalnav .ac-gn-bagview-content {
+	        padding:0 48px
+	    }
+	}
+	#ac-globalnav .ac-gn-bagview-message {
+	    color: #999;
+	    line-height: 90px;
+	    margin: 0;
+	    text-align: center
+	}
+
+	@media only screen and (max-width: 767px) {
+	    #ac-globalnav .ac-gn-bagview-nav {
+	        margin-bottom:8px
+	    }
+	}
+	#ac-globalnav .ac-gn-bagview-nav-list {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none
+	}
+	#ac-globalnav .ac-gn-bagview-nav-nobtn {
+	    border-top: 1px solid #e3e3e3
+	}
+
+	#ac-globalnav .ac-gn-bagview-nav-item {
+	    margin: 0;
+	    padding: 0;
+	    border-top: 1px solid #e3e3e3
+	}
+	#ac-globalnav .ac-gn-bagview-nav-item:first-child {
+	    border-top-style: none
+	}
+	#ac-globalnav .ac-gn-bagview-nav-link {
+	    color: #08c;
+	    display: block;
+	    line-height: 44px;
+	    padding: 0 30px;
+	    text-decoration: none;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis
+	}
+	#ac-globalnav .ac-gn-bagview-nav-link-bag {
+	    background-image: none,url("bag.svg");
+	    background-position: left center;
+	    background-repeat: no-repeat
+	}
+	#ac-globalnav .ac-gn-bagview-nav-link-favorites {
+	    background-image: none,url("favorites.svg");
+	    background-position: left center;
+	    background-repeat: no-repeat
+	}
+	#ac-globalnav .ac-gn-bagview-nav-link-orders {
+	    background-image: none,url("orders.svg");
+	    background-position: left center;
+	    background-repeat: no-repeat
+	}
+	#ac-globalnav .ac-gn-bagview-nav-link-account {
+	    background-image: none,url("account.svg");
+	    background-position: left center;
+	    background-repeat: no-repeat
+	}
+	#ac-globalnav .ac-gn-bagview-nav-link-signIn {
+	    background-image: none,url("signIn.svg");
+	    background-position: left center;
+	    background-repeat: no-repeat
+	}
+	</style>
+</head>
+<body class="home">
+<header class="header" id="header">
+	<nav id="ac-globalnav" class="bottombar">
+		<div class="container">
+			<div class="bottombar-left">
+				<a class="brand" href="../model/home.html">
+					<img src="logo.png"/>
+				</a>
+			</div>
+			<div class="bottombar-right">
+				<ul class="bottombar-right-menu">
+					<li class="bottombar-right-item">
+						<a class="bottombar-right-item-a" href="#">
+							<span class="main-link-text">首页</span>
+						</a>
+					</li>
+					<li class="bottombar-right-item">
+						<a class="bottombar-right-item-a" href="#">
+							<span class="main-link-text">收录企业</span>
+						</a>
+					</li>
+					<li class="bottombar-right-item">
+						<a class="bottombar-right-item-a" href="#">
+							<span class="main-link-text">白帽圈</span>
+						</a>
+					</li>
+					<li class="bottombar-right-item">
+						<a class="bottombar-right-item-a" href="#">
+							<span class="main-link-text">关于我们</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<ul class="topbar-right">
+				<li class="search">
+					<span><i class="fa fa-search"></i></span>
+					<input class="" placeholder="搜索企业SRC平台">
+					<a><i class="fa fa-search"></i></a>
+				</li>
+				<li>
+					<a href="../model/submit.html"><span class="btn btn-primary" >提交漏洞</span></a>
+				</li>
+				<li>
+					<a id="userName" href="javascript:;" class="name_new" style="">
+						<img src="user_photo.jpg">
+						<i></i>
+					</a>
+					<div id="topbarFun" style="display: none;">
+						<a class="header-sig" href="../model/login.html">登录</a>
+						<span class="vline">|</span>
+						<a class="header-reg" href="../model/reg.html">注册</a>
+					</div>
+					<ul class="dropdown-menu b1g" id="userMenu" role="menu" style="display: none;left: auto; opacity: 1; margin-top: 0px;">
+						<li><a href="../usermgr/userDash.html">个人中心</a></li>
+						<li class="divider"></li>
+						<li><a href="../usermgr/userInfor.html">设置</a></li>
+						<li><a href="/logout">退出</a></li>
+					</ul>
+				</li>
+			</ul>
+			<div id="btn" class="listBtn ">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+			<li class="ac-gn-item ac-gn-apple">
+				<a class="ac-gn-link ac-gn-link-apple" href="" id="ac-gn-firstfocus-small"> <span class="ac-gn-link-text">Apple </span> </a>
+			</li>
+		</div>
+		<div id="nav" class="navbar-collapse">
+			<div id="content" class="row">
+				<div class="navList col-xs-12">
+					<ul class="nav navbar-nav" id="globalnav">
+						<li><a href="../model/companyList.html" target="_self">收录企业</a>
+						</li>
+						<li><a href="../model/newsList.html" target="_self">白帽圈</a>
+						</li>
+						<li><a href="../model/about.html" target="_self">关于我们</a>
+						</li>
+					</ul>
+				</div>
+				<div class="navSubmit col-xs-12"><a href="../model/submit.html" class="btn btn-primary">提交漏洞</a></div>
+				<div class="navBtn col-xs-12">
+					<a href="../model/reg.html"  class="btn btn-primary">注册</a>
+					<a href="../model/login.html"  class="btn btn-default">登录</a>
+				</div>
+				<div class="search col-xs-12">
+					<a id="search" class="fixed" href="javascript:void(0);">
+						<span class="arrow-right"><i class="fa fa-search"></i></span>搜索企业SRC平台
+						<!-- <input class="" placeholder="搜索企业SRC平台"> -->
+					</a>
+				</div>
+			</div>
+		</div>
+		<aside id="ac-gn-searchview" class="ac-gn-searchview">
+			<div class="ac-gn-searchview-content">
+				<form id="ac-gn-searchform" class="ac-gn-searchform" action="/cn/search" method="get">
+					<div class="ac-gn-searchform-wrapper">
+						<input id="ac-gn-searchform-input" class="ac-gn-searchform-input" type="text" placeholder="搜索企业SRC平台" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false">
+						<input id="ac-gn-searchform-src" type="hidden" name="src" value="globalnav">
+						<button id="ac-gn-searchform-submit" class="ac-gn-searchform-submit" type="submit" disabled="" aria-label="提交"></button>
+						<button id="ac-gn-searchform-reset" class="ac-gn-searchform-reset" type="reset" disabled="" aria-label="清除搜索"></button>
+					</div>
+				</form>
+				<aside id="ac-gn-searchresults" class="ac-gn-searchresults with-content" data-string-quicklinks="快速链接" data-string-suggestions="搜索结果建议" data-string-noresults="点按输入键进行搜索">	<section class="ac-gn-searchresults-section ac-gn-searchresults-section-defaultlinks">
+					<h3 class="ac-gn-searchresults-header ac-gn-searchresults-animated">快速链接</h3>
+					<ul class="ac-gn-searchresults-list">
+						<li class="ac-gn-searchresults-item ac-gn-searchresults-animated">
+							<a href="" class="ac-gn-searchresults-link ac-gn-searchresults-link-defaultlinks">查找零售店</a>
+						</li>
+						<li class="ac-gn-searchresults-item ac-gn-searchresults-animated">
+							<a href="" class="ac-gn-searchresults-link ac-gn-searchresults-link-defaultlinks">配件</a>
+						</li>
+						<li class="ac-gn-searchresults-item ac-gn-searchresults-animated">
+							<a href="" class="ac-gn-searchresults-link ac-gn-searchresults-link-defaultlinks">iPod</a>
+						</li>
+						<li class="ac-gn-searchresults-item ac-gn-searchresults-animated">
+							<a href="" class="ac-gn-searchresults-link ac-gn-searchresults-link-defaultlinks">iOS</a>
+						</li>
+					</ul>
+				</section>
+
+			</aside>
+			</div>
+			<button id="ac-gn-searchview-close" class="ac-gn-searchview-close" aria-label="关闭搜索"> <span class="ac-gn-searchview-close-wrapper">
+				<span class="ac-gn-searchview-close-left"></span> <span class="ac-gn-searchview-close-right"></span> </span>
+			</button>
+		</aside>
+		<aside class="ac-gn-bagview" id="userNav">
+			<div class="ac-gn-bagview-scrim"> <span class="ac-gn-bagview-caret ac-gn-bagview-caret-small"></span> </div>
+			<div class="ac-gn-bagview-content" id="ac-gn-bagview-content">
+			    <p class="ac-gn-bagview-message ac-gn-bagview-message-empty">
+			        你的购物袋是空的
+			    </p>
+			    <nav class="ac-gn-bagview-nav">
+			        <ul class="ac-gn-bagview-nav-list ac-gn-bagview-nav-nobtn">
+			            <li class="ac-gn-bagview-nav-item ac-gn-bagview-nav-item-bag">
+			                <a href="http://www.apple.com/cn/shop/bag" data-evar1="[pageName] |  | bag overlay |  | bag" class="ac-gn-bagview-nav-link ac-gn-bagview-nav-link-bag">
+			                    购物袋
+			                </a>
+			            </li>
+			            <li class="ac-gn-bagview-nav-item ac-gn-bagview-nav-item-favorites">
+			                <a href="http://www.apple.com/cn/shop/favorites" data-evar1="[pageName] |  | bag overlay |  | favorites" class="ac-gn-bagview-nav-link ac-gn-bagview-nav-link-favorites">
+			                    收藏
+			                </a>
+			            </li>
+			            <li class="ac-gn-bagview-nav-item ac-gn-bagview-nav-item-orders">
+			                <a href="https://secure.store.apple.com/cn/order/list" data-evar1="[pageName] |  | bag overlay |  | orders" class="ac-gn-bagview-nav-link ac-gn-bagview-nav-link-orders">
+			                    订单
+			                </a>
+			            </li>
+			            <li class="ac-gn-bagview-nav-item ac-gn-bagview-nav-item-account">
+			                <a href="http://www.apple.com/cn/shop/account/home" data-evar1="[pageName] |  | bag overlay |  | account" class="ac-gn-bagview-nav-link ac-gn-bagview-nav-link-account">
+			                    帐户
+			                </a>
+			            </li>
+			            <li class="ac-gn-bagview-nav-item ac-gn-bagview-nav-item-signIn">
+			                <a href="https://secure.store.apple.com/cn/shop/sign_in?c=aHR0cDovL3d3dy5hcHBsZS5jb20vY24vfDFhb3MzZWFiN2VjMTY3NjNjNWY0M2UzZjVhY2E1MzA3YjViNGEzZGZmYTAz&amp;r=SCDHYHP7CY4H9XK2H&amp;s=aHR0cDovL3d3dy5hcHBsZS5jb20vY24vfDFhb3MzZWFiN2VjMTY3NjNjNWY0M2UzZjVhY2E1MzA3YjViNGEzZGZmYTAz" data-evar1="[pageName] |  | bag overlay |  | signIn" class="ac-gn-bagview-nav-link ac-gn-bagview-nav-link-signIn">
+			                    登录
+			                </a>
+			            </li>
+			        </ul>
+			    </nav>
+			</div>
+		</aside>
+	</nav>
+</header>
+<div class="fixedbar"></div>
+<div class="con"></div>
+<script type="text/javascript">
+	btn = document.getElementById('btn'),
+	btn.isbool = 0,
+	nav = document.getElementById('nav'),
+	content = document.getElementById('content'),
+	header = document.getElementById('header'),
+	search = document.getElementById('search'),
+	run = document.getElementById('ac-gn-searchview-close'),
+	search_input = document.getElementById('ac-gn-searchform-input'),
+	user = document.getElementById('userName'),
+	user.isbool = 0,
+	submit = document.getElementById('ac-gn-searchform-submit'),
+	reset = document.getElementById('ac-gn-searchform-reset'),
+	user_nav = document.getElementById('usreNav'),
+	searchresults = document.getElementById('ac-gn-searchresults')
+	;
+
+	// content.style['opacity'] = '0';
+	// content.style['bottom'] = '-20px';
+	// nav.style['display'] = 'block';
+	// nav.style['visibility'] = 'hidden';
+	// nav.client = nav.clientWidth;
+	// // nav.style['width'] = '0px';
+
+	btn.onclick = function(o){
+		if(user.isbool){
+			user.isbool = 0;
+			header.className = 'header';
+		}
+		if(btn.isbool){
+			// content.style['opacity'] = '0';
+			// content.style['bottom'] = '-20px';
+			// nav.style['width'] = '0px';
+			// // nav.style['display'] = 'none';
+			// nav.style['visibility'] = 'hidden';
+			btn.isbool = 0;
+			// nav.className = "navbar-collapse a";
+			btn.className = 'listBtn';
+			header.className = 'header';
+		}
+		else{
+			// content.style['opacity'] = '1';
+			// content.style['bottom'] = '0px';
+			// nav.style['width'] = '100%';
+			// // nav.style['display'] = 'block';
+			// nav.style['visibility'] = 'visible';
+			btn.isbool = 1;
+			// nav.className = "navbar-collapse b";
+			btn.className = 'listBtn transform';
+			header.className = 'header show';
+		}
+		
+		
+	}
+	var timeoutID;
+	search.onclick = function(o){
+		header.className = 'header show searchshow';
+		window.clearTimeout(timeoutID);
+		timeoutID = window.setTimeout(function(){
+			header.className = 'header show search';
+			search_input.focus();
+		}, 800);
+		
+	}
+	run.onclick = function(o){
+		header.className = 'header show searchhide';
+		window.clearTimeout(timeoutID);
+		timeoutID = window.setTimeout(function(){
+			header.className = 'header show';
+		}, 800);
+		
+	}
+	user.onclick = function(o){
+		if(btn.isbool){
+			btn.isbool = 0;
+			btn.className = 'listBtn';
+			header.className = 'header';
+		}
+		if(user.isbool){
+			user.isbool = 0;
+			header.className = 'header';
+		}
+		else{
+			user.isbool = 1;
+			header.className = 'header user';
+		}
+	}
+	search_input.oninput = function(o){
+		if(search_input.value.length > 0){
+			header.className = 'header show search reset';
+			submit.removeAttribute('disabled');
+			reset.removeAttribute('disabled');
+			results();
+		}
+		else{
+			header.className = 'header show search';
+			submit.setAttribute('disabled', '');
+			reset.setAttribute('disabled', '');
+			searchresults.innerHTML = t;
+		}
+	}
+	submit.onclick = function(o){
+		alert(search_input.value);
+		search_input.value = '';
+		search_input.focus();
+		header.className = 'header show search';
+		submit.setAttribute('disabled', '');
+		reset.setAttribute('disabled', '');
+	}
+	reset.onclick = function(o){
+		search_input.value = '';
+		search_input.focus();
+		header.className = 'header show search';
+		submit.setAttribute('disabled', '');
+		reset.setAttribute('disabled', '');
+	}
+
+	var t = '';
+	function results(){
+		t = searchresults.innerHTML
+		searchresults.innerHTML = '';
+
+		var div = document.createElement('div');
+		div.className = 'ac-gn-searchresults-section';
+		searchresults.appendChild(div);
+
+		var span = document.createElement('span');
+		span.className = 'ac-gn-searchresults-noresults';
+		span.innerHTML = '点按输入键进行搜索';
+		div.appendChild(span);
+	}
+</script>
+<style type="text/css">
+	@keyframes water-animation {
+	    0% {
+	    	opacity: 0;
+	        bottom: 80px;
+	    }
+	    20% {
+			opacity: 1;
+			bottom: 80px;
+	    }
+	    95% {
+	        bottom: 27px;
+	        opacity: 1;
+	    }
+	    100% {
+	    	bottom: 27px;
+	    	opacity: 0;
+	    }
+	}
+	@keyframes bg-animation {
+	    0% {
+	        left: -2px
+	    }
+	    25% {
+			left: -5px
+	    }
+	    50% {
+	        left: -2px
+	    }
+	    75% {
+			left: 1px
+	    }
+	    100% {
+	    	left: -2px
+	    }
+	}
+	@keyframes animation-animation {
+	    0% {
+	    	opacity: 0;
+	        bottom: 20px;
+	    }
+	    20% {
+			opacity: 1;
+			bottom: 20px;
+	    }
+	    95% {
+	        bottom: 5px;
+	        opacity: 1;
+	    }
+	    100% {
+	    	bottom: 5px;
+	    	opacity: 0;
+	    }
+	}
+	.water-down{width: 20%;height: 100%;position: absolute;top: 0;right: 0;background-color: #000;}
+	.animation{width: 38px;height: 33px;position: absolute;bottom: 20px;left: 0;right: 0;margin: auto;overflow: hidden;}
+	.water-down.animation-animation .animation{animation: animation-animation 2s ease-in infinite;}
+	.water{width: 22px;height: 33px;background: url(water.png) no-repeat center;background-size: 100%;position: absolute;left: -3px;right: 0;bottom: 60px;margin: auto;z-index: 3;opacity: 0;}
+	.water-down.water-animation .water{animation: water-animation 2s ease-in infinite;}
+	.bg{width: 100%;height: 0%;position: absolute;z-index: 1;background: url(water.png) no-repeat center;transform: rotate(90deg);}
+	.water-down.water-animation .bg{left: -2px;background-size: 100%;bottom: 0;animation: bg-animation 3s ease-in infinite;transition: height .5s ease-in;}
+	.down{width: 100%;height: 100%;position: absolute;background: url(down.png) no-repeat center;background-size: 150%;z-index: 2;}
+</style>
+<div id="water-down" class="water-down water-animation">
+	<div class="water"></div>
+	<div class="animation">
+		<div id='bg' class="bg"></div>
+		<div class="down"></div>
+	</div>
+</div>
+<script type="text/javascript">
+var bg = document.getElementById('bg')
+	wd = document.getElementById('water-down'),
+	bg_h = 0;
+var interval = window.setInterval(function(){
+	bg_h += 5;
+	bg.style['height'] = bg_h + '%';
+	if(bg_h == 100){
+		clearTimeout(interval);
+		wd.className = 'water-down animation-animation';
+	}
+}, 3000);
+
+</script>
+<style type="text/css">
+@keyframes step-one-hide-animation{
+	0%{
+		opacity: 1;
+	}
+	100%{
+		opacity: 0;
+	}
+}
+@keyframes step-one-show-animation{
+	0%{
+		opacity: 0;
+	}
+	100%{
+		opacity: 1;
+	}
+}
+.module{width: 200px;position: relative;background-color: #000;transition: height .1s ease-in;}
+.module div[class *= "step-"]{position: absolute;top: 0;width: 100%;}
+.module .step-two{display: none;}
+.module .one-left{height: 180px;background-color: #0d53c3;}
+.module .one-right{height: 50px;background-color: #2ea816;}
+.module .two-left{height: 280px;background-color: #e3cc07;}
+.module .two-right{height: 100px;background-color: #df0000;}
+.module div[class *= 'one-'], .module div[class *= 'two-']{float: left;width: 50%;position: relative;text-align: center;}
+.module div[class *= 'one-'] a, .module div[class *= 'two-'] a{color: #000;}
+
+/*.module.step-one{height: 180px;}*/
+.module.step-two, .module.step-hide, .module.step-show{height: 280px;}
+.module.step-hide .step-one{animation: step-one-hide-animation .3s ease-in both;}
+.module.step-hide .step-two{animation: step-one-show-animation .3s ease-in both;}
+.module.step-two .step-one{display: none;}
+.module.step-two .step-two, .module.step-hide .step-two,.module.step-show .step-two{display: block;}
+.module.step-show .step-one{animation: step-one-show-animation .3s ease-in both;}
+.module.step-show .step-two{animation: step-one-hide-animation .3s ease-in both;}
+
+</style>
+<div id="module" class="module step-one">
+	<div class="step-one">
+		<div class="one-left">
+			<a id="one" href="javascript:void(0);">下一步</a>
+		</div>
+		<div class="one-right"></div>
+	</div>
+	<div class="step-two">
+		<div class="two-left">
+			<a id="two" href="javascript:void(0);">上一步</a>
+		</div>
+		<div class="two-right"></div>
+	</div>
+</div>
+<script type="text/javascript">
+var one = document.getElementById("one"),
+	two = document.getElementById("two"),
+	module = document.getElementById('module');
+var Timeout;
+one.onclick = function(o){
+	window.clearTimeout(Timeout);
+	module.className = 'module step-hide';
+	Timeout = window.setTimeout(function() {
+		module.className = 'module step-two';
+	}, 300);
+}
+two.onclick = function(o){
+	window.clearTimeout(Timeout);
+	module.className = 'module step-show';
+	Timeout = window.setTimeout(function() {
+		module.className = 'module step-one';
+	}, 300);
+}
+</script>
+</body>
+</html>

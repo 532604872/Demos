@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>首页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<link rel="stylesheet" type="text/css" href="bootstrap.css" media="all">
+	<link rel="stylesheet" type="text/css" href="common.css" media="all">
+	<link rel="stylesheet" type="text/css" href="font-awesome.min.css" media="all">
+
+	<style type="text/css">
+	.header .navbar-collapse{position: fixed;width: 0;border-right: 1px solid #eee;left: 0;top: 0;max-height: 100%;height: 100%;background-color: rgba(0,0,0,.1);right: 0;margin: auto;transition: all .3s ease-in-out;}
+	/*.header .navbar-collapse.a{transition: all 3s ease-in-out;}*/
+	.header .navbar-collapse.a>.row{transition: bottom .1s ease-in-out, opacity .15s ease-in-out;}
+	.header .navbar-collapse.b>.row{transition: bottom .1s ease-in-out .2s, opacity .2s ease-in-out .1s;}
+	.header .navbar-collapse .fixed{width: 100%;}
+	.header .navbar-collapse .navBtn .btn:first-child{width: 55%;}
+	.header .navbar-collapse .navSubmit .btn{width: 80%;}
+	@media screen and (max-width: 767px){
+		.header .navbar-collapse .logo{width: 125px;margin-top: 16px;}
+		.header .navbar-collapse .logo>a{overflow: hidden;height: 30px;}
+		.header .navbar-collapse>.row{position: relative;height: 85%;}
+	}
+	.header .navbar-collapse .navBtn{position: absolute;bottom: 20px;left: 0;}
+	.header .listBtn{position: fixed;right: 62px;z-index: 10000;}
+	.header .listBtn span{width: 80%;height: 3px;background-color: rgba(0,0,0,.1);display: block;margin: 5px auto;transition: all .2s ease-in-out;}
+	.header .listBtn.transform span{background-color: #fff;}
+	.header .listBtn.transform span:nth-child(1){transform: rotateZ(45deg) translate3d(5px, 6px, 0);}
+	.header .listBtn.transform span:nth-child(2){opacity: 0;}
+	.header .listBtn.transform span:nth-child(3){transform: rotateZ(-45deg) translate3d(5px, -6px, 0);}
+	</style>
+</head>
+<body class="home">
+<header class="header" id="header">
+	<nav class="bottombar">
+		<div class="container">
+			<div class="bottombar-left">
+				<a class="brand" href="../model/home.html">
+					<img src="logo.png"/>
+				</a>
+			</div>
+			<div class="bottombar-right">
+				<ul class="bottombar-right-menu">
+					<li class="bottombar-right-item">
+						<a class="bottombar-right-item-a" href="#">
+							<span class="main-link-text">首页</span>
+						</a>
+					</li>
+					<li class="bottombar-right-item">
+						<a class="bottombar-right-item-a" href="#">
+							<span class="main-link-text">收录企业</span>
+						</a>
+					</li>
+					<li class="bottombar-right-item">
+						<a class="bottombar-right-item-a" href="#">
+							<span class="main-link-text">白帽圈</span>
+						</a>
+					</li>
+					<li class="bottombar-right-item">
+						<a class="bottombar-right-item-a" href="#">
+							<span class="main-link-text">关于我们</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<ul class="topbar-right">
+				<li class="search">
+					<span><i class="fa fa-search"></i></span>
+					<input class="" placeholder="搜索企业SRC平台">
+					<a><i class="fa fa-search"></i></a>
+				</li>
+				<li>
+					<a href="../model/submit.html"><span class="btn btn-primary" >提交漏洞</span></a>
+				</li>
+				<li>
+					<a id="userName" href="javascript:;" class="name_new" style="">
+						<img src="user_photo.jpg">
+						<i></i>
+					</a>
+					<div id="topbarFun" style="display: none;">
+						<a class="header-sig" href="../model/login.html">登录</a>
+						<span class="vline">|</span>
+						<a class="header-reg" href="../model/reg.html">注册</a>
+					</div>
+					<ul class="dropdown-menu b1g" id="userMenu" role="menu" style="display: none;left: auto; opacity: 1; margin-top: 0px;">
+						<li><a href="../usermgr/userDash.html">个人中心</a></li>
+						<li class="divider"></li>
+						<li><a href="../usermgr/userInfor.html">设置</a></li>
+						<li><a href="/logout">退出</a></li>
+					</ul>
+				</li>
+			</ul>
+			<div id="btn" class="listBtn ">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>			
+		</div>
+		<div id="nav" class="navbar-collapse a">
+			<div class="logo">
+				<a class="brand" href="../model/home.html">
+					<!-- <img src="logo.png"/> -->
+				</a>
+			</div>
+			<div id="content" class="row">
+				<div class="search col-xs-12">
+					<div class="fixed">
+						<span class="arrow-right"><i class="fa fa-search"></i></span>
+						<input class="" placeholder="搜索企业SRC平台">
+					</div>
+				</div>
+				<div class="navList col-xs-12">
+					<ul class="nav navbar-nav" id="globalnav">
+						<li><a href="../model/companyList.html" target="_self">收录企业</a>
+						</li>
+						<li><a href="../model/newsList.html" target="_self">白帽圈</a>
+						</li>
+						<li><a href="../model/about.html" target="_self">关于我们</a>
+						</li>
+					</ul>
+				</div>
+				<div class="navSubmit col-xs-12"><a href="../model/submit.html" class="btn btn-primary">提交漏洞</a></div>
+				<div class="navBtn col-xs-12">
+					<a href="../model/reg.html"  class="btn btn-primary">注册</a>
+					<a href="../model/login.html"  class="btn btn-default">登录</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+</header>
+<div class="fixedbar"></div>
+<div style="height:1000px;background-color:white;"></div>
+<script type="text/javascript">
+	btn = document.getElementById('btn'),
+	btn.isbool = 0,
+	nav = document.getElementById('nav'),
+	content = document.getElementById('content');
+
+	content.style['opacity'] = '0';
+	content.style['bottom'] = '-20px';
+	nav.style['display'] = 'block';
+	nav.style['visibility'] = 'hidden';
+	nav.client = nav.clientWidth;
+	// nav.style['width'] = '0px';
+
+	btn.onclick = function(o){
+		if(btn.isbool){
+			content.style['opacity'] = '0';
+			content.style['bottom'] = '-20px';
+			nav.style['width'] = '0px';
+			// nav.style['display'] = 'none';
+			nav.style['visibility'] = 'hidden';
+			btn.isbool = 0;
+			nav.className = "navbar-collapse a";
+			btn.className = 'listBtn';
+		}
+		else{
+			content.style['opacity'] = '1';
+			content.style['bottom'] = '0px';
+			nav.style['width'] = '100%';
+			// nav.style['display'] = 'block';
+			nav.style['visibility'] = 'visible';
+			btn.isbool = 1;
+			nav.className = "navbar-collapse b";
+			btn.className = 'listBtn transform';
+		}
+	}
+</script>
+</body>
+</html>

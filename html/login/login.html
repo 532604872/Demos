@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script src="js/utils.js"></script>
+	<!-- <script type="text/javascript" src="login(js).js"></script> -->
+<style type="text/css">
+.empty{color: #ccc;}
+
+.inviteBtn{border-top:1px solid #eee;margin-top:80px;}
+.inviteBtn-center{height:40px;width:470px;margin:-20px auto 0 auto}
+.inviteBtn-center:after{content:"."; display:block; height:0; visibility:hidden; clear:both;}
+.otherBtn{width:220px;height:40px;float:left;border-radius:40px;background:#eee;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff;}
+.emailInviteBtn{width:220px;height:40px;float:right;border-radius:40px;background:#eee;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff}
+.inviteBtn-center .selected{width:220px;background:url(inbk.png) repeat-x;cursor:pointer;position:relative;}
+.mao1,.mao2,.maomao{width:0px;height:40px;float:right;border-radius:40px;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff;position:absolute;}
+.otherBtn,.emailInviteBtn{position:relative;}
+.mao1,.mao2{width:220px;}
+</style>
+<style type="text/css">
+/*input*/
+.box {border: 1px solid #d0d6d9;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;font-size: 14px;height: 24px;line-height: 24px;padding: 7px 7px 7px 48px;transition: padding 0.15s ease 0s;width: 260px;}
+.box:focus {border-color:#7bd089;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px #c6ebcc;}
+.borderRed {border-color:#bd3948;}
+.borderRed:focus {border-color:#bd3948;box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px #da838d;}
+/*word*/
+.woed {height:30px;font-size:12px;}
+.error {color:#be3948;}
+</style>
+<style>
+   *{margin:0;padding:0;}
+   ul,li{list-style:none;}
+   .inputElem {width:198px;height:22px;line-height:22px;border:1px solid #ff4455;}
+   .parentCls{width:200px;margin:0 auto;}
+   .auto-tip li{width:100%;height:22px;line-height:22px;font-size:14px;}
+   .auto-tip li.hoverBg{background:#ddd;cursor:pointer;}
+   .red{color:red;}
+   .hidden {display:none;}
+  </style>
+<script>
+	String.prototype.trim=function(){return this.replace(/(^\s*)|(\s*$)/g,"");}  
+	//病人信息中 “生日” 使用你写的代码，添加 “日”期 功能，还要有单位，如：【2015年】【4月】【13日】。
+</script>
+</head>
+<body>
+
+<div class="parentCls">
+    <input type="text" class="inputElem">
+</div>
+<script>
+
+var elem = $('.inputElem');
+elem.each(function(me){
+	me.show = false;
+	me.select = false;
+	$(me).addEvent('mouseover',function(){
+		me._ReadyToSelect = false;
+	}).addEvent('mouseout',function(){
+		me._ReadyToSelect = true;
+	}).addEvent('keyup',function(e){
+		var me = this;
+		if(!me.show)return false;
+		e = e || window.event;
+		var code = e.keyCode || e.which;		
+		
+		if(code == '38'){//up
+			me.upOrDown = true;
+			if(!me.select){
+				me.leng = me.li.length - 1;
+				me.tip.scrollTop = me.tip.scrollTopMax;
+
+			}
+			else{
+				me.select.className = me.select.opClass;
+				me.leng = (me.leng == 0 )? me.li.length - 1: me.leng - 1;
+			}
+			me.select = switchLi(me);
+			
+		}
+		if(code == '40'){//down
+			me.upOrDown = true;
+			if(!me.select){
+				me.leng = 0;
+			}
+			else{
+				me.select.className = me.select.opClass;
+				me.leng = (me.leng == me.li.length - 1 )? 0 : me.leng + 1;
+			}
+			
+			me.select = switchLi(me);
+		}
+		if(code == '13'){//enter
+			addClassName(me.tip,' hidden');
+			//me.upOrDown = false;
+			me.show = false;
+			me.select = false;
+			me.leng = null;
+		}
+		if(code == '27'){//esc
+			me.value = me.getAttribute("data-heml");
+			removeClassName(me.li[me.leng],' hoverBg');
+			me.select = false;
+			me.leng = null;
+			
+		}
+		me.upOrDown = false;
+	},true);
+});
+
+var switchLi = function(me){
+	var li = me.li[me.leng];
+	addClassName(li,' hoverBg');
+	var subing = li.firstChild.innerHTML + li.lastChild.innerHTML;
+	me.value = me.hid.value = subing;
+	return li;
+};
+
+
+//elem.addEvent('keyup',keyEvent);
+elem.addEvent('input',keyEvent);
+var cache = true;
+function keyEvent(me){
+	var mailArr = ["@qq.com","@qq2.com","@gmail.com","@126.com","@163.com","@hotmail.com","@yahoo.com","@yahoo.com.cn","@live.com","@sohu.com","@sina.com"]; //邮箱数组
+
+	//if(me.upOrDown || /@/.test(me.value)) return me.upOrDown = false;
+	if(me.upOrDown) return me.upOrDown = false;
+	var sub = me.value.trim();
+	me.setAttribute('data-heml',sub);
+	
+	var cls = me.parentNode
+		cls.style.position = 'relative';
+	if(cache){
+		me.hid = createInput(sub);
+		cls.appendChild(me.hid);
+		cache = false;
+	}
+	if(sub != ''){
+		var newMatch = matching(me,mailArr);
+		
+		mailArr = newMatch.array;
+		if(me.tip)me.parentNode.removeChild(me.tip);				
+		
+		me.tip = createUl(sub);
+		cls.appendChild(me.tip );
+		me.li = createLi(me,mailArr);
+		/*if(me.li.length > 10) {
+			me.tip.style.cssText += "overflow-y : scroll; height : " + me.li[0].offsetHeight * 10 + "px;";
+			addClassName(me.tip,' box-scroll'); 
+			me.tip.opClass = me.tip.className;
+			me.tip.scrollTopMax = me.tip.scrollHeight - me.li[0].offsetHeight * 10;
+		}*/
+		
+		
+	}
+		
+	
+	
+	if(sub != ''){
+		me.hid.value = sub;
+		var lists = me.li;
+		for(var i = 0; i < lists.length; i++){
+			var li = lists[i]; 
+			var span = li.firstChild;
+			span.innerHTML = sub;
+			var em = li.lastChild;
+			var val = sub + em.innerHTML;
+			li.setAttribute('data-heml',val);
+			li.title = val;
+		}
+		me.show = true;
+		changeClass(me);
+	}
+	else{
+		me.show = false;		
+		changeClass(me);		
+	}
+	me.select = false;
+	me.leng = null;
+	
+
+	
+
+	
+}
+function matching(me,mailArr){
+	var isBool = true;
+	var sub = me.value;
+	var position = sub.indexOf('@');
+	if(position >= 0){
+		var retain = sub.substr(position,sub.length);
+	
+		for(var i = 0 ; i < retain.length ; i++){
+		var str = retain.substr(i,1);
+		mailArr = match(str,mailArr);
+		}		
+		isBool = false;
+		
+	}
+	return {'bool':isBool,'array':mailArr};
+	
+}
+function match(str,newArr){
+	var arr = [];
+	for(var j = 0 ; j < newArr.length ; j++){
+		var sub = newArr[j].substr(0,1);
+		if(str == sub){
+			arr.push(newArr[j].replace(sub,''));
+		}
+	}
+	return arr;
+}
+var isBody = true,
+createInput = function(sub){
+	var hid = $().createTag('input','hiddenCls');
+	hid.type = 'hidden';	
+	return hid;
+	
+},
+createUl = function(sub){
+	var tip = $().createTag('ul','auto-tip');
+	tip.opClass = tip.className;
+	tip.style.cssText += 'position: absolute; top: 24px; width: 198px; left: 0px;';
+	tip.style.cssText += 'border: 1px solid rgb(204, 204, 204); z-index: 10000;';
+	return tip;
+	
+},	
+createLi = function(me,mailArr){	
+	var arr = [];	
+	for(var i =0 ;i < mailArr.length ;i++){
+		var list = $().createTag('li','p-index' + i);
+		list.opClass = list.className;
+		
+		var span = $().createTag('span','output-num red');
+		list.appendChild(span);
+		
+		var em = $().createTag('em','em');
+		em.setAttribute('data-heml',mailArr[i]);
+		em.innerHTML = mailArr[i];
+		list.appendChild(em);
+		
+		$(list).addEvent('mouseover',function(me){
+			addClassName(me,' hoverBg');
+		}).addEvent('mouseout',function(me){
+			me.className = me.opClass;
+		}).addEvent('click',function(){
+			
+		});
+		
+		me.tip.appendChild(list);
+		arr.push(list);
+	}
+	return arr;
+	
+},
+changeClass = function(me){
+	var change1 = ' hidden';
+	var selectClick = function(){
+		if (me._ReadyToSelect){
+			addClassName(me.tip,change1);
+			document.body.removeEventListener("click", selectClick,true);
+		}
+	}
+	
+	reg = new RegExp(change1)
+	var name = me.tip.className;
+	if(me.show){
+		if(reg.test(name)){
+			me.tip.className = me.tip.opClass;
+		}
+		if(isBody){
+			document.body.addEventListener("click", selectClick, true);
+			isBody = false;
+		}
+	}
+	else{
+		addClassName(me.tip,change1);
+			document.body.click();///
+		isBody = true;
+	}
+	
+};
+
+var addClassName = function(node,name,fun){
+		try{
+			reg = new RegExp(name);
+			if(!reg.test(node.className)){			
+				node.className += name;
+				if(fun)fun();
+			}
+		}
+		catch(err){
+			console.log("Error: " + err + ".");
+		}
+	},
+	removeClassName = function(node,name,fun){
+		try{
+			reg = new RegExp(name);
+			if(reg.test(node.className)){
+				node.className = node.className.replace(name,'');
+				if(fun)fun();
+			}
+		}
+		catch(err){
+			console.log("Error: " + err + ".");
+		}
+	},
+	replaceClassName = function(node,source,target,fun){
+		try{
+			if(!target) target = '';
+			reg = new RegExp(source);
+			if(reg.test(node.className)){
+				node.className = node.className.replace(new RegExp(source),target);
+				if(fun)fun();			
+			}
+		}
+		catch(err){
+			console.log("Error: " + err + ".");
+		}
+	};
+/*//下拉框
+function dropDown(id,fun,obj){
+	var d = {
+		inputClassName : 'wbox dpl1',
+		buttonClassName : 'dlr',
+		listClassName : 'drop-box'
+	};
+	
+	for(var ext in obj || {}){
+		d[ext] = obj[ext];
+	}
+	
+	var loading = function(me){
+		me.list = [];
+		if(me.type == 'year'){
+			var date = new Date();
+			for(var dateYear = date.getFullYear() ; dateYear >= me.end ; dateYear--){
+				var div = createTag("div");
+				div.innerHTML = div.title = dateYear;
+				me.list.push(div);
+			}
+		}
+		else if(me.type == 'month'){
+			for(var dateMonth = 1 ; dateMonth <= 12 ; dateMonth++ ){
+				var div = createTag("div");
+				div.innerHTML = div.title = dateMonth;
+				me.list.push(div);
+			}
+		}
+		else{
+			for(var s = me.childNodes.length - 1 ; s > 0 ; s--){
+				if(s%2 != 0)me.list.push(me.childNodes[s]);
+			}
+		}
+	};
+
+	$(id).applyAttr().each(function(me,i){		
+		me.style.position = 'relative';
+		
+		loading(me);
+		
+		me.p = createTag('p');
+		me.p.title = me.p.innerHTML = me.title;
+		
+		$(me.p).addEvent('mouseover',function(){
+			me._ReadyToSelect = false;
+		}).addEvent('mouseout',function(){
+			me._ReadyToSelect = true;
+		});
+		
+		me.appendChild(me.p);
+		
+		me.input = createTag('input',d.inputClassName);
+		me.input.errorClassName = 'borderRed';//
+		me.input.name = me.name;
+		me.input.type ='hidden';
+		me.appendChild(me.input);
+		
+		me.dlr =createTag('div',d.buttonClassName);
+		me.appendChild(me.dlr);
+		
+		me.drop = createTag('div',d.listClassName);
+		me.drop.style.cssText = 'position : absolute; left : -1px; top : 40px; display : none;';
+		me.appendChild(me.drop);
+		
+		if (me.list.length >= 10) {
+			me.drop.style.cssText += "overflow-y : scroll; height : 242px;";
+			me.drop.className += ' box-scroll';
+		}
+		
+		for(var j = 0 ; j < me.list.length ; j++){
+			(function(){
+			var v = j;
+				me.list[j]._id = j;
+				me.drop.appendChild(me.list[j]);				
+				$(me.list[j]).addEvent('click',function(){										
+					me.p.title = me.p.innerHTML = me.input._value = me.input.value = this.innerHTML;
+					if(typeof me._id != 'undefined') me.list[me._id].className = '';				
+					me._id = v;
+					this.className = 'sel';
+					fun(me.input);	
+				});
+			})();
+		}
+		
+		$(me).addEvent('click',function() {
+			if (me.drop.style.display == "none") {
+				me.drop.style.display = "block";
+				document.body.addEventListener("click", selectClick, true);
+			}
+			else {
+				me.drop.style.display = "none";
+			}
+		}).addEvent('mouseover',function(){
+			me._ReadyToSelect = false;
+		}).addEvent('mouseout',function(){
+			me._ReadyToSelect = true;
+		});
+		var selectClick = function(){
+			if (me._ReadyToSelect) {
+				me.drop.style.display = "none";
+				document.body.removeEventListener("click", selectClick,true);
+			}
+		}
+	});
+}*/
+</script>
+</body>
+</html>

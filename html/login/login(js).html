@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script src="http://www.51fuxing.com/js/utils.js"></script>
+	<script type="text/javascript" src="login.js"></script>
+<style type="text/css">
+.empty{color: #ccc;}
+
+.inviteBtn{border-top:1px solid #eee;margin-top:80px;}
+.inviteBtn-center{height:40px;width:470px;margin:-20px auto 0 auto}
+.inviteBtn-center:after{content:"."; display:block; height:0; visibility:hidden; clear:both;}
+.otherBtn{width:220px;height:40px;float:left;border-radius:40px;background:#eee;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff;}
+.emailInviteBtn{width:220px;height:40px;float:right;border-radius:40px;background:#eee;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff}
+.inviteBtn-center .selected{width:220px;background:url(inbk.png) repeat-x;cursor:pointer;position:relative;}
+.mao1,.mao2,.maomao{width:0px;height:40px;float:right;border-radius:40px;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff;position:absolute;}
+.otherBtn,.emailInviteBtn{position:relative;}
+.mao1,.mao2{width:220px;}
+</style>
+<style type="text/css">
+/*input*/
+.box {border: 1px solid #d0d6d9;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;font-size: 14px;height: 24px;line-height: 24px;padding: 7px 7px 7px 48px;transition: padding 0.15s ease 0s;width: 260px;}
+.box:focus {border-color:#7bd089;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px #c6ebcc;}
+.borderRed {border-color:#bd3948;}
+.borderRed:focus {border-color:#bd3948;box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px #da838d;}
+/*word*/
+.woed {height:30px;font-size:12px;}
+.error {color:#be3948;}
+</style>
+<style>
+   *{margin:0;padding:0;}
+   ul,li{list-style:none;}
+   .inputElem {width:198px;height:22px;line-height:22px;border:1px solid #ff4455;}
+   .parentCls{width:200px;margin:0 auto;}
+   .auto-tip div{width:100%;height:22px;line-height:22px;font-size:14px;overflow:hidden;text-overflow: ellipsis;}
+   .auto-tip div.hoverBg{background:#ddd;cursor:pointer;}
+   .red{color:red;}
+   .hidden {display:none;}
+   .auto-tip {position: absolute; top: 24px; width: 198px; left: 0px;border: 1px solid rgb(204, 204, 204); z-index: 10000;}
+
+	#autoCompleteList {
+		color: #333;
+		display: none;
+		font-family: "Microsoft YaHei",微软雅黑,arial,宋体;
+		font-size: 14px;
+		position: absolute;
+		visibility: visible;
+		z-index: 19999;
+	}
+  </style>
+<script>
+	String.prototype.trim=function(){return this.replace(/(^\s*)|(\s*$)/g,"");}  
+	//病人信息中 “生日” 使用你写的代码，添加 “日”期 功能，还要有单位，如：【2015年】【4月】【13日】。
+</script>
+</head>
+<body>
+
+<div class="parentCls">
+    <input type="text" class="inputElem" id="email">
+</div>
+<script>
+document.getElementById('email').focus();
+//document.getElementById('email').value = '532604872@qq.com';
+ // 初始化
+$(function() {
+    new EmailAutoComplete({});
+});
+</script>
+</body>
+</html>

@@ -25,6 +25,7 @@
     <hr>
     <button onclick="copyToClipboard('复制到粘贴板');">复制到粘贴板</button>
     <script type="text/javascript" language="javascript" > 
+        // 多浏览器兼容版
         function copyToClipboard(str){
             if (window.clipboardData) {
                 window.clipboardData.clearData();

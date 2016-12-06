@@ -1,0 +1,1512 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<style type="text/css">
+.empty{color: #ccc;}
+
+.inviteBtn{border-top:1px solid #eee;margin-top:80px;}
+.inviteBtn-center{height:40px;width:470px;margin:-20px auto 0 auto}
+.inviteBtn-center:after{content:"."; display:block; height:0; visibility:hidden; clear:both;}
+.otherBtn{width:220px;height:40px;float:left;border-radius:40px;background:#eee;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff;}
+.emailInviteBtn{width:220px;height:40px;float:right;border-radius:40px;background:#eee;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff}
+.inviteBtn-center .selected{width:220px;background:url(inbk.png) repeat-x;cursor:pointer;position:relative;}
+.mao1,.mao2,.maomao{width:0px;height:40px;float:right;border-radius:40px;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff;position:absolute;}
+.otherBtn,.emailInviteBtn{position:relative;}
+.mao1,.mao2{width:220px;}
+</style>
+<style type="text/css">
+/*input*/
+.box {border: 1px solid #d0d6d9;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;font-size: 14px;height: 24px;line-height: 24px;padding: 7px 7px 7px 48px;transition: padding 0.15s ease 0s;width: 260px;}
+.box:focus {border-color:#7bd089;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px #c6ebcc;}
+.borderRed {border-color:#bd3948;}
+.borderRed:focus {border-color:#bd3948;box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 6px #da838d;}
+/*word*/
+.woed {height:30px;font-size:12px;}
+.error {color:#be3948;}
+</style>
+<style>
+   *{margin:0;padding:0;}
+   ul,li{list-style:none;}
+   .inputElem {width:198px;height:22px;line-height:22px;border:1px solid #ff4455;}
+   .parentCls{width:200px;margin:0 auto;}
+   .auto-tip li{width:100%;height:22px;line-height:22px;font-size:14px;}
+   .auto-tip li.hoverBg{background:#ddd;cursor:pointer;}
+   .red{color:red;}
+   .hidden {display:none;}
+  </style>
+<script>
+	String.prototype.trim=function(){return this.replace(/(^\s*)|(\s*$)/g,"");}  
+	//病人信息中 “生日” 使用你写的代码，添加 “日”期 功能，还要有单位，如：【2015年】【4月】【13日】。
+</script>
+</head>
+<body>
+<div id="default" style="width:100px; height:100px;margin:20px;position:relative;">
+	<img src="QQ头像.jpg" width="100px" height="100px"></img>
+	<div id="viewport" class="draggable" style="width:50px;height:50px;opacity:0.4;position:absolute;top:0;background-color:#fff;"></div>
+</div>
+<div id="thumbnail" style="position:relative;margin:20px">
+	<div style="width:200px; height:200px;opacity:1;overflow:hidden;">
+		<img src="QQ头像.jpg" width="400px" height="400px" style="position:relative;"></img>
+	</div>
+</div>
+<script>
+var DragDrop = function(){
+	var dragging = null;
+		diffX = 0;
+		diffY = 0;
+	function handleEvent(event){
+		event = event || window.event;
+		var  target =  event.target || event.srcElement;
+		switch(event.type){
+			case "mousedown":
+				if(target.className.indexOf("draggable") > -1){
+					dragging = target;
+					diffX = event.clientX - target.offsetLeft;
+					diffY = event.clientY - target.offsetTop;
+				}
+				break;
+			case "mousemove":
+				var de = target.parentNode;
+					x = event.clientX,
+					y = event.clientY,
+					minX = diffX,
+					maxX = minX + de.clientWidth - target.clientWidth,
+					minY = diffY,
+					maxY = minY + de.clientHeight - target.clientHeight,
+					offsetX = x - diffX,
+					offsetY = y - diffY;
+				
+				if(dragging !== null){
+					if(x >= minX && x <= maxX ){
+						dragging.style.left = offsetX + "px";
+					}
+					if(y >= minY && y <= maxY) {					
+						dragging.style.top = offsetY + "px";				
+					}
+					showThumbnail(offsetX, offsetY)
+				}	
+				break;
+			case "mouseup":
+				dragging = null;
+				break
+		}
+	};
+
+	return {
+		enable : function(id){
+			id.addEventListener( "mousedown", handleEvent);
+			id.addEventListener( "mousemove", handleEvent);
+			id.addEventListener( "mouseup", handleEvent);
+		},
+		disable : function(id){
+			id.removeEventListener( "mousedown", handleEvent);
+			id.removeEventListener( "mousemove", handleEvent);
+			id.removeEventListener( "mouseup", handleEvent);
+		}
+	}
+}();
+function showThumbnail(x, y){
+	var th = document.getElementById('thumbnail');
+	var img = th.getElementsByTagName("img")[0];
+	var multiple = 4;
+	img.style.top ='-' + multiple * y + 'px';
+	img.style.left ='-' + multiple * x + 'px';
+}
+var vi = document.getElementById('viewport');
+vi.addEventListener('mouseover',function(){
+	this.style.cursor = 'move';
+	DragDrop.enable(this);
+});
+vi.addEventListener('mouseout',function(){
+	DragDrop.disable(this);
+});
+
+</script>
+<input id="WordPress" style="ime-mode:disabled" value="WordPress"></input>
+<script>
+var word = document.getElementById('WordPress');
+word.onfocus = function(){
+	if(this.value == WordPress){
+		this.style.color = "#ccc";
+		this.value = '';
+	}
+}
+word.onblur = function(){
+	if(this.value == ''){
+		this.value = 'WordPress'
+		this.style.color = "#000";
+	}
+}
+
+</script>
+<iframe name="richedit" style="height:100px;width:100px;" src="blank.html"></iframe>
+<script type="text/javascript">
+window.onload = function(){
+	frames['richedit'].document.designMode = 'on';
+}
+</script>
+<div id="myDiv"> Right click or Ctrl+click me to get a custom context menu. Click anywhere else to get the dwfault context menu.</div>
+<ul id="myMenu" style="position:absolute;visibility:hidden;background-color:silver">
+	<li><a href="http://www.baidu.com">www.baidu.com</a></li>
+	<li><a href="http://www.taobao.com">www.taobao.com</a></li>
+	<li><a href="http://www.jd.com">www.jd.com</a></li>
+</ul>
+<script>
+$(window).on('load',function(e){
+	var div = document.getElementById("myDiv");
+	
+	$(div).on('contextmenu',function(e){
+		e = e || window.event;
+		
+		if(e && e.preventDefault) {
+		　　//阻止默认浏览器动作(W3C)
+		　　e.preventDefault();
+		} else {
+		　　//IE中阻止函数器默认动作的方式
+		　　window.event.returnValue = false;
+		}
+			
+		
+		var menu = document.getElementById("myMenu");
+		menu.style.left = e.clientX + "px";
+		menu.style.top = e.clientY + "px";
+		menu.style.visibility = "visible";
+	});
+	
+	$(document).on('click',function(e){
+		document.getElementById('myMenu').style.visibility = "hidden";
+	});
+});
+</script>
+<input id="unstring"></input>
+<script>
+var unstring = document.getElementById('unstring');
+unstring.onkeypress = function(){
+	console.log('keypress');
+}
+</script>
+<div class="parentCls">
+    <input type="text" class="inputElem" id="email">
+</div>
+<script type="text/javascript" src="login(jq).js"></script>
+
+
+<script language="JavaScript">
+   function checkText1() {
+    var text1 = document.all("text1").value;
+    if (text1.length == 2)
+    {
+     document.all("text2").focus();
+    }
+   }
+</script>
+
+<input type="text" name="text1" onkeyup="checkText1();">
+<input type="text" name="text2">
+<button id="button2">button</button>
+<div id="text"></div>
+<script>
+var button = document.getElementById("button2"),
+    text = document.getElementById("text");
+button.onclick = function() {
+    alert(this.id); // 弹出text
+}.bind(text);
+</script>
+<a href=""javascript:void(0);>跳转</a>
+<input id="propertychange">
+<script>
+document.getElementById("propertychange").onpropertychange = function(){
+	alert("propertychange");	
+}
+document.getElementById("propertychange").oninput = function(){
+	alert("input");
+}
+</script>
+<input type="text" id="username" name="username" value="谷歌 autocomplete=‘off’解决办法"/>
+<script>
+if (navigator.userAgent.toLowerCase().indexOf('chrome') >= 0) {
+  $(window).load(function () {
+    $('input:-webkit-autofill').each(function () {
+      var text = $(this).val();
+      var name = $(this).attr('name');
+      $(this).after(this.outerHTML).remove();
+      $('input[name=' + name + ']').val(text);
+    });
+  });
+}
+
+</script>
+<script>
+void function (global) {
+    // 在这里，global 就是全局对象了
+	console.log(global);
+}(this)    // 在浏览器里，this 就是 window 对象
+</script>
+<script>
+var ss = (function(){
+var a = 1;
+//在这个底下的所有所谓的全局变量跟方法都属于私有的，
+function aaa(){
+a++;
+console.log(a);
+};
+
+function bbb(){
+a++;
+console.log(a);
+};
+
+return { a:aaa,b:bbb } //然后直接返回一个对象，把私有的东西封装到这个对象下，外部可以通过对象调用,但直接找是找不到的
+})();
+ss.a();
+</script>
+<script>
+function parent(){
+	this.name = 'maomao';
+	this.fun = function(){
+		console.log(this.name);
+	}
+	fun();
+}
+
+var child = function(){
+	parent.call(this);	
+};
+child();
+var nullFunction = function(){
+	var F = function(){};
+	F.prototype = parent();
+	return new F;
+};
+nullFunction();
+ 
+</script>
+<script>
+var a = {
+	c : { 'maomao':1}
+}; var b = {};
+for(var i in a){
+if( typeof a[i] == 'object' ){
+var newa = JSON.stringify(a[i]); //如果是一个对象，那么就先转换成一个字符串
+var newobj = JSON.parse(newa); //然后再次转换回对象，就不存在内存引用了
+b[i] = newobj;
+};
+};
+</script>
+<script> 
+function Person(name, age) { //定义一个类，人类  
+  this.name = name; //名字  
+  this.age = age; //年龄 
+  this.sayhello = function () {
+    console.log('hello')
+  };
+}
+function Print() { //显示类的属性 
+  this.funcName = 'Print';
+  this.show = function () {
+    var msg = [
+    ];
+    for (var key in this) {
+      if (typeof (this[key]) != 'function') {
+        msg.push([key,
+        ':',
+        this[key]].join(''));
+      }
+    }
+    console.log(msg.join(' '));
+  };
+}
+function Student(name, age, grade, school) { //学生类 
+  Person.apply(this, arguments);
+  Print.apply(this, arguments);
+  this.grade = grade; //年级 
+  this.school = school; //学校 
+}
+var p1 = new Person('jake', 10);
+p1.sayhello();
+var s1 = new Student('tom', 13, 6, '清华小学');
+s1.show();
+s1.sayhello();
+console.log(s1.funcName);
+
+</script>
+<div id="drag" style="width:100px;height:100px;"></div>
+<script>
+var drag=document.getElementById('drag');
+drag.ondrag = function(e){e.stopPropagation();
+	console.log('ondrag');
+}
+drag.ondragend  = function(e){
+e.stopPropagation();
+	console.log('ondragend');
+}
+drag.ondragenter     = function(e){
+	console.log('ondragenter');
+}
+drag.ondragleave     = function(e){
+	console.log('ondragleave');
+}
+drag.ondragover     = function(e){
+e.stopPropagation();
+	console.log('ondragover');
+}
+drag.ondragstart = function(e){
+	e.stopPropagation();
+	console.log('ondragstart');
+}
+drag.ondrop = function(e){
+e.stopPropagation();
+	console.log('ondrop');
+}
+drag.ondragdrop = function(e){
+e.stopPropagation();
+	console.log('ondragdrop');
+}
+
+</script>
+<style>
+#onselect::selection {
+	background:#cc0000;
+	color:#fff;
+}
+
+#onselect::-moz-selection {
+	background:#cc0000;
+	color:#fff;
+}
+
+#onselect::-webkit-selection {
+	background:#cc0000;
+	color:#fff;
+}
+</style>
+<input id="onselect" type="text"></input>
+<script>
+document.getElementById('onselect').onselect =function(){
+	this.style.color = 'red';
+}
+</script>
+
+<script type="text/javascript">
+function tail(n,a){
+	if(n < 0)
+		return 0;
+	else if(n == 0)
+		return 1;
+	else if(n == 1)
+		return a;
+	else return tail(n - 1,n * a);
+}
+console.log(tail(5,1));
+</script>
+<div class="date" ></div>
+<script>
+	if(document.all){
+		console.log('IE');
+	}
+	else{
+		console.log('非IE');
+	}
+</script>
+<script>
+$(".date").each(function(i,me){
+	var datetime = new Date();
+	for(var b = 1900 ; b < datetime.getFullYear() ; b++){
+		if((b%4==0)&&(b%100!=0)||b%400==0)
+		console.log(b);
+	}
+	me.year = createNode('select');
+	for(var dateYear = datetime.getFullYear() ; dateYear >= 1900; dateYear--){
+		var year = createNode("option");
+		year.innerHTML = year.title = dateYear;
+		me.year.appendChild(year);
+	}
+	me.appendChild(me.year);
+	
+	me.month = createNode('select');
+	for(var dateMonth = 1 ; dateMonth <= 12 ; dateMonth++ ){
+		var month = createNode("option");
+		month.innerHTML = month.title = dateMonth;
+		me.month.appendChild(month);
+	}
+	me.month.value = datetime.getMonth()+1;
+	me.appendChild(me.month);
+
+	me.day = createNode('select');
+	var maxDate = maxDateTime();
+	createDate(maxDate);
+	me.day.value = datetime.getDate();
+	me.appendChild(me.day);
+	
+	function createDate(maxDate){
+		for(var dateDate= 1 ; dateDate <= maxDate ; dateDate++ ){
+			var date = createNode("option");
+			date.innerHTML = date.title = dateDate;
+			me.day.appendChild(date);
+		}
+	}
+	
+	function maxDateTime(){
+		switch(me.month.value-0){
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+				return 31;
+				break;
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				return 30;
+				break;
+			default:
+				return rui_nian();
+				break;
+		}
+	}
+	
+	function rui_nian(){//(year%4==0)&&(year%100!=0)||year%400==0
+		var y =me.year.value;
+		return((y%4==0) && (y%100!=0) || y%400==0) ? 28 :29;
+		
+	}
+	
+	me.month.onchange = function(){
+		var MD = maxDateTime();
+		if(MD == me.day.length) return false;
+		me.day.innerHTML = '';
+		createDate(MD);
+	}
+	
+	me.year.onchange = function(){
+		 
+		if(me.month.value == 2){
+			var rui = rui_nian();
+			if(me.day.value != rui){
+				me.day.innerHTML = '';
+				createDate(rui);
+			}
+		}
+	}
+});
+
+
+
+
+//创建标签
+function createNode(node,className,innerHTML){	
+	var node=document.createElement(node);
+	if(className!=undefined){
+		node.className=className;
+	}
+	if(innerHTML!=undefined){
+		node.innerHTML=innerHTML;
+	}
+	return node;
+}
+
+</script>
+<select id="year"></select><select id="month"></select><select id="day"></select>
+    <script type="text/javascript">  
+      
+              function showYear(){  
+                    var op = document.getElementById("year").options;  
+                    for(var i=2009;i>=1990;i--){  
+                          op.add(new Option(i,i));  
+                    }  
+              }  
+       
+              function showMonth(){  
+                   var op = document.getElementById("month").options;  
+                   for(var i=1;i<=12;i++){  
+                         op.add(new Option(i,i));  
+                   }  
+              }  
+       
+              function check(){  
+                   var year = document.getElementById("year").value;  
+                   var month= document.getElementById("month").value;  
+                    var day_option = document.getElementById("day").options;  
+                    day_option.length=0;  
+                    if(month=="1" || month=="3" || month=="5" || month=="7" || month=="8" || month=="10" || month=="12"){  
+                         for(var i=1;i<=31;i++){  
+                             day_option.add(new Option(i,i));  
+                         }  
+                    }  
+                    else if(month=="4" || month=="6" || month=="9" || month=="11"){  
+                            for(var i=1;i<=30;i++){  
+                                  day_option.add(new Option(i,i));  
+                            }  
+                    }  
+                    else if(month=="2"){  
+                          if((year%4==0 && year%100!=0) || year%400==0){  
+                                for(var i=1;i<=29;i++){  
+                                    day_option.add(new Option(i,i));  
+                                }  
+                            }  
+                            else{  
+                                 for(var i=1;i<=28;i++){  
+                                      day_option.add(new Option(i,i));  
+                                 }  
+                            }  
+                   }  
+           }  
+       
+            function load(){  
+                showYear();  
+                showMonth();  
+                check();  
+            }  
+			load();
+    </script>  
+<input id = "switch" type = "text"></input>
+<script>
+	var swi = document.getElementById("switch");
+		
+		swi.onkeyup = function(){
+			str = swi.value;
+			switch(true){
+				case str == 1:
+					console.log(1);
+					break;
+				case str == 2:
+					console.log(2);
+					break;
+				default:
+					break;
+			}
+		}
+		
+</script>
+<script>
+	var datetime = new Date();
+	console.log(datetime.getFullYear() + "/" + datetime.getDate() + "/" + datetime.getMonth()+1);
+	var minutes = (datetime.getMinutes() < 10) ? '0'+datetime.getMinutes() :datetime.getMinutes();
+	console.log(datetime.getHours() + "：" + minutes + "：" + datetime.getSeconds());
+</script>
+
+<script>
+(function() {
+	var b = {
+		index : $("#index"),
+		room : $("#room"),
+		loading : $("#loading"),
+		play :$("#play"),
+	},
+	ua = window.navigator.userAgent.toLowerCase(),
+	isAndroid = /androiid/i.test(ua),
+	isIOS = /iphone|ipad|ipod/i.test(ua),
+	app = {
+		init : function() {
+			this.initEvent();
+			this.loading();
+		},
+		initEvent : function() {
+			
+		},
+		loading : function() {
+		
+		}
+	};
+	app.init();
+	window.API = {}
+})();
+</script>
+<div class="edit-box" style="margin:0 auto;width:400px;">
+	<input type="text" class="box wbox weight10" id="key" name="key" placeholder="请输入昵称."/>
+</div>
+<script>
+	var keyWord = document.getElementById('key');
+	//keyWord.value = '恶魔茂茂';
+	Punctuation(keyWord,keyWord,'borderRed');
+	function Punctuation(inputNode,showNode,errorClassName){
+		var defaultValue;
+		var bool = true;
+		var s = /^\s/;
+		var regExpC = new RegExp('[\u4e00-\u9fa5]');
+		var regExpS = new RegExp('\\s');
+		var regExpW = new RegExp('\\W');
+		showNode = (inputNode === showNode) ? inputNode.parentNode : showNode;
+		
+		inputNode.onfocus = function(){
+			if(bool)defaultValue = this.value;
+		}
+		inputNode.onblur = function(){
+			if(bool)bool = (defaultValue == this.value) ? true : false;
+			
+			var str = this.value;
+			if(!compareValue(str) || (s.test(str)) || str.length == 1 || str.length > 10){
+				replaceClassName('',errorClassName);
+				 errorInformation('2-10位中英文、数字及下划线！');
+			}
+		}
+		inputNode.onkeyup = function(){
+			var str = this.value;
+			if(!bool){
+				if(str.length == 0){
+					replaceClassName('',errorClassName);
+					 errorInformation('不能为空！');
+				}
+				else if(!compareValue(str) || (s.test(str)) || str.length == 1 || str.length > 10){
+					replaceClassName('',errorClassName);
+					 errorInformation('2-10位中英文、数字及下划线！');
+				}
+				else{
+					replaceClassName(errorClassName,'');
+					 errorInformation('');
+				}
+			}
+		}
+		function replaceClassName(Search,Replace){
+			if(Search == ''){
+				inputNode.className += ' ' + Replace;
+			}
+			else{
+				inputNode.className = inputNode.className.replace(new RegExp(' ' + Search),' ' + Replace);
+			}
+		}
+
+		function errorInformation(eInformation){
+			if(showNode.lastChild.nodeName == 'P'){
+				console.log(true);
+				showNode.lastChild.innerHTML = eInformation;
+			}
+			else{
+				console.log(false);
+				var pNode = document.createElement('p');
+				pNode.innerHTML = eInformation;
+				pNode.className = 'woed error';
+				showNode.appendChild(pNode);
+			}
+		}
+		
+		function compareValue(val){
+			for (var i = 0; i < val.length; i++) {
+				var v = val.substr(i, 1);
+				if(!regExpC.test(v)){
+					if((regExpS.test(v))||(regExpW.test(v))){
+							return false;
+					}
+				}
+			}
+			return true;
+		}
+	}
+	
+</script>
+	<form action="password.php" method="post">
+		<input type="text" name="username" id="username" class="empty" value="请输入用户名" data-value="请输入用户名"/>
+		<input type="text" name="password" id="password" class="empty" value="请输入密码" data-value="请输入密码" />
+		<input type="submit" name="submit" id="submit" />
+	</form>
+	
+	<script type="text/javascript">
+	/*$("input[type='text']").focus(function(event) {
+		var val = $(this).val(),
+			data_val = $(this).attr('data-value');
+		if (val == data_val) {
+			$(this).val("").removeClass('empty');
+			// 如果编辑框为密码
+			if ($(this).attr('id') == "password") {
+				$(this).attr('type', 'password');
+			};
+		};
+	});
+	$("input[type='text']").blur(function(event) {
+		var val = $(this).val(),
+			data_val = $(this).attr('data-value');
+		if (val.length == 0) {
+			$(this).val(data_val).addClass('empty');
+			// 如果编辑框为密码
+			if ($(this).attr('id') == "password") {
+				$(this).attr('type', 'text');
+			};
+		};
+	});*/
+	</script>
+	<div id="content" style="display:block;width:680px;color: #555;font-size: 14px;word-wrap: break-word;">
+	1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+	</div>
+	<div style="width:300px;height:40px;background-color:#000;">
+		<div style="width:100px;height:40px;background-color:#FF0;display:block;float:left"></div>
+		<div style="width:100px;height:40px;background-color:#F0f;float:left;"></div>
+	</div>
+	<div class="inviteBtn-center">
+				<div class="otherBtn " >					
+					<div class="maomao selected"></div>
+					<div class="mao1" >邀请码邀请</div>
+				</div>
+				<div class="emailInviteBtn">
+					<div class="maomao selected" style="position:absolute;width:0;"></div>
+					<div class="mao2" >邮件邀请</div>
+				</div>				
+	</div>
+	<br></br>
+	<div class="inviteBtn-center" style="position:relative;">
+				<div class="button" style="position:absolute;left:0;width:220px;height:40px;border-radius:40px;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff;z-index: 10;">邀请码邀请</div>
+				<div class="button" style="position:absolute;right:0;width:220px;height:40px;border-radius:40px;cursor:default;line-height:40px;text-align:center;font-size:15px;color:#fff;z-index: 10;">邮件邀请</div>
+				<div class="otherBtn " style="position:absolute;left:0;"></div>
+				<div class="emailInviteBtn" style="position:absolute; right:0;"></div>
+				<div style="position:absolute;left:0;background: url('72dpi.png') no-repeat scroll 0 -20.5px rgba(0, 0, 0, 0);width:470px;height:40px;z-index: 1;"></div>
+				<div class="background" style="width:220px;height:40px;background-color:#14b9d7;border-radius:40px;position:absolute;left:0;"></div>				
+	</div>
+	<div src=""></div>
+	<script>
+	var otherBtnDiv=$(".otherBtn div");
+	var emailInviteBtnDiv=$(".emailInviteBtn div");
+	var i=j=0;
+	var oc=otherBtnDiv[i].className;
+	var ec=emailInviteBtnDiv[i].className;
+	otherBtnDiv[i].className=otherBtnDiv[i].className+" selected";
+	var otherBtn=$(".mao1").mouseover(function(){
+			if(j==0) return false;
+			$(emailInviteBtnDiv[i]).animate({width:0},500);
+			$(otherBtnDiv[i]).animate({width:220},500);				
+		}).mouseout(function(){
+			if(j==0) return false;					
+			$(otherBtnDiv[i]).animate({width:0},500);			
+			$(emailInviteBtnDiv[i]).animate({width:220},500);
+		}).click(function(){
+			if(j==0) return false;
+			emailInviteBtnDiv[i].style.width="0";
+			otherBtnDiv[i].style.width="220";	
+			j=0;
+		});
+		
+	var emailInviteBtn=$(".mao2").mouseover(function(){
+			if(j==1) return false;
+			$(otherBtnDiv[i]).animate({width:0},500);			
+			$(emailInviteBtnDiv[i]).animate({width:220},500);
+			
+		}).mouseout(function(){
+			if(j==1) return false;	
+			$(emailInviteBtnDiv[i]).animate({width:0},500);							
+			$(otherBtnDiv[i]).animate({width:220},500);
+			
+		}).click(function(){
+			if(j==1) return false;
+			emailInviteBtnDiv[i].style.width="220";
+			otherBtnDiv[i].style.width="0";
+			j=1;
+		});
+	
+	</script>
+	
+	<script>
+	var x=0;
+	$(".inviteBtn-center .button").mouseover(function(){
+		if(x==1) return false;
+		$(".background").animate({left:250},500);
+	}).mouseout(function(){
+		if(x==1) return false;
+		$(".background").animate({left:0},500);
+	});
+	</script>
+	<script type="text/javascript">
+	window.onload=function(){
+		//var str="               dfasd<br>fasdfa                     dsfasdf\nafadsf\nadfasfewf\nadsfasdf\nasdfwef                ";
+		var str="     dfasdfasdf                                                           adsfasdfaf\nadsf adfasfewfa   dsfasdfas                                                       \ndfwef";
+		//str=str.replace(/(^\s*)|(\s*$)/g,"");
+		str=str.trim();
+		var str1=str.replace(/\n/g,"<br>")
+		document.getElementById("content").innerHTML=str1;	
+		var str2=str.replace(/<br>/g,"\n")
+		document.getElementById("textarea").value=str2;
+	}
+
+	</script>
+	
+	<script>
+	function objectClass(str) {
+		this.mao=str;
+		this.Alert=function() {
+			console.log("This name :"+this.mao);
+		}
+	}
+	</script>
+	
+	<script type="text/javascript">
+	var p1=new objectClass('maomao');
+	p1.Alert();
+	
+	function obj(str) {}	
+	obj.prototype=new objectClass('mao');
+	var p2=Object.create(obj.prototype);;
+	p2.Alert();
+	
+	var p3=new objectClass('maomao2');
+	p3.Alert.call(p2);
+	</script>
+	
+	<script>
+	var newObj = Object.create(null, {
+		size: {
+			value: "large",
+			enumerable: true
+		},
+		shape: {
+			value: "round",
+			enumerable: true
+		}
+	});
+	document.write(newObj.size + "<br/>");
+	document.write(newObj.shape + "<br/>");
+	document.write(Object.getPrototypeOf(newObj) + "<br/>");
+	</script>
+	
+	<script type="text/javascript">
+	function isObject(obj){
+		return (typeof obj=='object')&&obj.constructor == Object;
+	}
+	document.write(isObject(new Object()),'<br/>');
+	document.write(isObject(10),'<br/>');
+
+	</script>
+	
+	<script>//实现继承
+function Animal(name){      
+    this.name = name;      
+    this.showName = function(){      
+        console.log(this.name);      
+    }      
+}      
+    
+function Cat(name){    
+    Animal.call(this, name);    
+}      
+    
+var cat = new Cat("Black Cat");     
+cat.showName(); 
+	</script>
+	
+	<script>
+function Animal(){    
+    this.name = "Animal";    
+    this.showName = function(a){    
+        console.log(this.name);
+		console.log(a);
+    }    
+}    
+  
+function Cat(){    
+    this.name = "Cat";    
+}    
+   
+var animal = new Animal();    
+var cat = new Cat();    
+    
+//通过call或apply方法，将原本属于Animal对象的showName()方法交给对象cat来使用了。    
+//输入结果为"Cat"    
+animal.showName.call(cat,'123');    
+animal.showName.apply(cat,['1','2']); 
+//call 的第二个参数可以是任意类型，而apply的第二个参数必须是数组，也可以是arguments
+	</script>
+	<script>
+function Class10()  
+{  
+    this.showSub = function(a,b)  
+    {  
+        console.log(a-b);  
+    }  
+}  
+  
+function Class11()  
+{  
+    this.showAdd = function(a,b)  
+    {  
+        console.log(a+b);  
+    }  
+}  
+  
+function Class2()  
+{  
+    Class10.call(this);  
+    Class11.call(this);  
+} 
+var class2 =new Class2();
+class2.showSub(3,1);
+class2.showAdd(3,1);
+	</script>
+	
+	<textarea id="textarea" style="background: none repeat scroll 0 0 #fff;border: 1px solid #e6e6e6;border-radius: 0;color: #555;cursor: text;font-family: Tahoma,'Microsoft Yahei';font-size: 14px;height: 70px;line-height: 1.4;outline: medium none;overflow: auto;padding: 7px 10% 7px 1%;resize: none;width: 88.5%;"></textarea>
+	<select class="ng-pristine ng-valid" ng-model="fields.gender" name="gender" id="gender">
+	<option value="? undefined:undefined ?"></option>
+	<option value="female">Female</option>
+	<option value="male">Male</option>
+	</select>
+	<script>
+		$("#gender").val("");
+
+	</script>
+	<div class="file" style="background-color:#e0e;width:100px;">
+			<p style="background-color:#eee;width:70px;">添加图片</p>
+		<input type="file" name="image" class="hidden" value="" style="display:none;"/>
+	</div>
+	<script>
+
+	$('.file').on('click', function(e) {
+		e.preventDefault();
+		$(".hidden").trigger("click");
+		//$(this).find("p").trigger('click');
+	});
+	</script>
+	<div id="maomao" name="linkFly" style="height:30px;width:30px;background-color:#000;color:#FFF;"></div>
+	<div id="maomao2" name="linkFly" style="height:30px;width:30px;background-color:#0ce;color:#FFF;"></div>
+	<script>
+(function (window, namespace) {
+    var $ = window.jQuery;
+    function checkData(data) {
+        return !!data;
+    }
+    function loadPosition(done, fail) {
+        var data = '北京市';//获取位置中
+        if (checkData(data)) {
+            done(data);
+        } else
+            fail();
+    }
+    window[namespace] = function (targetId, textId) {
+        var $target = $('#' + targetId),
+            $text = $('#' + textId),
+            changeEnum = { LOADING: '获取中', FAIL: '获取失败' },
+            changeStateText = function (text) {
+                $text.html(text);
+            };
+        $target.on('click', function () {
+            changeStateText(changeEnum.LOADING);
+            loadPosition(function (address) {
+                changeStateText(address);
+            }, function () {
+                changeStateText(changeEnum.FAIL);
+            });
+        });
+    }
+})(window, 'linkFly');
+	linkFly("maomao","maomao");
+/******************* 经典代码 ********************/
+(function (window, namespace) {
+    var Gps = {
+		data: '北京市',//获取位置伪代码
+        load: function (done, fail) {            
+            this.check(this.data) ?
+                done(this.data, Gps.state.OK) :
+                fail(Gps.state.FAIL);
+        },
+        check: function (data) {
+            return !!data;
+        },
+        state: { OK: 1, FAIL: 0 }
+    };
+    window[namespace] = Gps;
+})(window, 'Gps');
+
+Gps.load(
+	function(data,ok){//获取成功后代码
+		console.log(data,ok);
+	},
+	function(fail){//获取失败后代码
+		console.log(fail);
+	}
+);
+
+$("#maomao2").on("click",function(){
+	Gps.data = '上海';
+	Gps.load(
+		function(data,ok){//获取成功后代码
+			console.log(data,ok);
+		},
+		function(fail){//获取失败后代码
+			console.log(fail);
+		}
+	)
+	return false;
+});
+
+/******************* 经典代码 ********************/
+(function () {
+    //第一种，曝露了_name属性
+    var Demo = function () {
+        if (!(this instanceof Demo))
+            return new Demo();
+        this._name = 'linkFly';
+    };
+    Demo.prototype.getName = function () {
+        return this._name;
+    }
+
+    //第二种，多一层闭包意味内存消耗更大，但是屏蔽了_name属性
+    var Demo = function () {
+        var name = 'linkFly';
+        return {
+            getName: function () {
+                return name;
+            }
+        }
+    }
+});
+(function () {
+    var names = [];
+    return function (name) {
+        addName(name);
+    }
+    function addName(name) {
+        if (!~names.indexOf(name))//如果存在则不添加
+            names.push(name);
+        console.log(names);// ["linkFly"]
+    }
+}())('linkFly');
+(function () {
+    var key = 'linkFly',
+        cache = { 'linkFly': 'http://www.cnblogs.com/silin6/' },
+        value;
+    //&&到底
+    key && cache && cache[key] && (value = cache[key]);
+    //来个if
+    if (key && cache && cache[key])
+        value = cache[key];
+})();
+// 构造函数/基类
+function Human(name) {
+    this.name = name;
+}
+
+/* 
+    基类的方法保存在构造函数的prototype属性中
+    便于子类的继承
+*/
+Human.prototype.say = function () {
+    console.log("say");
+}
+
+/*
+    道格拉斯的object方法（等同于object.create方法）
+*/
+function object(o) {
+    var F = function () {};
+    F.prototype = o;
+    return new F();
+}
+
+// 子类构造函数
+function Man(name, age) {
+    // 调用父类的构造函数
+    Human.call(this, name);
+    // 自己的属性age
+    this.age = age;
+}
+
+// 继承父类的方法
+Man.prototype = object(Human.prototype);
+Man.prototype.constructor = Man;
+
+// 实例化子类
+var man = new Man("Lee", 22);
+console.log(man);
+// 调用父类的say方法：
+man.say();
+	</script>
+	<script>
+	/*************** 正常工作组的版本 ***************/
+	/*function addEvent(elm, evType, fn, useCapture) {
+		if (elm.addEventListener) {
+		elm.addEventListener(evType, fn, useCapture);//DOM2.0
+		return true;
+		}
+		else if (elm.attachEvent) {
+		var r = elm.attachEvent(‘on‘ + evType, fn);//IE5+
+		return r;
+		}
+		else {
+		elm['on' + evType] = fn;//DOM 0
+		}
+	}*/
+	/************ HTML5工作组的版本 ***************/
+	/*var addEvent=(function(){
+		if(document.addEventListener){
+		return function(el,type,fn){
+		if(el.length){
+		for(var i=0;i&lt;el.length;i++){
+		addEvent(el[i],type,fn);
+		}
+		}else{
+		el.addEventListener(type,fn,false);
+		}
+		};
+		}else{
+		return function(el,type,fn){
+		if(el.length){
+		for(var i=0;i&lt;el.length;i++){
+		addEvent(el[i],type,fn);
+		}
+		}else{
+		el.attachEvent(‘on‘+type,function(){
+		return fn.call(el,window.event);
+		});
+		}
+		};
+		}
+	})();*/
+	</script>
+	
+	<input id="iss">
+	<script>
+	var iss=document.getElementById("iss");
+	iss.value = 'maomao';
+	
+	//这种是一个对象（无局限性，需要实例化）
+	function on(){
+		this.onLimitLength = 10;
+		this.onLength = '';
+		this.onKeyUp = function(e){
+			e = e || window.event;
+			
+			var val=this.value=this.value.replace(/(^\s*)/g,'');
+			var valLength = val.length;console.log(valLength);
+			if(valLength != on.onLength){
+				if((e.keyCode>=186&&e.keyCode<=222)||(e.keyCode>=48&&e.keyCode<=57&&e.shiftKey)||
+					e.keyCode==59||e.keyCode==61||e.keyCode==173||e.keyCode==229||
+					(e.keyCode>=106&&e.keyCode<=111&&e.keyCode!=108)){
+					var len;				
+					if((e.keyCode==173||e.keyCode==54)&&e.shiftKey){
+						len=valLength-2;
+					}
+					else{
+						len=valLength-1;
+					}
+					this.value=val.substring(0,len);			
+				}	
+			}
+			if(val.length>on.onLimitLength)this.value=val.substring(0,on.onLimitLength);			
+			return false;
+		}
+		this.onkeydown = function(e){
+			e = e || window.event;
+			if((e.keyCode>=186&&e.keyCode<=222)||e.keyCode==59||e.keyCode==61||e.keyCode==173||
+			((e.shiftKey)&&(e.keyCode>=48&&e.keyCode<=57))
+			){
+				console.log(false);
+				return false;
+				
+			}
+			console.log(true);
+			return true;
+		}
+		this.onFocus = function(){
+			on.onLength = this.value.length;
+			console.log(on.onLength);
+		}
+	}
+	//这种是一个对象（局限性）
+	/*var on = {
+		onLimitLength : 10,
+		onLength : '',
+		onKeyUp : function(e){
+			e = e || window.event;
+			
+			var val=this.value=this.value.replace(/(^\s*)/g,'');
+			var valLength = val.length;console.log(valLength);
+			if(valLength != on.onLength){
+				if((e.keyCode>=186&&e.keyCode<=222)||(e.keyCode>=48&&e.keyCode<=57&&e.shiftKey)||
+					e.keyCode==59||e.keyCode==61||e.keyCode==173||e.keyCode==229||
+					(e.keyCode>=106&&e.keyCode<=111&&e.keyCode!=108)){
+					var len;				
+					if((e.keyCode==173||e.keyCode==54)&&e.shiftKey){
+						len=valLength-2;
+					}
+					else{
+						len=valLength-1;
+					}
+					this.value=val.substring(0,len);			
+				}	
+			}
+			if(val.length>on.onLimitLength)this.value=val.substring(0,on.onLimitLength);				
+			return false;
+		},
+		onKeyDown : function(e){
+			e = e || window.event;
+			if((e.keyCode>=186&&e.keyCode<=222)||e.keyCode==59||e.keyCode==61||e.keyCode==173||
+			((e.shiftKey)&&(e.keyCode>=48&&e.keyCode<=57))
+			){
+				console.log(false);
+				return false;
+				
+			}
+			console.log(true);
+			return true;
+		},
+		onFocus : function(){
+			on.onLength = this.value.length;
+			console.log(on.onLength);
+		}
+	}*/
+	
+	var on = new on();
+	on.onLimitLength = 20;
+	
+	iss.onkeyup = on.onKeyUp;
+	iss.onkeydown = on.onKeyDown;
+	iss.onkeypress = on.onKeyDown;
+	iss.onfocus = on.onFocus;
+	</script>
+	<script>
+	var Extend = function (destination, source) {
+		for (var property in source) {
+			destination[property] = source[property];
+		}
+	}
+	</script>
+	<script>
+	function mm(n){
+		var m = {
+			ao : 1,
+			bo : 2
+		};
+		Extend(m,n || {});
+		this.console = function(){
+			console.log(m.bo);
+		}
+		
+	}
+	var n = {
+		bo :3
+	};
+	var MM = new mm();
+	MM.console();
+	</script>
+<input id="keyCode">
+<script>
+var key = document.getElementById("keyCode");
+key.onblur = function(e){
+	var regExp = new RegExp('\\W');//特殊字符（包括中文）
+	var china = new RegExp('[\u3000-\u301e\ufe10-\ufe19\ufe30-\ufe44\ufe50-\ufe6b\uff01-\uffee]');//中文特殊字符
+	var chi = new RegExp('[\u4e00-\u9fa5]');//中文
+	var val= this.value.replace(/(^\s*)|(\s*$)/g,'').split('');
+	var s = new RegExp('\\s');
+	
+	if(val.length == 0)return false;
+	for(var i in val){
+	var boll = true;
+		if(chi.test(val[i])){
+			console.log('中文：' + true);
+		}
+		else{
+			console.log('中文：' + false);
+		}
+		if(china.test(val[i])){
+			console.log('中文全角标点符号(字符)：' + true);
+		}
+		else{
+			console.log('中文全角标点符号(字符)：' + false);
+		}
+		if(regExp.test(val[i])){
+			console.log('W：' + true);
+		}
+		else{
+			console.log('W：' + false);
+		}
+		if(s.test(val[i])){
+			console.log('s：' + true);
+		}
+		else{
+			console.log('s：' + false);
+		}
+		
+		if(!chi.test(val[i])&&!s.test(val[i])&&regExp.test(val[i])){
+			boll = false;
+		}
+		(boll)?console.log('结果：'+true):console.log('结果：'+false);
+	}
+}
+</script>
+<div id ="images" style="width:33px;height:42px;background: url('bg_doc_num_c4e0502c.png') repeat scroll 0 0 rgba(0, 0, 0, 0);"></div>
+	
+	
+	<script>
+		var img = $("#images").animate({backgroundPosition:'20px'},500);
+		//
+	</script>
+	<input id="xx"/>
+	<input class = "wbox" name = "id" />
+	<textarea class = "textarea" name = "textarea" ></textarea>
+	<input id = "button" value = "->" type = "submit"/>
+	<textarea class = "textarea" name = "textarea" ></textarea>
+	<script>
+		var textarea = $(".textarea");
+		var but = document.getElementById("button");
+		but.onclick = function(a,b,c,d,e,f){
+			console.log(textarea[0].value);
+			textarea[1].value = textarea[0].value; 
+		}
+	
+	</script>
+	<script>
+	var xx = document.getElementById('xx');
+	xx.onkeyup = function(){
+		var Ll = 10;
+		var val = this.value = this.value.replace(/(^\s*)/g,'');
+		if(this.value.length > 10) {
+			console.log(val);
+		}
+		var rs = "";
+		for (var i = 0; i < val.length; i++) {
+			if(!compare(val.substr(i, 1))){
+				rs = rs + val.substr(i, 1);
+			}
+		}
+		this.value = (rs.length > Ll) ?  rs.substring(0,Ll) : rs;					
+		return false;
+	}
+	xx.onkeydown = keydown;
+	xx.onblur = function(){
+		if(regExp(this)){
+			this.value = '';
+			//this.focus();
+			console.log("输入包含特殊字符！");
+		}
+	}
+	function stripscript(s) {
+		//var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？%《》+]");
+		var rs = "";
+		for (var i = 0; i < s.length; i++) {
+			if(!compare(s.substr(i, 1))){
+				rs = rs + s.substr(i, 1);
+			}
+		}
+		return rs;
+	}
+	function compare(val){
+		var regExpC = new RegExp('[\u4e00-\u9fa5]');
+		var regExpS = new RegExp('\\s');
+		var regExpW = new RegExp('\\W');
+
+		if(!regExpC.test(val)){
+			if(!regExpS.test(val)){
+				if(regExpW.test(val)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	function keydown(e){
+		
+		e = e || window.event;
+		var code = e.keyCode;
+		if(this.value.length == 10){
+			if((code >= 65 && code <= 90)||(code >= 48 && code <= 57)){
+				return false;
+			}
+		} 
+		if((code >= 186 && code <= 222) || code == 59 || code == 61 || code == 173 ||
+		((e.shiftKey) && (code >= 48 && code <= 57))
+		){
+			return false;			
+		}
+		return true;
+	}
+	/*************************/
+	function regExp(me){
+		var val= me.value.replace(/(^\s*)|(\s*$)/g,'');
+		if(val.length == 0)return false;
+		for (var i = 0; i < val.length; i++) {
+			if(compare(val.substr(i, 1)))
+			return true;
+		}
+		return false;
+	}
+	var datatemp = {
+		'id' : '1',
+		'name' : 'maomao'
+		
+	}
+	var wbox = $('.wbox');
+	
+	for(var attr in datatemp){
+		//con.push(datatemp[attr]);
+		for(var i = 0; i < wbox.length; i++){
+			if(wbox[i].name == attr){
+				wbox[i].value = datatemp[attr];
+				console.log(wbox[i].name,attr,datatemp[attr]);
+			}
+		}
+	}
+		/*for(var c = 0; c < con.length; c++){
+			var attributes = con[c][0];
+			var attValue = con[c][1];
+			if(wbox[c].name == attributes){
+				wbox[c].value = attValue;
+			}
+			console.log(wbox[c].name,attValue,attributes);
+		}*/
+	
+
+	var iu, iuu, regArray=new Array("","◎","■","●","№","↑","→","↓"+
+         "!","@","#","$","%","^","&","*","(",")","_","-","+","=","|","","[","]","？","~","`"+
+         "!","<",">","‰","→","←","↑","↓","¤","§","＃","＆","＆","＼","≡","≠"+
+         "≈","∈","∪","∏","∑","∧","∨","⊥","‖","‖","∠","⊙","≌","≌","√","∝","∞","∮"+
+         "∫","≯","≮","＞","≥","≤","≠","±","＋","÷","×","/","Ⅱ","Ⅰ","Ⅲ","Ⅳ","Ⅴ","Ⅵ","Ⅶ","Ⅷ","Ⅹ","Ⅻ","一","二"+
+         "╄","╅","╇","┻","┻","┇","┭","┷","┦","┣","┝","┤","┷","┷","┹","╉","╇","【","】"+
+         "三","四","五","六","七","八","九","十","①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩","┌","├","┬","┼","┍","┕","┗","┏","┅","—"+
+         "〖","〗","←","〓","☆","§","□","‰","◇","＾","＠","△","▲","＃","℃","※",".","≈","￠"); 
+	
+     var person= {  
+      name: 'zhangsan',  
+      pass: '123' ,  
+      'sni.ni' : 'sss',  
+      hello:function (){  
+         for(var i=0;i<arguments.length;i++){  
+                 //在不知参数个数情况下可通过for循环遍历              
+                 // arguments这个是js 默认提供  
+                console.log("arr["+i+"]="+arguments[i]);  
+         }      
+      }  
+     }  
+        
+    //遍历属性  
+     for(var item in person){  
+        if(typeof person[item]  === 'string'){  
+          console.log("person中"+item+"的值="+person[item]);  
+        }else if(typeof person[item] === 'function'){  
+            person[item](1,1);//js 的function的参数可以动态的改变  
+        }   
+     }  
+    //添加属性  
+      
+     person.isMe = 'kaobian'; // 这种是属性名字正常的  
+    //当属性名字不正常时，像下面这种，必须用这种形式的，  
+     person['isMe.kaobian'] = 'hello kaobian'; //上面的也可以用下面的形式  
+      
+     for(var item in person){  
+        if(typeof person[item]  === 'string'){  
+          console.log("person中"+item+"的值="+person[item]);  
+        }else if(typeof person[item] === 'function'){  
+      
+            person[item](1,1);  
+        }   
+     }   
+
+	</script>
+		<script>
+		var a=new Array('1','2','3','4','5','6'),b=new Array,c=new Array;
+		for(var i=0,j=0,x=0;i<a.length;i++){
+			b[x]=a[i];
+			x++;
+			if(x==3){				
+				c[j]=b;
+				j++;
+				x=0;
+				b=new Array();
+			}			
+		}
+		//console.log(c);
+	</script>
+	</body>
+</html>

@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<HTML>
+ <HEAD>
+  <TITLE> ZTREE DEMO </TITLE>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css">
+  <link rel="stylesheet" href="./css/demo.css" type="text/css">
+  <link rel="stylesheet" href="./css/zTreeStyle/zTreeStyle.css" type="text/css">
+  <!-- <script type="text/javascript" src="./js/jquery-1.4.4.min.js"></script> -->
+  <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="./js/bootstrap.js"></script>
+  <script type="text/javascript" src="./js/jquery.ztree.core.js"></script>
+  <script type="text/javascript" src="./js/jquery.ztree.excheck.js"></script>
+  <script type="text/javascript">
+    var dTree = {
+      roots : [],
+      // 初始筛选类型
+      consts : {
+        statusX: [],
+        suffix: [],
+        method: []
+      },
+      /*
+      * 清除指定
+      * param: doc 的 id
+      */
+      clear: function (id) {
+        // 清除所有内容
+        $.fn.zTree.destroy(id? id: '');
+      }
+    };
+    !function (_) {
+      var _setting = { // 配置记录
+            data: {
+              simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: 0
+              }
+            },
+            callback: {
+              // 设置点击事件
+              onClick: function (e, id, node) {
+                method.clickEvent(node);
+              },
+              // 设置点击事件
+              onExpand: function (e, id, node) {
+                method.clickEvent(node);
+              }
+            }
+          },
+          _consts = { // 常量
+            getKey: [],      // get的参数 数组 （可选）
+            postKey: [],     // post的参数 数组 （可选）
+            statusX: [],     // 响应 数组 例如 ['2', '3'] （可选）
+            method: [],      // 类型 数组 例如 ['GET','POST'] （可选）
+            suffix: [],      // 文件后缀 例如 js （可选）
+
+            json: {},// 存放目录对象
+            children: 'children',
+            target: null// 目标结果
+          },
+          method = {
+            /*根过滤
+            * param: c 企业列表数据
+            */
+            rootFilter: function (c) {
+              c = tool.isArray(c)? c : [];
+              for (var i = 0, l = c.length; i < l; i++) {
+                if (c[i].id && c[i].name) {
+                  _consts.json[c[i].name] = {
+                    id : (i + 1),
+                    pId : 0,
+                    name : c[i].name,
+                    isParent : true,// 默认文件夹显示
+                    load : true,// 加载内容
+                    sid : c[i].id // 记录企业id
+                  };
+                }
+              }
+            },
+            /*子项过滤
+            * param: c 详细数据
+            * param: node 插入节点
+            */
+            childFilter: function (c, node) {
+              c = tool.isArray(c)? c : [];
+              var j = 1,
+                  url = '',
+                  // 将json中对应根节点添加children
+                  child = _consts.json[node.name]['children'] = {};
+
+              for (var i = 0, l = c.length; i < l; i++) {
+                var urlHost = null;
+                if (c[i].host && !child[c[i].host]) {
+                  child[c[i].host] = method.hostFilter(c[i].host, node.id.toString() + j);
+                }
+                if (c[i].url) {
+                  url = c[i].url;
+                  url = /^\//.test(url)? url.replace(/^\//, '') : url;
+                  urlHost = method.urlDecompose(url, child[c[i].host], c[i]);
+                }
+                if (c[i].key && c[i].key.length !== 0) {
+                  method.keyConcat(c[i].key, urlHost || child[c[i].host], c[i]);
+                  urlHost.icon = './css/zTreeStyle/img/doc.png';
+                } else if (c[i].key.length === 0){
+                  urlHost.isParent = false;
+                }
+                j++;
+              }
+            },
+            /*host过滤
+            * param: host 
+            * param: id 编号
+            */
+            hostFilter: function (host, id) {
+              return {
+                id : id,
+                pId : 0,
+                name : host,
+                title : host,
+                isParent : true,// 默认文件夹显示
+                open : true// 默认打开
+              };
+            },
+            /*url过滤
+            * param: url 目录名
+            * param: id 编号
+            */
+            urlFilter: function (url, id, c) {
+              return {
+                id : id,
+                pId : 0,
+                name : url === ''? '/' : url,
+                isParent : true,// 默认文件夹显示
+                open : true,// 默认打开
+                rid : c.id
+              };
+            },
+            /*key过滤
+            * param: key 字符串
+            */
+            keyFilter: function (key, id, c) {
+              return {
+                id : id,
+                pId : 0,
+                name : key,
+                icon : './css/zTreeStyle/img/edit.png',
+                lid : c.id
+              };
+            },
+            /*
+            * url 分解
+            * param: url 数组|字符串
+            * param: host 对象
+            */
+            urlDecompose: function (url, host, c) {
+              url = tool.isArray(url)? url: url.split('/');
+              var child = host['children'] = host.children? host['children'] : {};
+              var name = url.shift();
+              if (child[name]) {
+                if (url.length === 0){
+                  // 当前节点
+                  return host['children'][name];
+                } else {
+                  // 下一节点
+                  return arguments.callee(url, child[name], c);// 采用回调函数
+                }
+              } else {
+                // 产生新节点
+                host['children'][name] = method.urlFilter(name, host.id.toString() + (tool.ObjectCounter(child) + 1), c);
+                return url.length === 0? host['children'][name] : arguments.callee(url, host['children'][name], c);// 采用回调函数
+              }
+            },
+            /* key合并
+            * param: key 参数组
+            * param: host 对象
+            * param: c 对象
+            */
+            keyConcat: function (key, host, c) {
+              key = tool.isArray(key)? key : [];
+              var child = host['children'] = host.children? host['children'] : {},
+                  str = key.map(function (o) {
+                    return o + '=&';
+                  }).join().replace(',', '');
+              str = str === ''? '/' : str.substring(0, str.length - 1);
+              host['children'][str] = method.keyFilter(str, host.id.toString() + (tool.ObjectCounter(child) + 1), c);
+            },
+            /*加载企业详情内容
+            * param: node 插入节点
+            * param: c 插入数据
+            */
+            loadCompanyContent: function (node, c) {
+              console.log(node.id);
+              if (!node.load) return false;
+              method.childFilter(c, node);
+              var value = tool.transform(_consts.json[node.name].children);
+              _consts.target.addNodes(node, value);
+              node.load = false;
+            },
+            /*点击事件处理函数
+            * param: node 插入节点
+            */
+            clickEvent: function (node) {
+              if (node.load) {
+                var data = {
+                  sid: node.sid,
+                  getKey: _consts.getKey,
+                  postKey: _consts.postKey,
+                  statusX: _consts.statusX,
+                  method: _consts.method,
+                  suffix: _consts.suffix
+                };
+                // 可删除
+                if (data.getKey.length === 0) delete data.getKey;
+                if (data.postKey.length === 0) delete data.postKey;
+                if (data.statusX.length === 0) delete data.statusX;
+                if (data.method.length === 0) delete data.method;
+                if (data.suffix.length === 0) delete data.suffix;
+                ajax.rootDetail(data, function (d) {
+                  method.loadCompanyContent(node, d)
+                });
+              } else if (node.rid) {
+                ajax.rametDetail({rid: node.rid}, function (d) {
+                  // console.log(d);
+                });
+              } else if (node.lid) {
+                ajax.logDetail({lid: node.lid}, function (d) {
+                  // console.log(d);
+                });
+              }
+            },
+            /*重新加载父节点*/
+            refresh: function () {
+              var consts = this.getConsts();
+              consts.target.refresh();
+            },
+            /*获得*/
+            getConsts: function () {
+              return _consts;
+            },
+            /*更新节点*/
+            updateNode: function () {
+              
+            }
+          },
+          // 工具
+          tool = {
+            // 判断是否为数组
+            isArray: function (arr) {
+              return Object.prototype.toString.apply(arr) === "[object Array]";
+            },
+            // 判断是否为对象
+            isObject: function (obj) {
+              return Object.prototype.toString.apply(obj) === "[object Object]";
+            },
+            // 把JSON转换为对象数组
+            transform: function (obj) {
+              if (!tool.isObject(obj)) return [];
+              var arr = [];
+              for (var i in obj){
+                if (obj[i].children && tool.isObject(obj[i])) obj[i].children = arguments.callee(obj[i].children);
+                arr.push(obj[i]);
+              }
+              return arr;
+            },
+            // 统计对象内第一层个数
+            ObjectCounter: function (obj) {
+              var i = 0;
+              for (var j in obj) {
+                i++;
+              }
+              return i;
+            },
+            // 更新对象
+            updateObject: function (target, news, bool) {
+              bool = !bool? !1: !0;
+              if (!tool.isObject(news)) return false;
+              for (var i in news) {
+                if (bool && target[i]) continue;
+                if (tool.isObject(target[i]) && tool.isObject(news[i])) {
+                  arguments.callee(target[i], news[i]);
+                } else {
+                  target[i] = news[i];
+                }
+              }
+            }
+          },
+          // ajax请求
+          ajax = {
+            // 企业详情
+            rootDetail: function (data, callback) {},
+            rametDetail: function (data, callback) {},
+            logDetail: function (data, callback) {}
+          },
+          // 初始化
+          init = function (data, consts, setting) {
+            if (!data.length) return false;
+            // 更新常量
+            consts && tool.updateObject(_consts, consts);
+            setting && tool.updateObject(_setting, setting);
+            method.rootFilter(data);
+            _consts.target = $.fn.zTree.init($(demoTree), _setting, tool.transform(_consts.json));
+          };
+
+          var dTrees = {
+            init: init,
+            ajax: ajax,
+            tool: tool,
+            method: method
+          };
+          tool.updateObject(_, dTrees);
+    }.call(this, dTree);
+  </script>
+  <style type="text/css">
+    ul.ztree{float: left;}
+
+    /*box*/
+    .box{border: 1px solid #ddd;position: relative;margin-bottom: 15px;}
+    .box-header{margin-top: -10px;padding: 0 15px;}
+    .box-title{background-color: #fff;padding: 0 5px;float: left;}
+    .box-body{padding: 0 15px;margin-bottom: 10px;}
+  </style>
+ </HEAD>
+<BODY>
+  <div>
+    <ul id="demoTree" class="ztree" style="width: 100%;"></ul>
+    <ul id="treeDemo" class="ztree"></ul>
+    <ul id="newTree" class="ztree"></ul>
+    <ul id="simpleTree" class="ztree"></ul>
+    <ul id="testTree" class="ztree"></ul>
+    <ul id="excheckTree" class="ztree"></ul>
+  </div>
+  <hr>
+  <div>
+    <button onclick="zt.clear();">清除所有</button>
+    <button onclick="zt.clear('demoTree');">清除 treeDemo</button>
+    <button onclick="dTree.method.refresh();">刷新</button>
+  </div>
+  <!-- 晒显框 -->
+  <div aria-labelledby="myModalLabel" role="dialog" tabindex="-1" class="modal fade" id="myModal" style="display: none;">
+    <div role="document" class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+          <h4 id="myModalLabel" class="modal-title">筛选</h4>
+        </div>
+        <div class="modal-body clearfix">
+          <div class="row clearfix">
+            <div class="col-xs-6">
+              <div class="box">
+                <div class="box-header clearfix"><div class="box-title">动词筛选</div></div>
+                <div class="box-body clearfix" id="methodFilter">
+                  <div class="checkbox">
+                    <label class="col-xs-6"><input type="checkbox" value="GET" > GET</label>
+                    <label class="col-xs-6"><input type="checkbox" value="POST" > POST</label>
+                  </div>
+                  <div class="checkbox">
+                    <label class="col-xs-6"><input type="checkbox" value="PATCH" > PATCH</label>
+                    <label class="col-xs-6"><input type="checkbox" value="DELETE" > DELETE</label>
+                  </div>
+                  <div class="checkbox">
+                    <label class="col-xs-6"><input type="checkbox" value="PUT" > PUT</label>
+                    <label class="col-xs-6"><input type="checkbox" value="OTHERS" > OTHERS</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="box">
+                <div class="box-header clearfix"><div class="box-title">状态码筛选</div></div>
+                <div class="box-body clearfix" id="statusCode">
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="2" > 2xx [success]</label>
+                  </div>
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="3" > 3xx [redirection]</label>
+                  </div>
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="4" > 4xx [request error]</label>
+                  </div>
+                  <div class="checkbox">
+                    <label><input type="checkbox" value="5" > 5xx [server error]</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box col-xs-12">
+            <div class="box-header clearfix"><div class="box-title">文件后缀筛选</div></div>
+            <div class="box-body">
+              <div class="checkbox" id="fileFilter">
+                <label><input type="checkbox" name="show"> Show only: <input type="text" id="show" placeholder="asp,aspx,jsp,php"></label>
+              </div>
+              <!-- <div class="checkbox">
+                <label><input type="checkbox" name="hide"> Hide: <input type="text" id="hide" placeholder="js,gif,jpg,png,css"></label>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default pull-left" type="button" id="reset">重置</button>
+          <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+          <button data-dismiss="modal" class="btn btn-primary" type="button" id="filterConfirm">确定</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  <!-- 弹出框按钮 -->
+  <button data-target="#myModal" data-toggle="modal" class="btn btn-primary" type="button"> 筛选 </button>
+  <script type="text/javascript">
+    dTree.tool.updateObject(dTree, {
+      // 初始筛选类型
+      consts : {
+        method: ['GET', 'POST']
+      },
+      ajax: {
+        rootDetail: function (data, callback) {
+          if (window.ajax) return false;
+          window.ajax = true;
+          $.ajax({
+            url: '/api/requests',
+            type: 'GET',
+            dataType: 'JSON',
+            data: data,
+            success: function (d) {// success
+              // 测试数据
+              // var d = [
+              //   {'host': 'www.a.com', 'url': '/', 'key': []},
+              //   {'host': 'admin.a.com', 'url': '/admin', 'key': []},
+              //   {'host': 'admin.a.com', 'url': '/admin', 'key': ['a', 'b']},
+              //   {'host': 'admin.a.com', 'url': '/admin', 'key': ['a']},
+              //   {'host': 'admin.a.com', 'url': '/admin/user.html', 'key': ['id']},
+              //   {'host': 'admin.a.com', 'url': '/admin/user.html', 'key': ['id']},
+              //   {'host': 'admin.a.com', 'url': '/admin/user.html', 'key': ['id','key']},
+              //   {'host': 'admin.a.com', 'url': '/admin/blog.html', 'key': ['key']},
+              //   {'host': 'i.a.com', 'url': '/blog.html', 'key': []},
+              //   {'host': 'i.a.com', 'url': '/blogDetail.html', 'key': ['id']},
+              //   {'host': 'i.a.com', 'url': '/css/blogDetail.css', 'key': []},
+              //   {'host': 'i.a.com', 'url': '/blogDetail.html', 'key': ['id']}
+              // ];
+              //  var d = [
+              // {"host":"i.bugbank.cn","url":"/css/hacker/follow.css","key":[],"id":"581b028efed03ceff1045939","statusCode":["200"]},
+              // {"host":"i.bugbank.cn","url":"/ujs/global.js","key":[],"id":"581b0284fed03ceff1045936","statusCode":["200"]},
+              // {"host":"i.bugbank.cn","url":"/css/font-awesome.min.css","key":[],"id":"581b028efed03ceff1045937","statusCode":["200"]},
+              // {"host":"i.bugbank.cn","url":"/ujs/jquery-utils.js","key":[],"id":"581b028efed03ceff1045938","statusCode":["200"]},
+              // {"host":"i.bugbank.cn","url":"/Vampire/follow","key":[],"id":"581b028efed03ceff104593a","statusCode":["200"]},
+              // {"host":"i.bugbank.cn","url":"/ujs/layout.js","key":[],"id":"581b028efed03ceff104593b","statusCode":["200"]},
+              // {"host":"i.bugbank.cn","url":"/ujs/layout-hacker.js","key":[],"id":"581b029cfed03ceff104593c","statusCode":["200"]},
+              // {"host":"i.bugbank.cn","url":"/css/bootstrap.css","key":[],"id":"581b02adfed03ceff104593d","statusCode":["200"]},
+              // {"host":"i.bugbank.cn","url":"/ujs/jquery.min.js","key":[],"id":"581b02adfed03ceff104593e","statusCode":["200"]},
+              // {"host":"i.bugbank.cn","url":"/css/cutter.css","key":[],"id":"581b02adfed03ceff104593f","statusCode":["200"]}
+              // ];
+              // d = d.slice(0, 10);//分析
+              // console.log(d);
+              callback(d);
+            },
+            error: function (xhr) {
+              console.log(xhr.responseJSON && xhr.responseJSON.err_msg);
+            },
+            complete: function (xhr) {
+              delete window.ajax;
+            }
+          });
+        },
+        rametDetail: function (data, callback) {
+          if (window.ajax) return false;
+          window.ajax = true;
+          $.ajax({
+            url: '/api/logs',
+            type: 'GET',
+            dataType: 'JSON',
+            data: data,
+            success: function (d) {
+              
+              callback(d);
+            },
+            error: function (xhr) {
+              console.log(xhr.responseJSON && xhr.responseJSON.err_msg);
+            },
+            complete: function (xhr) {
+              delete window.ajax;
+            }
+          });
+        },
+        logDetail: function (data, callback) {
+          if (window.ajax) return false;
+          window.ajax = true;
+          $.ajax({
+            url: '/api/log/',
+            type: 'GET',
+            dataType: 'JSON',
+            data: data,
+            success: function (d) {
+              
+              callback(d);
+            },
+            error: function (xhr) {
+              console.log(xhr.responseJSON && xhr.responseJSON.err_msg);
+            },
+            complete: function (xhr) {
+              delete window.ajax;
+            }
+          });
+        }
+      }
+    });
+    var filterBox = {
+          variable: {
+            staList: $('input[type="checkbox"]', statusCode),
+            filList: $('input[type="checkbox"]', fileFilter),
+            metList: $('input[type="checkbox"]', methodFilter)
+          },
+          method: {
+            statusX: function (con) {
+              for (var j = 0, m = filterBox.variable.staList.length; j < m; j++) { 
+                filterBox.variable.staList[j].checked = false;
+                for (var i = 0, l = con.statusX.length; i < l; i++) {
+                  if (filterBox.variable.staList[j].value === con.statusX[i])
+                    filterBox.variable.staList[j].checked = true;
+                }
+              }
+            },
+            suffix: function (con) {
+              filterBox.variable.filList[0].checked = con.suffix.length? true : false;
+              show.value = con.suffix.length? con.suffix.join(',') : '';
+            },
+            method: function (con) {
+              for (var j = 0, m = filterBox.variable.metList.length; j < m; j++) {
+                filterBox.variable.metList[j].checked = false;
+                for (var i = 0, l = con.method.length; i < l; i++) {
+                  if (filterBox.variable.metList[j].value === con.method[i])
+                   filterBox.variable.metList[j].checked = true;
+                }
+              }
+            },
+            reset: function (con) {
+              for (var i in con) {
+                filterBox.method[i] && filterBox.method[i](con);
+              }
+            }
+          },
+          // 筛选框初始化
+          init: function (con) {
+            filterBox.method.reset(con);
+            // 确定按钮点击
+            $(filterConfirm).click(function (e) {
+              var status = [],
+                  suffix = [],
+                  method = [];
+              filterBox.variable.staList.each(function (i, o) {
+                if (o.checked) {
+                  status.push(o.value);
+                }
+              });
+              filterBox.variable.filList.each(function (i, o) {
+                if (o.checked && o.name === 'show') {
+                  suffix = show.value.split(/[\,|\，]/).filter(function (v) {
+                    return $.trim(v) !== '';
+                  });
+                }
+              });
+              filterBox.variable.metList.each(function (i, o) {
+                if (o.checked) {
+                  method.push(o.value);
+                }
+              });
+
+              // 更新_consts
+              dTree.init(dTree.roots, {
+                statusX: status,
+                suffix: suffix,
+                method: method,
+              });
+            });
+
+            // 重置
+            $(reset).click(function (e) {
+              filterBox.method.reset(con);
+            });
+          }
+        };
+    filterBox.init(dTree.consts);
+    
+    // 公司列表
+    $.ajax({
+      url: '/api/sources',
+      type: 'GET',
+      dataType: 'JSON',
+      success: function (d) {//success
+        dTree.roots = d;
+        // 模拟数据
+        // dTree.roots = [{"id":"581b01bcfed03ceff1044552","name":"accesstest","time":1478172711},{"id":"581b021ffed03ceff1045931","name":"access","time":1478172711}];
+        // 初始化加载企业
+        dTree.init(dTree.roots, dTree.consts);
+      },
+      error: function (xhr) {
+        console.log(xhr.responseJSON && xhr.responseJSON.err_msg);
+      }
+    });
+  </script>
+  <SCRIPT LANGUAGE="JavaScript">
+    var zt = {
+      /*
+      * 清除指定
+      * param: doc 的 id
+      */
+      clear: function (id) {
+        // 清除所有内容
+        $.fn.zTree.destroy(id? id: '');
+      }
+    };
+   var zTreeObj;
+   // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+   var setting = {};
+   // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+   var zNodes = [
+   {name:"test1", open:true, children:[
+      {name:"test1_1"}, {name:"test1_2"}]},
+   {name:"test2", open:true, children:[
+      {name:"test2_1"}, {name:"test2_2"}]}
+   ];
+   $(document).ready(function(){
+      zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+   });
+  </SCRIPT>
+  <script type="text/javascript">
+    // 新数据
+    var model = (function () {
+      var settings = {
+          data: {
+            key: {
+              name: 'v',
+              children: 'c',
+              title: 't',
+              data: 'd'
+            }
+          }
+        },
+        data =  [
+          {v: '1', t: '1', open: false, c: [{v: '1.1', t: '1.1'},{v: '1.2', t: '1.2'}]},
+          {v: '2', t: '2', url: 'css/'},
+          {v: '3', t: '3', d: 'data'},
+        ];
+      return $.fn.zTree.init($(newTree), settings, data)
+    })();
+
+    // 简单形式
+    var model = (function () {
+      var settings = {
+          data: {
+            simpleData: {
+              enable: true,
+              idKey: "id",
+              pIdKey: "pId",
+              rootPId: 0
+            }
+          }
+        },
+        treeNodes = [
+          {"id":1, "pId":0, "name":"test1"},
+          {"id":11, "pId":1, "name":"test11"},
+          {"id":12, "pId":1, "name":"test12"},
+          {"id":111, "pId":11, "name":"test111"},
+          {"id":2, "pId":0, "name":"test2"},
+          {"id":3, "pId":0, "name":"test3"}
+        ];
+      return $.fn.zTree.init($(simpleTree), settings, treeNodes)
+    })();
+  </script>
+  <script type="text/javascript">
+    var simulation = (function () {
+      // 模拟数据
+      var company = [{id: '0', name: 'a.com'}, {id: '1', name: 'b.com'}, {id: '2', name: 'c.com'}];
+      var method = {
+            // 企业过滤
+            companyFilter: function (c) {
+              c = tool.isArray(c)? c : [];
+              var arr = [];
+              for (var i = 0, l = c.length; i < l; i++) {
+                if (c[i].id && c[i].name) {
+                  var d = method.companyFormat();
+                  d.id += i + 1;
+                  d.pId += 0;
+                  d.name = c[i].name;
+                  d.title = c[i].id;
+                  d.isParent = true;// 默认文件夹显示
+                  arr.push(d);
+                }
+              }
+              return arr;
+            },
+            // 企业格式
+            companyFormat: function () {
+              return {
+                'id': '',
+                'pId': '',
+                'name': ''
+              };
+            },
+            // 企业子项过滤
+            companyChildFilter: function (c, node) {
+              c = tool.isArray(c)? c : [];
+              var j = 0,
+                  arr = [],
+                  // 存放目录对象
+                  listObj = {};
+              for (var i = 0, l = c.length; i < l; i++) {
+                if (c[i].host) {
+                  if (listObj[c[i].host]) {
+                    listObj[c[i].host].children.push(method.urlConcat(c[i], listObj[c[i].host]));
+                    continue;
+                  }
+
+                  var d = method.companyFormat();
+                  d.id += node.id + (j + 1);
+                  d.pId += 0;
+                  d.name = c[i].host;
+                  d.title = c[i].host;
+                  d.children = [];
+                  d.isParent = true;// 默认文件夹显示
+                  d.open = true;// 默认打开
+                  d.children.push(method.urlConcat(c[i], d));
+                  arr.push(d);
+
+                  // 添加至目录
+                  listObj[c[i].host] = d;
+                  j++;
+                } 
+              }
+              return arr;
+            },
+            // url合并
+            urlConcat: function (c, obj, i) {
+              var url = c.url === ''? ['/'] : c.url.split('/'),
+                  i = i? i: 0;
+              var d = method.companyFormat();
+
+              d.id += obj.id + (obj.children.length + 1);
+              d.pId += 0;
+              d.name = url[i];
+              d.children = [];
+              if (url !== '/') d.isParent = true;// 默认文件夹显示
+              d.open = true;
+              d.children.push((i === url.length - 1)? method.keyConcat(c, d): arguments.callee(c, d, i+1));
+              return d;
+            },
+            // 关键字合并
+            keyConcat: function (c, obj) {
+              var d = method.companyFormat(),
+                  str = c.key.map(function (o) {
+                    return o + '=&';
+                  }).join().replace(',', '');
+              str = str.substring(0, str.length - 1)
+
+              d.id += obj.id + 1;
+              d.pId += 0;
+              d.name = str === '' ? '/' : str;
+              return d;
+            },
+            // 加载企业详情内容
+            loadCompanyContent: function (e, id, node) {
+              console.log(node.id);
+              if (node.id.length !== 1 || node.loadContent) return false; 
+              // 测试数据
+              var companyDetail = [
+                {'host': 'www.a.com', 'url': '', 'key': []},
+                {'host': 'admin.a.com', 'url': 'admin', 'key': []},
+                {'host': 'admin.a.com', 'url': 'admin', 'key': ['a', 'b']},
+                {'host': 'admin.a.com', 'url': 'admin/user.html', 'key': ['id']},
+                {'host': 'i.a.com', 'url': 'blog.html', 'key': []},
+                {'host': 'i.a.com', 'url': 'blogDetail.html', 'key': ['id']}
+              ], cd = method.companyChildFilter(companyDetail, node);
+              simulation.addNodes(node, cd);
+              node.loadContent = !0;
+            }
+          },
+          // 工具
+          tool = {
+            // 判断是否为数组
+            isArray: function(arr) {
+              return Object.prototype.toString.apply(arr) === "[object Array]";
+            }
+          },
+          // 初始化
+          init = function () {
+            var com = method.companyFilter(company);
+            if (!com.length) return false;
+            var setting = {
+              data: {
+                simpleData: {
+                  enable: true,
+                  idKey: "id",
+                  pIdKey: "pId",
+                  rootPId: 0
+                }
+              },
+              callback: {
+                // 设置点击事件
+                onClick: function (e, id, node) {
+                  method.loadCompanyContent(e, id, node);
+                },
+                onExpand: function (e, id, node) {
+                  method.loadCompanyContent(e, id, node);
+                }
+              }
+            };
+            return $.fn.zTree.init($(testTree), setting, com)
+          };
+          return init();
+    })();
+
+    $.fn.zTree.init($(excheckTree), {
+      check: {
+        enable: true
+      },
+      data: {
+        simpleData: {
+          enable: true
+        }
+      }
+    }, [
+      { id:1, pId:0, name:"随意勾选 1", open:true},
+      { id:11, pId:1, name:"随意勾选 1-1", open:true},
+      { id:111, pId:11, name:"随意勾选 1-1-1"},
+      { id:112, pId:11, name:"随意勾选 1-1-2"},
+      { id:12, pId:1, name:"随意勾选 1-2", open:true},
+      { id:121, pId:12, name:"随意勾选 1-2-1"},
+      { id:122, pId:12, name:"随意勾选 1-2-2"},
+      { id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
+      { id:21, pId:2, name:"随意勾选 2-1"},
+      { id:22, pId:2, name:"随意勾选 2-2", open:true},
+      { id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
+      { id:222, pId:22, name:"随意勾选 2-2-2"},
+      { id:23, pId:2, name:"随意勾选 2-3"}
+    ])
+  </script>
+</BODY>
+</HTML>
