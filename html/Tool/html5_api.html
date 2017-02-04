@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Maze</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<style>
+*{padding: 0;margin: 0;box-sizing: border-box;}
+body {
+    background: #E9E9E9;
+    color: #333;
+    font: 1em/1.3em "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif; /* 16px / 21px */
+    text-shadow: rgba(255,255,255,0.8) 0 1px 0;
+    text-align: center;
+} 
+.maze_outer { position:absolute;left: 50px;top: 50px; }
+.maze_inner { position:relative; }
+.maze_cell { position:absolute; width:16px; height:16px; overflow:hidden; border:1px solid black; }
+canvas{
+  background:#eee;
+}
+/*按钮*/
+.button{
+  margin: 0 auto;
+  position: relative;
+}
+.btn{
+  text-align:center;
+  position:absolute;
+  background-color: #006dcc;
+  background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: inset rgba(77, 79, 80, 0) 0 0 0 1px;
+  color: #fff;  
+}
+.lookUp {
+  padding: 5px 5px 0 5px;
+  border-radius: 4px;
+}
+.refresh{
+  padding: 5px 5px 0 5px;
+  border-radius: 4px;
+  right: 0;
+}
+.box{
+  margin-left: 25%;
+}
+.box div {
+  border-radius: 50%;
+}
+.box div:hover {
+  color: #fff;
+  background-color: #04c;
+  background-position: 0 -15px;
+  text-decoration: none;
+  transition: background-position 0.1s linear 0s;
+}
+.loading{
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 9999;
+  position: fixed;
+  top:50%;
+}
+.loading img{
+  margin-top: -50%;
+}
+</style>
+<script>
+window.onload = function(){
+    if(isWeiXin()){
+        var p = document.getElementsByTagName('p');
+        p[0].innerHTML = '微信';//window.navigator.userAgent;
+    }
+};
+function isWeiXin(){
+    var ua = window.navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+        return true;
+    }else{
+        return false;
+    }
+}
+</script>
+</head>
+<body>
+<p></p>
+<div class="loading" style="display: none;"><img src="loading.gif"></div>
+<div class="stat">steps: <span id="step">0</span> complete: <span id="complete">0</span></div>
+<canvas id="canvas"></canvas>
+<div class="button">
+  <div id="lookUp" class="lookUp btn"><img src="lookUp.png">：<span>1</span></div>
+  <div id="refresh" class="refresh btn"><img src="refresh.png"></div>
+  <div class="box" data-event="true">
+    <div id="top" class="btn"><b>↑</b></div>
+    <div id="right" class="btn"><b>→</b></div>
+    <div id="left" class="btn"><b>←</b></div>
+    <div id="bottom" class="btn"><b>↓</b></div>
+  </div>
+</div>
+<script>
+function $(str){
+  return document.querySelector(str);
+}
+var scale = 0,winW = window.outerWidth;
+scale = (winW <= 480) ? 0.9 : (winW <= 767) ? 0.6 : (winW >= 768 && winW <=979) ? 0.3 : 0.2;
+(function mapGen(b, c, e, a, m, s) {
+    function character(a, b, L) {
+      var h = d.getImageData(13 * f + 7 + 6 * a, 13 * g + 7 + 6 * b, 1, 1);
+      if(0 == h.data[0] && 0 == h.data[1] && 0 == h.data[2] && 255 == h.data[3])return false; 
+      $("#step").innerHTML = Math.floor($("#step").innerHTML) + L;
+      d.clearRect(13 * f + 3, 13 * g + 3, 10, 10);
+      f += a;
+      g += b;
+      d.beginPath();
+      d.arc(8 + 13 * f, 8 + 13 * g, 5, 0, 2 * Math.PI);
+      //d.stroke();
+      d.fillStyle = 'rgb(0,255,255)';
+      d.fill();
+      //d.fillRect(3 + 13 * f, 3 + 13 * g, 10, 10);//画正方形
+      if(f == x-1 && g == y)clearInterval(inset),mapGen("#canvas", c, e, 0, m + 1);
+      // 如果超出了迷宫的边框，那么新的迷宫和开始游戏
+      //f >= c && mapGen("#canvas", c, e, 0, m + 1)
+    }
+ 
+    // 选择绘图区域
+    b = $(b);
+    var d = b.getContext("2d");
+    // 过关数和总共的步骤数和
+    $("#step").innerHTML = Math.floor(a);
+    $("#complete").innerHTML = Math.floor(m);
+
+    var span = $('#lookUp span');
+    if(m%10 == 0) span.innerHTML = m + 1;
+    // 显示宽度和高度的地区的迷宫
+    b.width = 13 * c + 3;
+    b.height = 13 * e + 3;
+    //自适应方式
+    $(".button").style.width = b.style.width = 100 * s + '%';  
+    adaptation(b.clientWidth * 0.3);
+    var pageH = (document.body.offsetHeight < document.body.clientHeight) ? document.body.clientHeight : document.body.offsetHeight;
+    if(pageH < document.body.scrollHeight){
+      adaptation((b.clientWidth* 0.3) - (document.body.scrollHeight - pageH)/3*0.4);
+    }
+    
+    
+    // 选择黑色的颜色
+    d.fillStyle = "black";//颜色
+    d.fillRect(0, 0, 13 * c + 3, 13 * e + 3);//画一个外边框
+     
+    // 将创建一项阵列，用于存储多个当前单元格的值，值为值为右侧壁和底壁
+    a = Array(c); 
+    b = Array(c);
+    var k = Array(c),
+        // 当前很多
+        q = 1;
+ 
+    // 循环线
+    for (cr_l = 0; cr_l < e; cr_l++) {//高个数
+        // 试验用品细胞在任何多行       
+        for (i = 0; i < c; i++){//宽个数
+          if(0 == cr_l)a[i] = 0;
+          d.clearRect(13 * i + 3, 13 * cr_l + 3, 10, 10);
+          k[i] = 0;
+          if(1 == b[i])b[i] = a[i] = 0;
+          if(0 == a[i])a[i] = q++;
+        } 
+           // 0 == cr_l && (a[i] = 0), d.clearRect(13 * i + 3, 13 * cr_l + 3, 10, 10), k[i] = 0, 1 == b[i] && (b[i] = a[i] = 0), 0 == a[i] && (a[i] = q++);
+ 
+        // 随机生成的壁和底部右侧的建立
+        for (i = 0; i < c; i++) {//宽个数
+            k[i] = Math.floor(2 * Math.random()), b[i] = Math.floor(2 * Math.random());
+             
+            if ((0 == k[i] || cr_l == e - 1) && i != c - 1 && a[i + 1] != a[i]) {
+                var l = a[i + 1];
+                for (j = 0; j < c; j++) a[j] == l && (a[j] = a[i]);
+                d.clearRect(13 * i + 3, 13 * cr_l + 3, 15, 10)
+            }
+            if(cr_l != e - 1 && 0 == b[i])d.clearRect(13 * i + 3, 13 * cr_l + 3, 10, 15);
+            //cr_l != e - 1 && 0 == b[i] && d.clearRect(13 * i + 3, 13 * cr_l + 3, 10, 15)
+        }
+ 
+        //试验在封闭的地区。
+        for (i = 0; i < c; i++) {
+            var p = l = 0;
+            for (j = 0; j < c; j++) a[i] == a[j] && 0 == b[j] ? p++ : l++;
+            if(0 == p){
+              b[i] = 0;
+              d.clearRect(13 * i + 3, 13 * cr_l + 3, 10, 15);
+            }
+            //0 == p && (b[i] = 0, d.clearRect(13 * i + 3, 13 * cr_l + 3, 10, 15))
+        }
+    }
+ 
+    // 画迷宫的出口
+    //d.clearRect(13 * c, 3, 15, 10);
+    // обнуляем当前坐标
+    var f = 0,
+        g = 0;
+    // 问крассны
+    //d.fillStyle = "red";
+    //在开始和把人物的迷宫
+    character(f, g, 0);
+    // 期待按下的射手
+    document.body.onkeydown = function (a) {
+        if(36 < a.keyCode && 41 > a.keyCode)character((a.keyCode - 38) % 2 + 0, (a.keyCode - 39) % 2 + 0, 1);
+        //36 < a.keyCode && 41 > a.keyCode && character((a.keyCode - 38) % 2, (a.keyCode - 39) % 2, 1)
+    }
+
+    //随机出口    
+    var isBool = false;
+    var x = random([0, c]), y = random([0, e]);
+    var inset = setInterval(function(){
+      if(isBool){
+        d.clearRect(13 * x - 10, 13 * y + 3, 10, 10);
+        isBool = !isBool;
+      }
+      else{
+        d.fillStyle = '#0f0';
+        d.fillRect(13 * x - 10, 13 * y + 3, 10, 10);
+        isBool = !isBool;
+      }      
+    },500);
+
+    $('#top').onclick =    function(){character(0  , -1 , 1)};
+    $('#right').onclick =  function(){character(1  ,  0 , 1)};
+    $('#bottom').onclick = function(){character(0  ,  1 , 1)};
+    $('#left').onclick =   function(){character(-1 ,  0 , 1)};
+    /* var img = new Image();
+     var dWidth = dHeight = 12;
+    img.onload = function(){
+        d.drawImage(img, 241,97,dWidth,dHeight, 100,13 * e + 3 +20,2*dWidth,2*dHeight);
+        d.drawImage(img, 265,97,dWidth,dHeight, 136,13 * e + 3 +20,2*dWidth,2*dHeight);
+
+        d.drawImage(img, 289,97,dWidth,dHeight, 117,13 * e + 3    ,2*dWidth,2*dHeight);
+        d.drawImage(img, 313,97,dWidth,dHeight, 119,13 * e + 3 +42,2*dWidth,2*dHeight);
+    }
+    img.src = 'glyphicons-halflings.png';*/
+    
+    $('#lookUp').onclick = function(){
+      var num = span.innerHTML - 0
+      if(num == 0) return false;
+      try{
+        span.innerHTML = num - 1;
+        $('.loading').style.display = 'block';
+        setTimeout(function(){init(d, c, e, a, m, s, x, y, f, g)}, 100);
+      }
+      catch (err){
+        console.log("Error: " + err + ".");
+        span.innerHTML = num + 1;
+      }
+    };
+    
+    $('#refresh').onclick = function(){
+      $("#step").innerHTML = '0';
+      d.clearRect(13 * f + 3, 13 * g + 3, 10, 10);
+      f = 0, g = 0;
+      character(f, g, 0);
+    };
+})("#canvas", 25, 30, 0, 0, scale);
+function init(d, c, e, a, m, s, x, y, f, g){
+try{  
+  var _x = f, _y = g, map = [] , j, dir = [], pos = [[0,-1], [1,0], [0,1], [-1,0]];
+  this.start = function(v){
+    map.push(v);
+    for( i in v){
+      if(!v[i] && seek(pos[i][0], pos[i][1])){       
+        return dir.push(i),automatic(i);
+      }
+    }
+    var p = conversion(j = dir.pop() - 0);
+    retreat(pos[p][0], pos[p][1]);
+    
+  };
+  this.seek = function(a , b){
+    var h = d.getImageData(13 * _x + 7 + 6 * a, 13 * _y + 7 + 6 * b, 1, 1);
+    if(0 == h.data[0] && 0 == h.data[1] && 0 == h.data[2] && 255 == h.data[3])return false;
+    _x += a;
+    _y += b;
+    return true;
+  };
+  this.conversion = function(i){
+    return (i == 0)? 2 : (i == 1)? 3 : (i == 2)? 0 : (i == 3)? 1 : console.log('error!');
+  };
+  this.automatic = function(into){    
+    d.beginPath();
+    d.arc(8 + 13 * _x, 8 + 13 * _y, 5, 0, 2 * Math.PI);
+    d.fillStyle = '#f00';
+    d.fill();
+    var v = [0,0,0,0];
+    v[conversion(into)] = 1;
+    (_x == x-1 && _y == y)? $('.loading').style.display = 'none' : start(v);
+  };
+  this.retreat = function(a , b){
+    d.clearRect(13 * _x + 3, 13 * _y + 3, 10, 10);
+    _x += a;
+    _y += b;
+    map.pop();
+    var newV = map[map.length - 1];
+    newV[j] = 1;
+    map.pop();
+    start(newV);
+  };
+  start([1,0,0,0]);
+  }
+  catch(err){
+    console.log("Error: " + err + ".");
+  }
+}
+
+
+function adaptation (canvasWidth){
+  for(var i = 0; i < document.querySelectorAll('.box div').length; i++){
+    var id = '#' + document.querySelectorAll('.box div')[i].id;
+    $(id).style.width = $(id).style.height = $(id).style.lineHeight = canvasWidth + 'px';
+  }
+  $("#top").style.marginLeft = canvasWidth + 'px';
+  $("#left").style.marginTop= canvasWidth + 'px';
+  $("#right").style.marginTop = canvasWidth + 'px';
+  $("#right").style.marginLeft = canvasWidth * 2 + 'px';
+  $("#bottom").style.marginTop = canvasWidth * 2 + 'px';
+  $("#bottom").style.marginLeft = canvasWidth + 'px';
+}
+// 随机生成一个值 支持取值范围。(取整)
+function random(range){
+  var max = Math.max( range[0],range[1] );
+  var min = Math.min( range[0],range[1] );
+
+  var diff = max - min; // [0, 6] => 5(0~5)(x>0,x<5)//支持负数
+
+  var number = Math.ceil(Math.random()*diff + min);
+  return number;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<style type="text/css">
+	canvas{
+		border:1px solid #eee;
+		box-shadow: 2px 2px 2px #eee;
+		border-radius: 10px;
+	}
+	</style>
+</head>
+<body>
+<canvas id="canvas6" width="600" height="300"></canvas>
+<script>
+
+var canvas = document.getElementById('canvas6');
+var ctx = canvas.getContext('2d');
+var raf;
+var running = false;
+
+var ball = {
+  x: 100,
+  y: 100,
+  vx: 5,
+  vy: 1,
+  radius: 25,
+  color: 'blue',
+  draw: function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
+    ctx.closePath();
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+};
+
+function clear() {
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+}
+
+function draw() {
+  clear();
+  ball.draw();
+  ball.x += ball.vx;
+  ball.y += ball.vy;
+
+  if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
+    ball.vy = -ball.vy;
+  }
+  if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+    ball.vx = -ball.vx;
+  }
+
+  raf = window.requestAnimationFrame(draw);
+}
+
+canvas.addEventListener('mousemove', function(e){
+  if (!running) {
+    clear();
+    ball.x = e.clientX;
+    ball.y = e.clientY;
+    ball.draw();
+  }
+});
+
+canvas.addEventListener("click",function(e){
+  if (!running) {
+    raf = window.requestAnimationFrame(draw);
+    running = true;
+  }
+});
+
+canvas.addEventListener("mouseout",function(e){
+  window.cancelAnimationFrame(raf);
+  running = false;
+});
+
+ball.draw();
+</script>
+<canvas id="canvas" class="trend" width="500px" height="200px" style="">
+Your browser does not support the canvas element.
+</canvas>
+<script>
+var trendData = [10,40,15,10,40,15,10];
+var day = ['一','二','三','四','五','六','日'];
+var trend = function(trendData,day){
+
+	var can = document.getElementById('canvas').getContext('2d');
+	if(!can) return alert('Your browser does not support the canvas element.');
+	
+	var canW = can.canvas.width,
+		canH = can.canvas.height;
+	
+	var level = 10,
+		vertical = 7;
+	
+	var allY = canH/(level + 1),
+		allX = canW/vertical;
+	
+	var unit = 5;//横坐标单位
+	
+	can.lineWidth = 1;
+	can.translate(-allX/2, -allY/2);
+	var background = function() {
+		for(var i = 0; i < level; i++){
+			can.beginPath();
+			can.moveTo(0,allY * (i + 1));
+			can.lineTo(canW + allX/2,allY * (i + 1));
+			can.stroke();
+			
+		}
+		
+		for(var j = 1; j <= vertical; j++){
+			var font = 15;
+			
+			can.beginPath();
+			can.moveTo(allX * j,0);
+			can.lineTo(allX * j, canH - font);
+			can.stroke();
+			
+			can.font=font + "px Arial";
+			can.fillText('周' + day[j-1], allX * j - font, canH);
+		}
+		
+	}();
+	
+	can.save();
+	function animate(i){
+		if(trendData[i]){
+			can.fillStyle = 'rgba(255,0,0,1)';
+			can.beginPath();
+			
+			var positionY = canH - trendData[i]/unit*allY,
+				positionX = allX * (i + 1);
+				
+			can.arc(positionX,positionY,3,0,Math.PI*2,true);
+			can.fill();
+			
+			line(can,positionX,positionY,i+1);
+			
+		}		
+		
+	}
+	animate(0);
+	function line(can,positionX,positionY,i){
+		var nextY = canH - trendData[i]/unit*allY,
+			nextX = allX * (i + 1);
+		var x = positionX,
+			y = positionY;
+		var tan = (nextY - y)/(nextX - x);
+		
+		can.lineJoin  = 'round';
+		can.lineCap = 'round';
+		can.strokeStyle = 'red';
+		can.lineWidth = 2;
+		clearInterval(time);
+		var time = setInterval(function(){
+			can.beginPath();
+			
+			can.moveTo(x,y);
+				x++;
+				y+=tan;			
+			can.lineTo(x, y);
+			can.stroke();
+			if(nextX <= x){
+				clearInterval(time);
+				animate(i);
+			}
+				
+		},5);
+		
+	}
+};
+
+
+window.onload = trend(trendData,day);
+</script>
+<canvas id="canvas2" width="200px" height="200px"></canvas>
+<script>
+function init2(){
+  clock();
+  setInterval(clock,1000);
+}
+function clock(){
+  var now = new Date();
+  var ctx = document.getElementById('canvas2').getContext('2d');
+  ctx.save();
+  ctx.clearRect(0,0,150,150);
+  ctx.translate(75,75);
+  ctx.scale(0.4,0.4);
+  ctx.rotate(-Math.PI/2);
+  ctx.strokeStyle = "black";
+  ctx.fillStyle = "white";
+  ctx.lineWidth = 8;
+  ctx.lineCap = "round";
+
+  // Hour marks
+  ctx.save();
+  for (var i=0;i<12;i++){
+    ctx.beginPath();
+    ctx.rotate(Math.PI/6);
+    ctx.moveTo(100,0);
+    ctx.lineTo(120,0);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // Minute marks
+  ctx.save();
+  ctx.lineWidth = 5;
+  for (i=0;i<60;i++){
+    if (i%5!=0) {
+      ctx.beginPath();
+      ctx.moveTo(117,0);
+      ctx.lineTo(120,0);
+      ctx.stroke();
+    }
+    ctx.rotate(Math.PI/30);
+  }
+  ctx.restore();
+  
+  var sec = now.getSeconds();
+  var min = now.getMinutes();
+  var hr  = now.getHours();
+  hr = hr>=12 ? hr-12 : hr;
+
+  ctx.fillStyle = "black";
+
+  // write Hours
+  ctx.save();
+  ctx.rotate( hr*(Math.PI/6) + (Math.PI/360)*min + (Math.PI/21600)*sec )
+  ctx.lineWidth = 14;
+  ctx.beginPath();
+  ctx.moveTo(-20,0);
+  ctx.lineTo(80,0);
+  ctx.stroke();
+  ctx.restore();
+
+  // write Minutes
+  ctx.save();
+  ctx.rotate( (Math.PI/30)*min + (Math.PI/1800)*sec )
+  ctx.lineWidth = 10;
+  ctx.beginPath();
+  ctx.moveTo(-28,0);
+  ctx.lineTo(112,0);
+  ctx.stroke();
+  ctx.restore();
+  
+  // Write seconds
+  ctx.save();
+  ctx.rotate(sec * Math.PI/30);
+  ctx.strokeStyle = "#D40000";
+  ctx.fillStyle = "#D40000";
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(-30,0);
+  ctx.lineTo(83,0);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0,0,10,0,Math.PI*2,true);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(95,0,10,0,Math.PI*2,true);
+  ctx.stroke();
+  ctx.fillStyle = "#555";
+  ctx.arc(0,0,3,0,Math.PI*2,true);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.lineWidth = 14;
+  ctx.strokeStyle = '#325FA2';
+  ctx.arc(0,0,142,0,Math.PI*2,true);
+  ctx.stroke();
+
+  ctx.restore();
+}
+//init2();
+</script>
+<canvas id="canvas3" width="500px" height="200px"></canvas>
+<script>
+var img = new Image();
+
+//User Variables
+img.src = 'Capitan_Meadows,_Yosemite_National_Park.jpg';
+var CanvasXSize = 800;
+var CanvasYSize = 200;
+var speed = 30; //lower is faster
+var scale = 1.05;
+var y = -4.5; //vertical offset
+//End User Variables
+
+var dx = 0.75;
+var imgW = img.width*scale;
+var imgH = img.height*scale;
+var x = 0;
+if (imgW > CanvasXSize) { x = CanvasXSize-imgW; } // image larger than canvas
+var clearX;
+var clearY;
+if (imgW > CanvasXSize) { clearX = imgW; } // image larger than canvas
+else { clearX = CanvasXSize; }
+if (imgH > CanvasYSize) { clearY = imgH; } // image larger than canvas
+else { clearY = CanvasYSize; }
+var ctx;
+
+function init3() {
+    //Get Canvas Element
+    ctx = document.getElementById('canvas3').getContext('2d');
+    //Set Refresh Rate
+    return setInterval(draw, speed);
+}
+
+function draw() {
+    //Clear Canvas
+    ctx.clearRect(0,0,clearX,clearY);
+    //If image is <= Canvas Size
+    if (imgW <= CanvasXSize) {
+        //reset, start from beginning
+        if (x > (CanvasXSize)) { x = 0; }
+        //draw aditional image
+        if (x > (CanvasXSize-imgW)) { ctx.drawImage(img,x-CanvasXSize+1,y,imgW,imgH); }
+    }
+    //If image is > Canvas Size
+    else {
+        //reset, start from beginning
+        if (x > (CanvasXSize)) { x = CanvasXSize-imgW; }
+        //draw aditional image
+        if (x > (CanvasXSize-imgW)) { ctx.drawImage(img,x-imgW+1,y,imgW,imgH); }
+    }
+    //draw image
+    ctx.drawImage(img,x,y,imgW,imgH);
+    //amount to move
+    x += dx;
+}
+//init3();
+</script>
+<canvas id="canvas4" width="300px" height="300px"></canvas>
+<script>
+var sun = new Image();
+var moon = new Image();
+var earth = new Image();
+function init4(){
+  sun.src = 'images/animation1.png';
+  moon.src = 'images/moon.png';
+  earth.src = 'images/earth.png';
+  setInterval(draw,100);
+}
+
+function draw() {
+  var ctx = document.getElementById('canvas4').getContext('2d');
+
+  ctx.globalCompositeOperation = 'destination-over';
+  ctx.clearRect(0,0,300,300); // clear canvas
+
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.strokeStyle = 'rgba(0,153,255,0.4)';
+  ctx.save();
+  ctx.translate(150,150);
+
+  // Earth
+  var time = new Date();
+  ctx.rotate( ((2*Math.PI)/60)*time.getSeconds() + ((2*Math.PI)/60000)*time.getMilliseconds() );
+  ctx.translate(105,0);
+  ctx.fillRect(0,-12,50,24); // Shadow
+  ctx.drawImage(earth,-12,-12);
+
+  // Moon
+  ctx.save();
+  ctx.rotate( ((2*Math.PI)/6)*time.getSeconds() + ((2*Math.PI)/6000)*time.getMilliseconds() );
+  ctx.translate(0,28.5);
+  ctx.drawImage(moon,-3.5,-3.5);
+  ctx.restore();
+
+  ctx.restore();
+  
+  ctx.beginPath();
+  ctx.arc(150,150,105,0,Math.PI*2,false); // Earth orbit
+  ctx.stroke();
+ 
+  ctx.drawImage(sun,0,0,300,300);
+}
+//init4();
+</script>
+<canvas id="canvas5" width="300px" height="300"></canvas>
+<script>
+function draw() {
+  var canvas = document.getElementById('canvas5');
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+
+    roundedRect(ctx,12,12,150,150,15);
+    roundedRect(ctx,19,19,150,150,9);
+    roundedRect(ctx,53,53,49,33,10);
+    roundedRect(ctx,53,119,49,16,6);
+    roundedRect(ctx,135,53,49,33,10);
+    roundedRect(ctx,135,119,25,49,10);
+
+    ctx.beginPath();
+    ctx.arc(37,37,13,Math.PI/7,-Math.PI/7,false);
+    ctx.lineTo(31,37);
+    ctx.fill();
+
+    for(var i=0;i<8;i++){
+      ctx.fillRect(51+i*16,35,4,4);
+    }
+
+    for(i=0;i<6;i++){
+      ctx.fillRect(115,51+i*16,4,4);
+    }
+
+    for(i=0;i<8;i++){
+      ctx.fillRect(51+i*16,99,4,4);
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(83,116);
+    ctx.lineTo(83,102);
+    ctx.bezierCurveTo(83,94,89,88,97,88);
+    ctx.bezierCurveTo(105,88,111,94,111,102);
+    ctx.lineTo(111,116);
+    ctx.lineTo(106.333,111.333);
+    ctx.lineTo(101.666,116);
+    ctx.lineTo(97,111.333);
+    ctx.lineTo(92.333,116);
+    ctx.lineTo(87.666,111.333);
+    ctx.lineTo(83,116);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(255,255,255,0.5)";
+    ctx.beginPath();
+    ctx.moveTo(91,96);
+    ctx.bezierCurveTo(88,96,87,99,87,101);
+    ctx.bezierCurveTo(87,103,88,106,91,106);
+    ctx.bezierCurveTo(94,106,95,103,95,101);
+    ctx.bezierCurveTo(95,99,94,96,91,96);
+    ctx.moveTo(103,96);
+    ctx.bezierCurveTo(100,96,99,99,99,101);
+    ctx.bezierCurveTo(99,103,100,106,103,106);
+    ctx.bezierCurveTo(106,106,107,103,107,101);
+    ctx.bezierCurveTo(107,99,106,96,103,96);
+    ctx.fill();
+
+    ctx.fillStyle = "red";
+    ctx.beginPath();
+    ctx.arc(101,102,2,0,Math.PI*2,true);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(89,102,2,0,Math.PI*2,true);
+    ctx.fill();
+  }
+}
+
+// A utility function to draw a rectangle with rounded corners.
+
+function roundedRect(ctx,x,y,width,height,radius){
+  ctx.beginPath();
+  ctx.moveTo(x,y+radius);
+  ctx.lineTo(x,y+height-radius);
+  ctx.quadraticCurveTo(x,y+height,x+radius,y+height);
+  ctx.lineTo(x+width-radius,y+height);
+  ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);
+  ctx.lineTo(x+width,y+radius);
+  ctx.quadraticCurveTo(x+width,y,x+width-radius,y);
+  ctx.lineTo(x+radius,y);
+  ctx.quadraticCurveTo(x,y,x,y+radius);
+  ctx.stroke();
+}
+draw();
+</script>
+
+
+</body>
+</html>
+

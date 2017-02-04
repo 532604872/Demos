@@ -1,0 +1,446 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<style>
+	.box{
+    border-radius: 100%;
+    bottom: 0;
+    height: 100px;
+    left: 0;
+    position: absolute;
+    width: 80px;
+	}
+	</style>
+</head>
+<body>
+<button onclick="var me=document.getElementById('offsetMove1');origin(me);offsetMove1(me,1000);">匀速</button>
+<button onclick="var me=document.getElementById('offsetMove2');origin(me);offsetMove2(me,1000);">缓动</button>
+<button onclick="var me=document.getElementById('offsetMove3');origin(me);offsetMove3(me,'left',1000);">带属性缓动</button>
+<button onclick="var me=document.getElementById('offsetMove4');origin(me);offsetMove4(me,'left',1000,ale);">带属性缓动,然后执行结果</button>
+<button onclick="var me=document.getElementById('offsetMove5');origin(me);offsetMove5(me,{'bottom':'100','left':'1000'},ale);">缓动</button>
+<div id='offsetMove1' class="box"></div>
+<div id='offsetMove2' class='box'></div>
+<div id='offsetMove3' class='box'></div>
+<div id='offsetMove4' class='box'></div>
+<div id='offsetMove5' class='box'></div>
+<div id='offsetMove6' class='box'></div>
+<div id='offsetMove7' class='box'></div>
+<div id='offsetMove8' class='box'></div>
+<div id='offsetMove9' class='box'></div>
+<div id='offsetMove10' class='box'></div>
+<div id='offsetMove11' class='box'></div>
+	<script>
+	function ale(){alert("ok")};
+		[].forEach.call($('.box'),function(a){
+			var color= (~~(Math.random()*(1<<24))).toString(16);
+			a.style.backgroundColor = "#" +color;
+		})
+	</script>
+<script>
+/**
+ * 使用offsetLeft,需注意margin的使用
+ * offsetLeft = margin-left + left;
+ * offsetWidth= padding + border + width;
+ * 
+ * @author Lonve
+ */
+function getStyle(elem,attr){
+    var result = null;
+    result = elem.currentStyle?elem.currentStyle[attr]:getComputedStyle(elem,false)[attr];
+    if(attr=="opacity"){
+        return parseInt(parseFloat(result)*100);
+    }
+    return parseInt(result);
+}
+
+
+var timer = null;
+//匀速运动停止条件--->距离足够近
+function offsetMove1(elem,offset){
+    var speed = 0;
+    speed = elem.offsetLeft < offset?10:-10;
+    
+    clearInterval(timer);
+    timer = setInterval(function(){
+        if(elem.offsetLeft >= offset){ //Math.abs(elem.offsetLeft - offset)<speed;
+            clearInterval(timer);
+        }else{
+            elem.style.left = elem.offsetLeft + speed + "px";
+        }
+    },30)
+}
+
+//缓动运动条件 1.变化的运动速度,最后速度为零
+//问题:offsetLeft
+function offsetMove2(elem,offset){
+    clearInterval(elem.timer);
+    var speed = 0;
+    elem.timer = setInterval(function(){
+        speed = (offset - elem.offsetLeft)/8;
+        speed = speed>0?Math.ceil(speed):Math.floor(speed);
+        
+        //是否到达到目标点
+        if(elem.offsetLeft == offset){
+            clearInterval(elem.timer);
+        }else{
+            elem.style.left = elem.offsetLeft + speed + "px";
+        }
+    },30)
+}
+
+//任意属性值
+//避免小数值    parseInt(0.3*100)
+function offsetMove3(elem,attr,offset){
+    clearInterval(elem.timer);
+    elem.timer = setInterval(function(){
+        var curAttr = getStyle(elem,attr);            //当前属性值
+        var speed = (offset - curAttr)/8;            //当前速度
+        speed = speed>0?Math.ceil(speed):Math.floor(speed);
+        
+        if(offset == curAttr){
+            clearInterval(elem.timer);
+        }else{
+            if(attr=="opacity"){
+                elem.style.filter = "alpha(opacity="+(curAttr +speed)+")";
+                elem.style.opacity= (curAttr + speed)/100;
+            }else{
+                elem.style[attr] = (curAttr + speed) + "px";
+            }
+        }
+    },30)
+}
+
+//链式运动
+function offsetMove4(elem,attr,offset,fn){
+    clearInterval(elem.timer);
+    elem.timer = setInterval(function(){
+        var curAttr = getStyle(elem,attr);
+        var speed   = (offset - curAttr)/8;
+        speed = speed > 0? Math.ceil(speed):Math.floor(speed);
+        
+        if(offset == curAttr){
+            clearInterval(elem.timer);
+            if(fn){ fn(); }
+        }else{
+            if(attr=="opacity"){
+                elem.style.filter = "alpha(opacity:"+(curAttr+speed)+")";
+                elem.style.opacity= (curAttr+speed)/100;
+            }else{
+                elem.style[attr] = curAttr + speed + "px";
+            }
+        }
+    },30)
+}
+
+//多个属性同时变化
+function offsetMove5(elem,json,fn){
+    var isStop = true;            //所有值都到达
+    clearInterval(elem.timer);
+    elem.timer = setInterval(function(){
+        //历遍json属性
+        for(var attr in json){
+            //1.取当前与速度
+            var offset  = json[attr];
+            var curAttr = getStyle(elem,attr);
+            var speed   = (offset - curAttr)/8;
+            speed = speed > 0? Math.ceil(speed):Math.floor(speed);
+            
+            //2.检测停止
+            if(offset!=curAttr){
+                isStop = false;
+            }
+            if(attr=="opacity"){
+                elem.style.filter = "alpha(opacity:"+(curAttr+speed)+")";
+                elem.style.opacity= (curAttr+speed)/100;
+            }else{
+                elem.style[attr] = curAttr + speed + "px";
+            }
+        }
+        //所有值都到达目标值,则停止
+        if(isStop){
+            clearInterval(elem.timer);
+            if(fn){ fn(); }
+        }
+    },30);
+}
+</script>
+<script>
+function origin(me){
+	//me.style.filter="alpha(opacity=0)";
+	//me.style.opacity = "0";
+	me.style.cssText += "left: 0; bottom: 0;";
+	//me.style.filter="alpha(opacity=100)";
+	//me.style.opacity = "1";
+}
+var Move6 = document.getElementById('offsetMove6');
+//offsetMove6(Move6,{'left':'1000'},20);
+
+//多个属性同时变化
+function offsetMove6(elem,json,positon,fn){
+    var isStop = true;            //所有值都到达
+    clearInterval(elem.timer);
+    elem.timer = setInterval(function(){
+        //历遍json属性
+        for(var attr in json){
+            //1.取当前与速度
+            var offset  = json[attr];
+            var curAttr = getStyle(elem,attr);
+            var speed   = (offset - curAttr)/80;
+            speed = speed > 0? Math.ceil(speed):Math.floor(speed);
+            
+            //2.检测停止
+            if(offset!=curAttr){
+                isStop = false;
+            }
+            if(attr=="opacity"){
+                elem.style.filter = "alpha(opacity:"+(curAttr+speed)+")";
+                elem.style.opacity= (curAttr+speed)/100;
+            }else{
+                elem.style[attr] = curAttr + speed + "px";
+            }
+        }
+        //所有值都到达目标值,则停止
+        if(isStop){
+            clearInterval(elem.timer);
+            if(fn){ fn(); }
+        }
+    },50);
+}
+var Move7 = document.getElementById('offsetMove7');
+//offsetMove7(Move7,{'left':'1000'},80);
+
+//多个属性同时变化
+function offsetMove7(elem,json,positon,fn){
+    var isStop = true;            //所有值都到达
+    clearInterval(elem.timer);
+    elem.timer = setInterval(function(){
+        //历遍json属性
+        for(var attr in json){
+            //1.取当前与速度
+            var offset  = json[attr];
+            var curAttr = getStyle(elem,attr);
+            var speed   = curAttr/80 + 0.1;
+            speed = speed > 0? Math.ceil(speed):Math.floor(speed);
+            
+            //2.检测停止
+            if(offset >= curAttr){
+                isStop = false;
+            }
+			else{
+				isStop = true;
+			}
+            if(attr=="opacity"){
+                elem.style.filter = "alpha(opacity:"+(curAttr+speed)+")";
+                elem.style.opacity= (curAttr+speed)/100;
+            }else{
+                elem.style[attr] = curAttr + speed + "px";
+            }
+        }
+        //所有值都到达目标值,则停止
+        if(isStop){
+            clearInterval(elem.timer);
+            if(fn){ fn(); }
+        }
+    },50);
+}
+</script>
+<script>
+/*$(function() {
+        var x = 0;
+        var y = 0;
+        var tt = setInterval(scrollImg, 10);
+        function scrollImg() {
+            var bottom = Math.abs(Math.sin(x)*50 + 100);
+            var left = y;
+            $("#offsetMove10").each(function() {
+                var $this = $(this);
+                $(this).css({"margin-bottom" : bottom + "px", "margin-left" : y + "px"});
+                y = y + 1;
+                x = (0.03) * y + 2;
+            });
+            if (y > 800)
+                clearInterval(tt);
+        }
+ 
+});
+$(function() {
+        var i = 0,x = 0,y = 0;
+		var time = 1;
+		var maxOrMin = 100;//最大+最小/2
+		var timePosition = 1;
+		var radian = 0.03;
+		var datetime = 1000;
+		var maxPosition = 200;
+		
+        var tt = setInterval(scrollImg, 10);
+        function scrollImg() {
+            y = (i != 0)? Math.abs(Math.cos(i) * maxOrMin + 100) : 0;
+            $("#offsetMove11").each(function() {
+                var $this = $(this);
+                $(this).css({"margin-bottom" : y + "px", "margin-left" : x + "px"});
+                x = x + time;
+                i = (radian) * x + timePosition;
+            });
+            if (x > datetime)
+                clearInterval(tt);
+        }
+ 
+});*/
+</script>
+<script>
+var Move9 = document.getElementById('offsetMove9');
+var fn = function(){},
+	fu = function(obj,cur){
+		$(obj).css({"margin-bottom" : cur.y + "px", "margin-left" : cur.x + "px"});
+	
+	};
+var cur = {x:0,y:0},
+	target = {x:1000,y:0};
+	
+startMove(Move9,cur,target,fu,fn,'elecity')
+function startMove(obj, cur, target, fnSet, fnEnd, type)
+{
+	var speed_json={};
+	if(!type)type='buffer';
+	switch(type)
+	{
+	case 'elecity':
+		for(var i in cur)
+		{
+		speed_json[i]=0;
+		}
+		break;
+	case 'linear':
+		for(var i in cur)
+		{
+			speed_json[i]=(target[i]-cur[i])/30;
+		}
+		break;
+	}
+
+	clearInterval(obj.timer);
+	obj.timer=setInterval(function (){
+		var bStop=true;
+
+		for(var i in target)
+		{
+
+		switch(type)
+		{
+		case 'buffer':
+			var speed=(target[i]-cur[i])/6;
+			speed=speed>0?Math.ceil(speed):Math.floor(speed);
+			break;
+		case 'linear':
+			var speed=speed_json[i];
+			break;
+		case 'elecity':
+			speed_json[i]+=(target[i]-cur[i])/4;
+			speed_json[i]*=0.7;
+			var speed=speed_json[i];
+			break;
+		}
+
+		if(
+		Math.round(cur[i])!=target[i] ||
+		(type=='elecity' && Math.abs(speed)>1)
+		)
+		{
+			bStop=false;
+		}
+			cur[i]+=speed;
+		}
+
+		fnSet(obj, cur);
+
+		if(bStop)
+		{
+			clearInterval(obj.timer);
+
+			fnEnd && fnEnd();
+		}
+	}, 30);
+}
+</script>
+<script>
+var Move8 = document.getElementById('offsetMove8');
+
+offsetMove8(Move8,{'left':'1000'},offsetMove88);
+function offsetMove8(elem,json,fn){
+    var isStop = true;            //所有值都到达
+	var maxSpeed = 8;			  //最高速度
+    clearInterval(elem.timer);
+    elem.timer = setInterval(function(){
+        //历遍json属性
+        for(var attr in json){
+            //1.取当前与速度
+            var offset  = json[attr];
+            var curAttr = getStyle(elem,attr);
+            var speed   = (curAttr/80 == 0) ? 0.1 : curAttr/80;
+            speed = speed > 0? Math.ceil(speed):Math.floor(speed);
+            
+            //2.检测停止
+            if(offset > curAttr && speed < maxSpeed){
+                isStop = false;
+            }
+			else{
+				isStop = true;
+			}
+            if(attr=="opacity"){
+                elem.style.filter = "alpha(opacity:"+(curAttr+speed)+")";
+                elem.style.opacity= (curAttr+speed)/100;
+            }else{
+                elem.style[attr] = curAttr + speed + "px";
+				console.log(speed);
+            }
+        }
+        //所有值都到达目标值,则停止
+        if(isStop){
+            clearInterval(elem.timer);
+            if(fn){ fn(elem,json);}
+        }
+    },50);
+}
+function offsetMove88(elem,json,fn){
+    var isStop = true;            //所有值都到达
+    clearInterval(elem.timer);
+    elem.timer = setInterval(function(){
+        //历遍json属性
+        for(var attr in json){
+            //1.取当前与速度
+            var offset  = json[attr];
+            var curAttr = getStyle(elem,attr);
+            var speed   = (offset - curAttr)/80;
+            speed = speed > 0? Math.ceil(speed):Math.floor(speed);
+            
+            //2.检测停止
+            if(offset > curAttr){
+                isStop = false;
+            }
+			else{
+				isStop = true;
+			}
+            if(attr=="opacity"){
+                elem.style.filter = "alpha(opacity:"+(curAttr+speed)+")";
+                elem.style.opacity= (curAttr+speed)/100;
+            }else{
+                elem.style[attr] = curAttr + speed + "px";
+				console.log(speed);
+            }
+        }
+        //所有值都到达目标值,则停止
+        if(isStop){
+            clearInterval(elem.timer);
+            if(fn){ fn(); }
+        }
+    },50);
+}
+function askMaxSpeed(json){
+	
+}
+</script>
+</body>
+</html>

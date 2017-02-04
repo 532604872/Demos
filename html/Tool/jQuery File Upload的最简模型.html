@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="../js/jquery.iframe-transport.js"></script>
+	<script type="text/javascript" src="../js/jquery.fileupload.js"></script>
+</head>
+<body>
+<input id="fileupload" type="file" name="files[]" data-url="@now2/@now/upload/" multiple> 
+<div class="fileupload-buttonbar">  
+        <span class="fileinput-button"><input type="file" name="files[]" multiple></span>  
+        <button type="submit" class="start">Start upload</button>  
+        <button type="reset" class="cancel">Cancel upload</button>  
+        <button type="button" class="delete">Delete</button>  
+        <input type="checkbox" class="toggle">  
+</div> 
+<div class="fileupload-progress">  
+	<div class="progress">  
+		<div class="bar" style="width:0%;"></div>  
+	</div>  
+	<div class="progress-extended"></div>  
+</div>  
+<div class="files"></div> 
+<script>
+$('#fileupload').fileupload({  
+    done: function (e, data) {  
+        $.each(data.result, function (index, file) {  
+            $('<p/>').text(file.name + ' uploaded').appendTo($("body"));  
+        });  
+    }  
+});
+$('#fileupload').fileupload('option', {  
+    progressall: function (e, data) {  
+        var progress = parseInt(data.loaded / data.total * 100, 10);  
+        console.log(progress + '%');  
+    }  
+}); 
+</script>
+</body>
+</html>

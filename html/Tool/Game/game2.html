@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1989/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
+	<style type="text/css">
+	*{padding:0;margin:0;}
+	canvas{
+		border:1px solid #eee;
+		box-shadow: 0 0 2px #eee;
+		border-radius: 10px;
+		display: block;
+		margin: 0 auto;
+	}
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+function setUpCanvas(body,can){	
+	var winW = body.clientWidth * 0.95;
+	var winH = body.clientHeight * 0.95;
+	
+	can.width = winW;
+	can.height = winH;
+	window.onresize = function(){
+		can.width = body.clientWidth;
+		can.height = body.clientHeight;
+	}
+}
+window.onload = function(){
+	var body = document.documentElement || document.body;
+	var can = document.getElementById('canvas');
+	setUpCanvas(body,can);
+	
+	var ctx = can.getContext('2d');
+	var ball = {
+		x : 100 ,
+		y : 100 ,
+		vx : 5 ,
+		vy : 2 ,
+		radius : 25 ,
+		color : '#eee' ,
+		draw : function(){
+			ctx.save();
+			ctx.beginPath();
+			ctx.arc(this.x ,this.y ,this.radius , 0 ,Math.PI * 2 ,true);
+			ctx.closePath();
+			ctx.fillStyle = this.color;
+			ctx.fill();
+			ctx.restore();
+			
+		}
+	};
+	
+	var line = {
+		x : body.clientWidth * 0.95 / 2,
+		y : body.clientHeight * 0.95 - 20,
+		height : 3,
+		width : 50,
+		color : '#f00',
+		draw : function(){
+			//ctx.beginPath();
+			ctx.save();
+			ctx.fillStyle = this.color;
+			ctx.fillRect(this.x ,this.y ,this.width ,this.height);
+			//ctx.fill();
+			ctx.restore();
+			
+		}
+	};
+	
+	var raf,far;
+	
+	function draw(){
+		ctx.clearRect(0 ,0 , canvas.width , canvas.height);
+		ball.draw();		
+		ball.x += ball.vx;
+		ball.y += ball.vy;
+		
+		if(ball.y + ball.radius > canvas.height || ball.y < ball.radius ){
+			ball.vy = -ball.vy;
+		}
+		if(ball.x + ball.radius > canvas.width || ball.x < ball.radius){
+			ball.vx = -ball.vx;
+		}
+		
+		line.draw();
+		
+		
+		raf = window.requestAnimationFrame(draw);
+		
+	}
+	
+	canvas.addEventListener('mouseover',function(e){
+		raf = window.requestAnimationFrame(draw);
+		
+	});
+	
+	canvas.addEventListener('mouseout',function(e){
+		window.cancelAnimationFrame(raf);
+		window.cancelAnimationFrame(far);
+		
+	});
+	
+	 // key event - use DOM element as object  
+       canvas.addEventListener('keydown', function(e){
+			far = window.requestAnimationFrame(doKeyDown);
+	   }, true);  
+       canvas.focus();    
+       // key event - use window as object  
+       window.addEventListener('keydown',  function(e){
+			far = window.requestAnimationFrame(doKeyDown);
+	   }, true);  
+	   
+	function doKeyDown(e) {  
+		var keyID = e.keyCode ? e.keyCode :e.which;
+		line.draw();
+		ctx.clearRect(0 ,0 , canvas.width , canvas.height);
+		if(keyID === 38 || keyID === 87)  { // up arrow and W  
+			  
+			line.y = line.y - 10;  
+			//tempContext.fillRect(x, y, 80, 40);  
+			e.preventDefault();  
+		}  
+		if(keyID === 39 || keyID === 68)  { // right arrow and D  
+			  
+			line.x = line.x + 10;  
+			//tempContext.fillRect(x, y, 80, 40);  
+			e.preventDefault();  
+		}  
+		if(keyID === 40 || keyID === 83)  { // down arrow and S  
+			  
+			line.y = line.y + 10;  
+			//tempContext.fillRect(x, y, 80, 40);  
+			e.preventDefault();  
+		}  
+		if(keyID === 37 || keyID === 65)  { // left arrow and A  
+			  
+			line.x = line.x - 10;  
+			//tempContext.fillRect(x, y, 80, 40);  
+			e.preventDefault();  
+		}
+		far = window.requestAnimationFrame(doKeyDown);
+	}
+	
+	ball.draw();
+	line.draw();
+};
+
+</script>
+</body>
+</html>

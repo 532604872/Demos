@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>我的漏洞</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+		
+</head>
+<script>
+var str = '2?page=3';
+var postion = str.indexOf('?');
+console.log(postion);
+</script>
+<body>
+<div style="position:absolute;background:blue;" id="div" name="div">maomao</div>
+<form action="" id="registerForm" method="post">
+	请输入用户名：<input type="text" name="userName">
+	请输入密码：<input type="text" name="password">
+	请输入手机号码：<input type="text" name="phoneNumber">
+	<button>提交</button>
+</form>
+<script type="text/javascript">
+	/****************策略对象*****************/
+
+	var strategies = {
+		isNonEmpty : function (value, errorMg){
+			if( value == ''){
+				return errorMg;
+			}
+		},
+		minLength : function (value, length, errorMg){
+			if(value.length < length){
+				return errorMg;
+			}
+		},
+		isMobile : function (value, errorMg){
+			if(!/(^1[3|5|8][0-9]{9}$)/.test(value)){
+				return errorMg;
+			}
+		}
+	};
+
+	/*************validators 类***************/
+
+	var validators = function(){
+		this.cache = [];
+	};
+
+	validators.prototype.add = function(dom, rules){
+		var self =this;
+
+		for( var i = 0 , rule ;rule = rules[i++];){
+			(function(rule){
+				var strategyAry = rule.strategy.split(':');
+				var errorMg = rule.errorMg;
+
+				self.cache.push(function(){
+					var strategy = strategyAry.shift();
+					strategyAry.unshift(dom.value);
+					strategyAry.push(errorMg);
+					return strategies[strategy].apply(dom, strategyAry);
+				});
+			})(rule);
+		}
+	};
+
+	validators.prototype.start = function(){
+		for(var i = 0, validatorsFunc; validatorsFunc = this.cache[ i++];){
+			var errorMg = validatorsFunc();
+			if(errorMg){
+				return errorMg;
+			}
+		}
+	};
+
+	/*****************客户调用代码*****************/
+
+	var registerForm = document.getElementById('registerForm');
+
+	var validataFunc = function(){
+		var validator = new validators();
+
+		validator.add(registerForm.userName, [{
+			strategy : 'isNonEmpty',
+			errorMg : '用户名不能为空'
+		},{
+			strategy : 'minLength:10',
+			errorMg : '用户名长度不能小于10位'
+		}]);
+
+		validator.add(registerForm.password, [{
+			strategy : 'minLength:6',
+			errorMg : '密码不能小于6位'
+		}]);
+
+		validator.add(registerForm.phoneNumber, [{
+			strategy : 'isMobile',
+			errorMg : '手机号码格式不正确'
+		}]);
+
+		var errorMg = validator.start();
+		return errorMg;				
+	}
+
+	registerForm.onsubmit = function(){
+		var errorMg = validataFunc();
+
+		if(errorMg){
+			alert(errorMg);
+			return false;
+		}
+	};
+	
+</script>
+<script>
+	var tween = {
+		linear : function(t, b, c, d){
+			return c*t/d + b;
+		},
+		easeIn : function(t, b, c, d){
+			return c * ( t /= d ) * t + b;
+		},
+		strongEaseIn : function(t, b, c, d){
+			return c * ( t /= d ) * t * t * t * t + b;
+		},
+		strongEaseOut : function(t, b, c, d){
+			return c * (( t = t / d - 1) * t * t * t * t + 1) + b;
+		},
+		sineaseIn : function(t, b, c, d){
+			return c * ( t /= d ) * t * t + b;
+		},
+		sineaseOut : function(t, b, c, d){
+			return c * (( t = t / d - 1) * t * t * + 1) + b;
+		}
+	};
+	var animate = function(dom){
+		this.dom = dom;
+		this.startTime = 0;
+		this.startPos = 0;
+		this.endPos = 0;
+		this.propertyName = null;
+		this.easing = null;
+		this.duration = null;		
+	};
+	animate.prototype.start = function(propertyName, endPos, duration, easing){
+		this.startTime = + new Date;
+		this.startPos = this.dom.getBoundingClientRect()[propertyName];
+		this.propertyName = propertyName;
+		this.endPos = endPos;
+		this.duration = duration;
+		this.easing = tween[easing];
+		
+		var self = this;
+		var timeId = setInterval(function(){
+			if(!self.step()){
+				clearInterval(timeId);				
+			}
+		},19);		
+	};
+	animate.prototype.step = function(){
+		var t = +new Date;
+		if(t >= this.startTime + this.duration){
+			this.update(this.endPos);
+			return false;
+		}
+		var pos = this.easing(t - this.startTime, this.startPos, this.endPos - this.startPos , this.duration );
+		this.update(pos);
+		return true;
+	};
+	animate.prototype.update = function(pos){
+		this.dom.style[this.propertyName] = pos + 'px';
+	}
+	
+	var div1 = document.getElementById('div');
+	div1.innerHTML = "strongEaseOut";
+	var animate1 = new animate(div1);
+	animate1.start('left', 500, 5000, 'strongEaseOut');
+	/**/
+	var div2 = div1.cloneNode();
+	document.body.appendChild(div2);
+	div2.innerHTML = "linear";
+	div2.style.top = "50px";
+	var animate2 = new animate(div2);
+	animate2.start('left', 500, 5000, 'linear');
+	/**/
+	var div3 = div1.cloneNode();
+	document.body.appendChild(div3);
+	div3.innerHTML = "easeIn";
+	div3.style.top = "100px";
+	var animate3 = new animate(div3);
+	animate3.start('left', 500, 5000, 'easeIn');
+	/**/
+	var div4 = div1.cloneNode();
+	document.body.appendChild(div4);
+	div4.innerHTML = "strongEaseIn";
+	div4.style.top = "150px";
+	var animate4 = new animate(div4);
+	animate4.start('left', 500, 5000, 'strongEaseIn');
+	/**/
+	var div5 = div1.cloneNode();
+	document.body.appendChild(div5);
+	div5.innerHTML = "sineaseIn";
+	div5.style.top = "200px";
+	var animate5 = new animate(div5);
+	animate5.start('left', 500, 5000, 'sineaseIn');
+	/**/
+	var div6 = div1.cloneNode();
+	document.body.appendChild(div6);
+	div6.innerHTML = "sineaseOut";
+	div6.style.top = "250px";
+	var animate6 = new animate(div6);
+	animate6.start('left', 500, 5000, 'sineaseOut');
+	/**/
+</script>
+<script type="text/javascript">
+	var S = function( salay ){
+		return salay * 4;		
+	}
+	var A = function( salay ){
+		return salay * 3;
+	}
+	var B = function( salay ){
+		return salay * 2;
+	}
+	var calculateBonus = function( func, salay){
+		return func( salay );
+	}
+	console.log(calculateBonus( S, 1000 ));
+</script>
+</body>
+</html>

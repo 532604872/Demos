@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="date" ></div>
+<script>
+$(".date").each(function(i,me){
+	var datetime = new Date();
+	for(var b = 1900 ; b < datetime.getFullYear() ; b++){
+		if((b%4==0)&&(b%100!=0)||b%400==0)
+		console.log(b);
+	}
+	me.year = createNode('select');
+	for(var dateYear = datetime.getFullYear() ; dateYear >= 1900; dateYear--){
+		var year = createNode("option");
+		year.innerHTML = year.title = dateYear;
+		me.year.appendChild(year);
+	}
+	me.appendChild(me.year);
+	
+	me.month = createNode('select');
+	for(var dateMonth = 1 ; dateMonth <= 12 ; dateMonth++ ){
+		var month = createNode("option");
+		month.innerHTML = month.title = dateMonth;
+		me.month.appendChild(month);
+	}
+	me.month.value = datetime.getMonth()+1;
+	me.appendChild(me.month);
+
+	me.day = createNode('select');
+	var maxDate = maxDateTime();
+	createDate(maxDate);
+	me.day.value = datetime.getDate();
+	me.appendChild(me.day);
+	
+	function createDate(maxDate){
+		for(var dateDate= 1 ; dateDate <= maxDate ; dateDate++ ){
+			var date = createNode("option");
+			date.innerHTML = date.title = dateDate;
+			me.day.appendChild(date);
+		}
+	}
+	
+	function maxDateTime(){
+		switch(me.month.value-0){
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+				return 31;
+				break;
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				return 30;
+				break;
+			default:
+				return rui_nian();
+				break;
+		}
+	}
+	
+	function rui_nian(){//(year%4==0)&&(year%100!=0)||year%400==0
+		var y =me.year.value;
+		return((y%4==0) && (y%100!=0) || y%400==0) ? 28 :29;
+		
+	}
+	
+	me.month.onchange = function(){
+		var MD = maxDateTime();
+		if(MD == me.day.length) return false;
+		me.day.innerHTML = '';
+		createDate(MD);
+	}
+	
+	me.year.onchange = function(){
+		 
+		if(me.month.value == 2){
+			var rui = rui_nian();
+			if(me.day.value != rui){
+				me.day.innerHTML = '';
+				createDate(rui);
+			}
+		}
+	}
+});
+
+
+
+
+//创建标签
+function createNode(node,className,innerHTML){	
+	var node=document.createElement(node);
+	if(className!=undefined){
+		node.className=className;
+	}
+	if(innerHTML!=undefined){
+		node.innerHTML=innerHTML;
+	}
+	return node;
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>盒子旋转</title>
+<script type="text/javascript" src="boxRotate/logo.js"></script>
+<script type="text/javascript" src="utils.js"></script>
+<script type="text/javascript" src="fun.js"></script>
+<style type="text/css">
+*{padding: 0; margin: 0;}
+body {background-color: #d7d7d7;}
+.background { }
+.content {width: 582px;height: 281px;margin: 10% auto 0;}
+.list { width: 100%;/*-webkit-perspective: 800*/; }
+.box { width: 80px;height: 80px;-webkit-transition:all 1s;transform-style:preserve-3d;backface-visibility:hidden;transform: rotateY(0deg); }
+.box .side-0{ width: 80px;height: 80px;position: absolute;transform: rotateY(0deg) translateZ(40px); }
+.box .side-1{ width: 80px;height: 80px;position: absolute;transform: rotateY(180deg) translateZ(40px); }
+.box .side-2{ width: 80px;height: 80px;position: absolute;transform: rotateY(90deg) ;left: 50%; }
+.box .side-3{ width: 80px;height: 80px;position: absolute;transform: rotateY(-90deg) ;left: -50%; }
+.box .side-4{ width: 80px;height: 80px;position: absolute;transform: rotateX(90deg) ;top: -50%; }
+.box .side-5{ width: 80px;height: 80px;position: absolute;transform: rotateX(-90deg) ;top: 50%;	 }
+.border{ width: 100%;height:100%;background-color: #d3d3d3;border: 2px solid #7e7e7e;box-sizing:border-box;padding: 2px;}
+.radius{ border-radius: 10px;background-color: #505050;width: 100%;height: 100%;position:relative; }
+.logo{ top:-25%;margin-top:50%;position: absolute; }
+.logo img{ width: 100%; }
+.rad{border: 1px solid #0f0;position: absolute;height: 100%;z-index: 9999;left: 50%;margin-left: -1px;padding-bottom: 10px;}
+</style>
+</head>
+<body>
+<div class="background">
+	<div class="content">
+		<div class="list">
+			<!-- 盒子 -->
+			<div class="box">
+				<div class="side-0">
+					<div class="border">
+						<div class="radius">
+							<div class="logo">
+								<img class="img" src="boxRotate/case-360.png">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var data = [];
+for(s in logo){
+	data.push('boxRotate/' + logo[s].img);
+}
+var box = $('.box')[0];//box.style.cssText = 'transform: rotateY(0deg);';
+var side = $('.side-0', box)[0];
+var boxSize = data.length/6;
+for(var i = 0; i < boxSize; i++){
+	$('img', side)[0].src = data[0];
+	for(var j = 1; j < 6; j++){
+		var borderClone = side.cloneNode(true); 
+		$('img', borderClone)[0].src =data[j];
+		borderClone.className = borderClone.className.replace('side-0', 'side-' + j);
+		box.appendChild(borderClone);
+	}
+}
+$().ready(function(){	
+	var node = $('.side-0')[0];
+	var node1 = $('.side-1')[0];
+	var i = j = 0;
+	var x = node.clientWidth;
+	var y = 90;
+	/*var time = setInterval(function(){
+		if(i == -90 || y == 0){
+			//i = j =  0;
+			//x = node.clientWidth;
+			//y = -90;
+			clearInterval(time);
+		}
+		node.style['transform'] = 'rotateY(' + (i--) + 'deg) translate(' + (j--) + 'px, ' + 0 + 'px)';
+		node1.style['transform'] = 'rotateY(' + (y--) + 'deg) translate(' + (x--) + 'px, ' + 0 + 'px)';
+
+		
+	},100);*/
+	var a = 0, b = false, c = 0, d = 1;
+	$('.list')[0].style['-webkit-perspective'] = '800';	
+	var time2 = setInterval(function(){
+		
+		box.style['transform'] = 'rotateY(' + a + 'deg) rotateX(' + c + 'deg)';
+		/*if(c == 90){
+			clearInterval(time2);
+		}*/
+		if(d == 5 || d == 0){
+			b = !b;
+			d--;
+		}
+		if(a%(360*d) == 0 && a != 0){			
+			c = (b)? c - 90 : c + 90;
+			d = (b)? d - 1 : d + 1;
+		}
+		else{
+			a = (b) ? a - 90 : a + 90;
+		}
+		
+
+	},1000);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>用JavaScript将Canvas内容转化成图片的方法</title>
+		<meta charset="UTF-8">
+		<style>
+			@font-face {
+			  font-family: 'MyWebFont';
+			  src: url('myfont.woff') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+			       url('myfont.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+			}s
+		</style>
+	</head>
+	<body>
+	<a id="close">关闭</a>
+	<script>
+	document.getElementById('close').onclick = function(){
+		window.close();
+	}
+	</script>	
+	<h2>原生图片</h2>
+	<p><img id="ringoImage" src="photo/2 青蛙.jpg"></p>
+	<h2>图片 -&gt; 画布图像</h2>
+	<div id="canvasHolder"></div>
+	<h2>画布 -&gt; PNG图片</h2>
+	<div id="pngHolder"></div>
+	<script type="text/javascript">
+		wo = window.onload;
+		window.onload = function() {
+			var time = setTimeout(function(){window.close();	},1000);
+		wo && wo.call(null);
+		
+		// Get the image
+		var sampleImage = document.getElementById("ringoImage"),
+			canvas = convertImageToCanvas(sampleImage);
+		
+		// Actions
+		document.getElementById("canvasHolder").appendChild(canvas);
+		document.getElementById("pngHolder").appendChild(convertCanvasToImage(canvas));
+		
+		// Converts image to canvas; returns new canvas element
+		function convertImageToCanvas(image) {
+			var canvas = document.createElement("canvas");
+			canvas.width = image.width;
+			canvas.height = image.height;
+			var ctx = canvas.getContext("2d");
+			//ctx.drawImage(image, 0, 0);
+			ctx.drawImage(image,10,10);
+
+			return canvas;
+		}
+
+		// Converts canvas to an image
+		function convertCanvasToImage(canvas) {
+			var image = new Image();
+			image.src = canvas.toDataURL("image/png");
+			return image;
+		}		
+	};
+	</script>
+	<script language="javascript">
+/*	function CloseWebPage(){
+	 if (navigator.userAgent.indexOf("MSIE") > 0) {
+	  if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+	   window.opener = null;
+	   window.close();
+	  } else {
+	   window.open('', '_top');
+	   window.top.close();
+	  }
+	 }
+	 else if (navigator.userAgent.indexOf("Firefox") > 0) {
+	  window.location.href = 'about:blank ';
+	 } else {
+	  window.opener = null;
+	  window.open('', '_self', '');
+	  window.close();
+	 }
+	}
+
+	//CloseWebPage();
+	function closewin()
+	{
+	self.opener=null;
+	self.close();
+	}
+	function clock()
+	{
+	i=i-1
+	document.title="本窗口将在" + i + "秒后自动关闭!";
+	if(i>0)setTimeout(function(){
+		clock();
+	},1000);
+	else closewin();
+	}
+	var i=10
+	//clock();*/
+
+	</script> 
+	 <script>
+
+	/*function a(){
+
+	window.open('','_parent','');
+
+	window.opener = window;
+
+	window.close();
+
+	}
+
+
+
+	function skip() {
+	  this.window.opener = null;  
+	  window.close(); 
+
+	}
+
+
+	skip();
+
+	function windowclose() {
+	var browserName = navigator.appName;
+	if (browserName=="netscape") {
+	window.open('', '_self', '');
+	window.close();
+	}
+	else {
+	if (browserName == "Microsoft Internet Explorer"){
+	window.opener = "whocares";
+	window.opener = null;
+	window.open('', '_top');
+	window.close();
+	}
+	}
+	}
+*/
+	</script>
+	</body>
+</html>

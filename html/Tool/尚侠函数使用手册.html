@@ -1,0 +1,929 @@
+﻿<html>
+<head></head>
+<body>
+1、getPageSize() 函数<br>
+作用：获取宽和高<br>
+调用方法： var page = getPageSize();<br>
+返回值：(对象){ PageW: 页面宽, PageH: 页面高, WinW: 窗体宽, WinH: 窗体高, ShowW: 显示宽, ShowH: 显示高 }<br>
+<br>
+2、getPageScroll() 函数<br>
+作用：滚动条滚动距离<br>
+调用方法： var page = getPageScroll();<br>
+返回值：（对象） { X: 水平滚动距离, Y: 垂直滚动距离 }<br>
+<br>
+3、addEventHandler(目标元素, 事件类型, 处理函数（回调）) 函数<br>
+作用：目标元素添加事件<br>
+调用方法：addEventHandler(window, "scroll", Scroll);<br>
+返回值：<br>
+<br>
+4、removeEventHandler(目标元素, 事件类型, 处理函数（回调）) 函数<br>
+作用：目标元素删除事件<br>
+调用方法：removeEventHandler(window, "scroll", Scroll);<br>
+返回值：<br>
+<br>
+5、Extend（目标对象,源对象）函数<br>
+作用：把源对象中每个数据值和目标对象中每个数据进行赋值（替换）<br>
+调用方法：Extend(opts, options || {});<br>
+返回值：<br>
+<br>
+6、illusion(源对象, 处理函数（回调）) 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+7、animate(源对象（css）, 持续时间, method, easing, 处理函数（回调）, running) 函数<br>
+作用：JQ 动画函数<br>
+调用方法：<br>
+$(".class").animate({ height: 0, opacity: 0, "margin-top": 20 }, 450, 0, 0, function () {<br>
+	removeSection(item);<br>
+});<br>
+返回值：<br>
+<br>
+8、scrollTo(源对象（scrollTop）, 持续时间, method, easing, callback, running) 函数<br>
+作用：JQ 滚动条滚动距离<br>
+调用方法： $(document.body).scrollTo({ scrollTop: y }, 200);<br>
+返回值：<br>
+<br>
+9、scrollYTo（滚动距离）函数<br>
+作用：垂直距离发生变化<br>
+调用方法：scrollYTo(Y);<br>
+返回值：<br>
+<br>
+10、ready(处理函数) 函数<br>
+作用：JQ 加载<br>
+调用方法：jQuery(document).ready(function(){}）<br>
+返回值：<br>
+<br>
+11、each(处理函数（回调）,指定对象) 函数<br>
+作用：JQ 指定对象遍历<br>
+调用方法： $(obj).each(function (me,i,root) {});<br>
+返回值：<br>
+<br>
+12、applyAttr（） 函数<br>
+作用：JQ 把元素的属性添加成 DOM <br>
+调用方法： $(obj).applyAttr();<br>
+返回值：JQ值<br>
+<br>
+13、css(属性名,值) 函数<br>
+作用：JQ 设置 style 属性<br>
+调用方法： $(obg).css('height',"0px");<br>
+返回值：JQ值<br>
+<br>
+14、opacity（透明度（0 至 1）） 函数<br>
+作用：改变目标元素的透明度<br>
+调用方法：$(item).opacity(0);<br>
+返回值：JQ值<br>
+<br>
+15、fcc() 函数<br>
+作用：接受一个指定的 Unicode 值，然后返回一个字符串<br>
+调用方法：$().fcc(65,66,67)<br>
+返回值：ABC<br>
+<br>
+16、is() 函数<br>
+作用：判断浏览器类型<br>
+调用方法：$().is.IE、$().is.Firefox等<br>
+返回值：bool值<br>
+<br>
+17、applyAttr() 函数<br>
+作用：把HTML中的属性转换成标签属性<br>
+调用方法：$().applyAttr()<br>
+返回值：JQ值<br>
+<br>
+18、css() 函数<br>
+作用：设置css样式<br>
+调用方法：$().css("height","50px")<br>
+返回值：JQ值<br>
+<br>
+19、extSys() 函数<br>
+	(1)Length() 函数
+		返回值：Object { zh=0,  en=0}
+	(2)Trim() 函数
+		返回值：string
+	
+作用：对字符串进行操作<br>
+调用方法：$().sexSys(string)<br>
+返回值：NULL<br>
+<br>
+20、append() 函数<br>
+作用：添加子节点<br>
+调用方法：$().append(node)<br>
+返回值：JQ值<br>
+<br>
+21、wait() 函数<br>
+作用：设置等待时间<br>
+调用方法：$().wait(等待时间，回调函数)<br>
+返回值：NULL<br>
+<br>
+22、addEvent() 函数<br>
+作用：给元素添加事件<br>
+调用方法：$().addEvent("click",function(){},Bool)<br>
+返回值：JQ值<br>
+<br>
+23、removeEvent() 函数<br>
+作用：元素删除事件<br>
+调用方法：$().removeEvent('click',function(){})<br>
+返回值：<br>
+<br>
+24、getTop() 函数<br>
+作用：距离Body顶部偏移距离<br>
+调用方法：$().getTop()<br>
+返回值：int<br>
+<br>
+25、getLeft() 函数<br>
+作用：距离Body左侧偏移距离<br>
+调用方法：$().getLeft()<br>
+返回值：int<br>
+<br>
+26、filte() 函数<br>
+作用：根据过滤属性选择元素<br>
+调用方法：$().filte(typx)<br>
+返回值：JQ值<br>
+<br>
+27、children() 函数<br>
+作用：首个孩子<br>
+调用方法：$().children()<br>
+返回值：JQ值<br>
+<br>
+28、updateObject() 函数<br>
+作用：更新对象<br>
+调用方法：$().updateObject(输入对象，源对象)<br>
+返回值：NULL<br>
+<br>
+29、imageReady() 函数<br>
+作用：图片加载<br>
+调用方法：$().imageReady(回调函数，显示空白)<br>
+返回值：NULL<br>
+<br>
+30、createTag() 函数<br>
+作用：添加标签<br>
+调用方法：$().createTag(标签名，类名，内容)<br>
+返回值：新建的标签<br>
+<br>
+31、valid() 函数<br>
+作用：正则表达式（test）<br>
+调用方法：$().valid(类型，值，选项)<br>
+返回值：bool值<br>
+<br>
+32、createDIV() 函数<br>
+作用：创建标签（DIV）<br>
+调用方法：createDIV(类名，内容)<br>
+返回值：<br>
+<br>
+33、numFormat() 函数<br>
+作用：个位数补‘0’<br>
+调用方法：numFormat(数字)<br>
+返回值：unmber值<br>
+<br>
+34、scrollYTo() 函数<br>
+作用：滚动条滚动距离<br>
+调用方法：scrollYTo(滚动条滚动距离)<br>
+返回值：NULL<br>
+<br>
+35、compareDate() 函数<br>
+作用：比较时间<br>
+调用方法：compareDate(时间，新时间)<br>
+返回值：unmber值<br>
+<br>
+36、breakEvent() 函数<br>
+作用：阻止默认事件<br>
+调用方法：breakEvent(e)<br>
+返回值：NULL<br>
+<br>
+37、getDateFixString() 函数<br>
+作用：获取事件的字符串形式<br>
+调用方法：getDateFixString(时间)<br>
+返回值：时间String值<br>
+<br>
+38、 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+ 函数<br>
+作用：<br>
+调用方法：<br>
+返回值：<br>
+<br>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>我的漏洞</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<style type="text/css">
+	*{border: 0; margin: 0;}
+	.content {width: 100%;height: 300px;background-color: #eee;}
+	
+	@media screen and (min-height: 350px) { 
+		.down { width: 100%;height: 50px;background-color: blue; position: absolute;bottom: 0;}
+	}
+	@media screen and (max-height: 350px) { 
+		.down {width: 100%;height: 50px;background-color: red;}
+	}
+	</style>
+</head>
+<body>
+<div class="content"></div>
+<div class="down"></div>
+<script>
+function parseURL(url) {
+    var a =  document.createElement('a');
+    a.href = url;
+    return {
+        source: url,
+        protocol: a.protocol.replace(':',''),
+        host: a.hostname,
+        port: a.port,
+        query: a.search,
+        params: (function(){
+            var ret = {},
+                seg = a.search.replace(/^\?/,'').split('&'),
+                len = seg.length, i = 0, s;
+            for (;i<len;i++) {
+                if (!seg[i]) { continue; }
+                s = seg[i].split('=');
+                ret[s[0]] = s[1];
+            }
+            return ret;
+        })(),
+        file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+        hash: a.hash.replace('#',''),
+        path: a.pathname.replace(/^([^\/])/,'/$1'),
+        relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],
+        segments: a.pathname.replace(/^\//,'').split('/')
+    };
+}
+console.log(new parseURL(window.location.href).source);
+</script>
+<script type="text" id="template">
+	<h1>This won't display</h1>
+</script>
+</body>
+</html>
