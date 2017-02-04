@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>视觉</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<style>
+	*{padding: 0;margin: 0;}
+	
+	/**
+	 * Multiple borders
+	 */
+
+	.banner{
+	  	margin: 50px auto;
+	    width: 100px;
+	    height: 60px;
+	    background: yellowgreen;
+	    box-shadow: 0 0 0 10px #655,
+	           		0 0 0 15px deeppink,
+	          		0 2px 5px 15px rgba(0,0,0,.6);
+	}
+	.outline{
+	  	margin: 50px auto;
+	    width: 100px;
+	    height: 60px;
+	    background: yellowgreen;
+	    border: 10px solid #655;
+	    outline: 5px solid deeppink; 
+	}
+	.outline2{
+	  	margin: 50px auto;
+	    width: 100px;
+	    height: 60px;
+	    background: yellowgreen;
+	    border: 10px solid #655;
+	    outline: 5px solid deeppink;
+	    box-shadow: 0 0 0 10px #fff,
+	    			0 0 0 11px #000;   
+	}
+	.outline-offset{
+		margin: 50px auto;
+	    width: 100px;
+	    height: 60px;
+	    background: #60524F;
+	}
+	</style>
+	<style>
+	.a {display: table;width: 100%;}
+	.a p.text{float: left;width: 60%;}
+	.a div.img-wrap{float: right;width: 40%;}
+	.a img.responsive{max-width: 100%;height: auto;}
+
+	.video-wrap{position: relative;padding-bottom: 55%;padding-top: 30px;height: 0;overflow: hidden;}
+	.video-wrap iframe,
+	.video-wrap object,
+	.video-wrap embed{
+		position: absolute;
+		top: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	@media screen and (max-width: 800px){
+		.small-menu{display: inline;}
+		.large-menu{display: none;}
+	}
+	@media screen and (min-width: 801px) and (max-width: 1024px){
+		.small-menu{display: none;}
+		.large-menu{display: inline;width: 100%;}
+		.large-menu ul{
+			list-style-type: none;
+		}
+		.large-menu ul li{
+			display: inline;
+		}
+		.content{
+			width: 100%;
+		}
+	}
+	@media screen and (min-width: 1025px){
+		.small-menu{display: none;}
+		.large-menu{display: inline;float: left;width: 20%;}
+		.large-menu ul{
+			list-style-type: none;
+		}
+		.large-menu ul li{
+			display: inline;
+		}
+		.centent{float: right;width: 80%;}
+	}
+
+	.b {display: table;width: 100%;}
+	.b p.text{float: left;width: 60%;}
+	.b div.img-wrap{float: right;margin: 0px; width: 38%;background-color: #333;}
+	.b img.responsive{max-width: 100%;height: auto;padding: 4%;}
+
+	p.rotate{transform: rotate(-30deg);width: 200px;}
+
+	h1.d{color: #f0f0f0;
+		text-shadow: 0px 0px 0px #888,
+					-1px -1px 0px #777,
+					-2px -2px 1px #666,
+					-3px -3px 1px #555,
+					-4px -4px 2px #444,
+					-5px -5px 3px #333,
+					-6px -6px 4px #000;
+	}
+
+	h1.masked{
+		font: 140px 'Arlal';
+		color: white;
+		-webkit-mask-image:URL(QQ头像.jpg);
+		-o-mask-image:URL(QQ头像.jpg);
+		-moz-mask-image:URL(QQ头像.jpg);
+		text-shadow: 0px 0px 10px #f0f0f0;
+		width: 100%;
+		padding: 12% 0;
+		margin: 0;
+		text-align: center;
+		background-color: #000;
+	}
+
+	article{width: 100%;margin: 0 auto;max-width: 1280px;}
+	article h1{text-align: center;}
+	article img{width: 100%;height: auto;}
+	article .one{background-color: #333;}
+	article .two{background-color: #666;}
+	article .three{background-color: #ccc;}
+	article .float{max-width: 350px;float: left;text-align: justify;}
+
+	@media tv {
+		body {color: blue;}
+		h1 {
+		font-weight: bold;
+		font-size: 140%;
+		}
+		img {
+		float: left;
+		width: 20%;
+		border: 2px solid #ccc;
+		padding: 2%;
+		margin: 2%;
+		}
+		p {
+		width: 62%;
+		float: right;
+		font-size: 110%;
+		padding: 2%;
+		}
+	}
+	@media screen and (max-width: 960px) {
+		body {color: #000;}
+		h1 {
+		font-weight: bold;
+		font-size: 120%;
+		}
+		img {
+		float: right;
+		width: 20%;
+		border: 2px solid #ccc;
+		padding: 1%;
+		margin: 1%;
+		}
+		P {
+		width: 80%;
+		float: left;
+		font-size: 60%;
+		}
+	}
+	@media screen and (min-width:961px) and (max-width:1280px) {
+		body {color: #000000;}
+		h1 {
+		font-weight: bold;
+		font-size: 120%;
+		}
+		img {
+		float: right;
+		width: 20%;
+		border: 2px solid #ccc;
+		padding: 1%;
+		margin: 1%;
+		}
+		P {
+		width: 76%;
+		float: left;
+		font-size: 60%;
+		}
+	}
+	@media screen and (min-width: 1281px) {
+		body {color: #000000;}
+		h1 {
+		font-weight: bold;
+		font-size: 120%;
+		}
+		img {
+		float: right;
+		width: 20%;
+		border: 2px solid #ccc;
+		padding: 1%;
+		margin: 1%;
+		}
+		P {
+		width: 70%;
+		float: left;
+		font-size: 100%;
+		}
+	}
+	</style>
+</head>
+<body>
+	<div class="banner"></div>
+	<div class="outline"></div>
+	<div class="outline2"></div>
+	<div class="outline-offset"></div>
+	<hr>
+	<!--  -->
+	<div class="a">
+		<p class="text">Loremipsum dolor sit amet...</p>
+		<div class="img-wrap">
+			<img alt="robots images" class="responsive" src="QQ头像.jpg">
+			<p>Loremipsum dolor sit amet</p>
+		</div>
+	</div>
+	<hr>
+	<!--  -->
+	<!-- <div class="video-wrap">
+		<iframe src="http://imgcache.qq.com/tencentvideo_v1/player/TencentPlayer.swf?max_age=86400&v=20150618" width="800" height="450" frameborder="0"></iframe>
+	</div> -->
+	<!--  -->
+	<div class="small-menu">
+		<form>
+			<select name="URL" onchange="window.location.href=this.form.URL.options[this.form.URL.selectedIndex].value">
+				<option value="blog.html">My Blog</option>
+				<option value="home.html">My Home Page</option>
+				<option value="tutorials.html">My Tutorials</option>
+			</select>
+		</form>
+	</div>
+	<div class="large-menu">
+		<ul>
+			<li><a href="blog.html">My Blog</a></li>
+			<li><a href="home.html">My Home Page</a></li>
+			<li><a href="tutorials.html">My Tutorials</a></li>
+		</ul>
+	</div>
+	<div class="content">
+		<p>Loremipsum dolor sitamet,contsecteturadipiscimelit</p>
+	</div>
+	<hr>
+	<!--  -->
+	<div class="b">
+		<p class="text">ipsum dolor sit amet, consecteturadi...</p>
+		<div class="img-wrap">
+			<img class="responsive" src="QQ头像.jpg">
+		</div>
+	</div>
+	<hr>
+	<!--  -->
+	<p class="rotate">I think, therefore I am</p>
+	<hr>
+	<!--  -->
+	<h1 class="d">I think, therefore I am</h1>
+	<hr>
+	<!--  -->
+	<h1 class="masked">I think, therefore I am</h1>
+	<hr>
+	<!--  -->
+	<article>
+		<h1>Responsive Layout with min and max width</h1>
+		<div class="one float">
+		<img src="QQ头像.jpg">
+		</div>
+		<div class ="two float">Pellentesqueeleifendfacilisisodio ac
+		ullamcorper. Nullamutenimutmassatinciduntluctus...
+		</div>
+		<div class="three float">Pellentesqueeleifendfacilisisodio ac
+		ullamcorper. Nullamutenimutmassatinciduntluctus. Utnullalibero, …
+		</div>
+	</article>
+	<hr>
+	<!--  -->
+	<h1>Add Media Query to your CSS</h1>
+		<div class="wrap">
+			<img src="QQ头像.jpg"/>
+		Pellent esque el eifend facilisis odio ac ullam corper. Nullam ut enim
+		ut massa tincidunt luctus…
+		</div>
+</body>
+</html>

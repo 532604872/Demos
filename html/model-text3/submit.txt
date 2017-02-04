@@ -1,0 +1,47 @@
+		function submit() {
+			var testValue = {
+				exclude : {},
+				notNull : function(i){
+					var self = this;
+					if(self.exclude[i])return false;
+					if (info[i].value == "") {
+						tipsing("不能为空", info[i]);
+						info[i].select();
+						return true;
+					}
+					return false;
+				},
+				1 : function(node){
+					if (!website.test(node.value)) {
+						tipsing("网址格式错误", node);
+						node.select();
+						return true;
+					}
+					return false;
+				},
+				2 : function(node){
+					if (!email.test(node.value)) {
+						tipsing("请输入正确格式的邮箱", node);
+						node.select();
+						return true;
+					}
+					return false;
+				},
+				3 : function(node){
+					if (!/\d/.test(node.value)) {
+						tipsing("只能为数字", node);
+						node.select();
+						return true;
+					}
+					return false;
+				}
+			}
+			for(var i = 0; i < info.length; i++){
+				if(testValue.notNull(i)) return false;
+				if(testValue[i]){
+					if(testValue[i](info[i]))
+					return false;
+				}				
+			}
+			$("#profile")[0].submit();
+		}

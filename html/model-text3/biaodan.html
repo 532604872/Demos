@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <style type="text/css">
+        div { border: 1px solid #0094ff; text-align: center; width: 420px; margin: 5px auto; }
+
+        #divNumEdit { float: right; width: 90px; border: 0px; margin: 0; }
+
+        table { border-collapse: collapse; border: 1px solid #0094ff; width: 400px; margin: 5px auto; text-align: center; }
+
+        td { border: 1px solid #0094ff; }
+        input.count {width:32px; text-align:center;}
+        #trTitle { font-weight: bolder; background-color: #4cff00; }
+    </style>   
+</head>
+<body>
+    <div>        
+        <input type="button" value="新增菜单" id="btnAddOption" onclick="addMenuOption()" />
+        <label>菜单:</label>
+        <select id="selList">
+            <option>兰州拉面</option>
+            <option>肉夹馍</option>
+            <option>手撕包菜</option>
+            <option>西兰花炒蛋</option>
+        </select>
+        <label>数量</label>
+        <div id="divNumEdit">
+            <input type="button" value="+" onclick="EditNum(this);" />
+            <label id="labelNum">0</label>
+            <input type="button" value="-" onclick="EditNum(this)" />
+        </div>
+    </div>
+    <div>
+        <input type="button" value="新增订单" id="btnAddTr" onclick="addRowData()" />
+    </div>
+    <table id="tbList">
+        <tr id="trTitle">
+            <td>序号</td>
+            <td>菜名</td>
+            <td>数量</td>
+            <td>编辑</td>
+        </tr>
+    </table>
+    <div>
+        <input type="checkbox" id="chkAll" onclick="checkAll()" /><label for="chkAll">全选</label>
+        <a href="javascript:void(0)" onclick="delCheckedRow()">删除选中</a>
+    </div>
+    <script>
+        var index = 1;
+        var table = document.getElementById("tbList");
+        var Name;
+        var Count;
+        var IsEditable = true;// 标示编辑操作是否可用.
+        function addMenuOption() {
+            var name = prompt("请输入菜单名...");
+            if (name == null || name == "") return;//验证输入是否为空.
+            var op = document.createElement("option");
+            op.innerHTML = name;
+            document.getElementById("selList").appendChild(op);
+        }//增加菜单
+        function EditNum(obj) {
+            if (obj.value == "+") {
+                obj.nextElementSibling.innerHTML++;
+            } else {
+                if (obj.previousElementSibling.innerHTML > 0)
+                    obj.previousElementSibling.innerHTML--;
+            }
+        }//编辑数量
+        function addRowData() {
+            if (!IsEditable) return;
+            if (document.getElementById("labelNum").innerHTML == 0) { return; }//如果数量为0,不增加行数据.
+            var tr = document.createElement("tr");
+            var tdId = document.createElement("td");
+            var tdName = document.createElement("td");
+            var tdCount = document.createElement("td");
+            var tdAction = document.createElement("td");
+            tdId.innerHTML = "<input type='checkbox' />" + index;
+            tdName.innerHTML = document.getElementById("selList").value;
+            tdCount.innerHTML = document.getElementById("labelNum").innerHTML;
+            tdAction.innerHTML = '<a href="javascript:;" onclick="editRowData(this)">编辑</a> <a href="javascript:;" onclick="delRowData(this)">删除</a>';
+            tr.appendChild(tdId);
+            tr.appendChild(tdName);
+            tr.appendChild(tdCount);
+            tr.appendChild(tdAction);
+            table.appendChild(tr);
+            index++;//增加序号.
+        }//添加行数据.
+        function delRowData(obj) {
+            table.removeChild(obj.parentNode.parentNode);
+        }//删除行数据.
+        function editRowData(obj) {
+            if (!IsEditable) return;
+            var tr = obj.parentNode.parentNode;
+            Name = tr.children[1].innerHTML;
+            Count = tr.children[2].innerHTML;
+            tr.children[1].innerHTML = "<select>" + document.getElementById("selList").innerHTML + "</select>";
+            tr.children[1].children[0].value = Name;
+            tr.children[2].innerHTML = '<input type="text" class="count" value="' + Count + '"/>';
+            tr.children[3].innerHTML = '<a href="javascript:;" onclick="saveEdit(this)">保存</a> <a href="javascript:;" onclick="cancelEdit(this)">取消</a>';
+            IsEditable = false;
+        }//编辑行数据
+        function cancelEdit(obj) {
+            var tr = obj.parentNode.parentNode;            
+            tr.children[1].innerHTML = Name;
+            tr.children[2].innerHTML = Count;
+            tr.children[3].innerHTML = '<a href="javascript:;" onclick="editRowData(this)">编辑</a> <a href="javascript:;" onclick="delRowData(this)">删除</a>';
+            IsEditable = true;
+        }//取消编辑
+        function saveEdit(obj) {
+            var tr = obj.parentNode.parentNode;
+            tr.children[1].innerHTML = tr.children[1].children[0].value;
+            tr.children[2].innerHTML = tr.children[2].children[0].value;
+            tr.children[3].innerHTML = '<a href="javascript:;" onclick="editRowData(this)">编辑</a> <a href="javascript:;" onclick="delRowData(this)">删除</a>';
+            IsEditable = true;
+        }//保存编辑后的结果
+        function checkAll() {
+            var ck = document.getElementById("chkAll").checked;           
+            var tr;
+            for (var i = 1; i < table.children.length; i++) {
+                tr = table.children[i];
+                tr.children[0].children[0].checked = ck;
+            }
+        }//全选
+        function delCheckedRow() {
+            var tr;
+            var ck;
+            for (var i = table.children.length-1; i >=1; i--) {
+                tr = table.children[i];
+                ck = tr.children[0].children[0].checked;
+                if (ck) table.removeChild(tr);
+            }
+        }//删除选中行
+    </script>
+</body>
+</html>

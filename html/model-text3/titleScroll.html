@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <title>JS让标题栏变成滚动的公告栏丨芯晴网页特效丨CsrCode.Cn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Language" content="zh-cn" />
+    <script language="javascript">
+        var index_count = 0;
+        var title_string = "欢迎学习网页特效100例精彩集锦,这里有许多javascript源程序,是您设计主页的最好帮手! ";
+        var title_length = title_string.length;
+        var cmon;
+        var kill_length = 0;
+        function loopTheScroll()
+        {
+            scrollTheTitle();
+            if(kill_length > title_length)
+            {
+                clearTimeout(cmon);
+            }
+            kill_length++;
+            cmon = setTimeout("loopTheScroll();",100)
+        }
+        function scrollTheTitle()
+        {
+            var doc_title = title_string.substring((title_length - index_count - 1),title_length);
+            document.title = doc_title;
+            index_count++;
+        }
+        loopTheScroll();
+    </script>
+    </head>
+<body>
+</body>
+</html>
+    
