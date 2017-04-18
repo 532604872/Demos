@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{ message }}
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!'
+            }
+        })
+    </script>
+    <hr>
+    <div id="app-2">
+        <span v-bind:title="message">
+            鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        </span>
+    </div>
+    <script>
+        var app2 = new Vue({
+            el: '#app-2',
+            data: {
+                message: '页面加载于' + new Date()
+            }
+        })
+    </script>
+    <hr>
+    <div id="app-3">
+        <span v-if="seen">
+            现在你看到我了
+        </span>
+    </div>
+    <script>
+        var app3 = new Vue({
+            el: '#app-3',
+            data: {
+                seen: true
+            }
+        })
+    </script>
+    <hr>
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in todos">{{ todo.text }}</li>
+        </ol>
+    </div>
+    <script>
+        var app4 = new Vue({
+            el: '#app-4',
+            data: {
+                todos: [
+                    {text: 'app-1'},
+                    {text: 'app-2'},
+                    {text: 'app-3'}
+                ]
+            }
+        })
+    </script>
+    <hr>
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">逆转消息</button>
+    </div>
+    <script>
+        var app5 = new Vue({
+            el: '#app-5',
+            data: {
+                message: 'Hello Word!'
+            },
+            methods: {
+                reverseMessage: function () {
+                    this.message = this.message.split('').reverse().join('')
+                }
+            }
+        })
+    </script>
+    <hr>
+    <div id="app-6">
+        <p>{{ message2 }}</p>
+        <input type="text" v-model="message2">
+    </div>
+    <script>
+        var app6 = new Vue({
+            el: '#app-6',
+            data: {
+                message2: 'Hello Word!'
+            }
+        })
+    </script>
+    <hr>
+    <div id="app-7">
+        <ol>
+            <!-- 现在我们为每个todo-item提供待办项对象    -->
+            <!-- 待办项对象是变量，即其内容可以是动态的 -->
+            <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+        </ol>
+    </div>
+    <script>
+        Vue.component('todo-item', {
+            props: ['todo'],
+            template: '<li>{{ todo.text }}</li>'
+        })
+        var app7 = new Vue({
+            el: '#app-7',
+            data: {
+                groceryList: [
+                    { text: 'app-1'},
+                    { text: 'app-2'},
+                    { text: 'app-3'}
+                ]
+            }
+        })
+    </script>
+</body>
+</html>
