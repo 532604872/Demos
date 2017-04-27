@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JS实现倒计时(时、分，秒)</title>
+</head>
+<body>
+	<div id="divdown1"></div>
+	<script language="javascript" type="text/javascript">
+	var setter = {
+		interval: 1000,
+		date: '2017-04-21 23:59:59',
+		elementById: 'divdown1'
+	}
+	function ShowCountDown(time) {
+		var now = new Date(),
+		    endDate = new Date(time),
+		    leftTime = endDate.getTime() - now.getTime();
+		if (leftTime <= 0) return '';
+
+		var leftsecond = parseInt(leftTime/1000),
+			dates = {
+				sYear: endDate.getFullYear(),
+				sMoth: endDate.getMonth() + 1,
+				sDate: endDate.getDate(),
+				sHour: endDate.getHours(),
+				sMinute: endDate.getMinutes(),
+				sSecond: endDate.getSeconds(),
+
+			},
+			day = Math.floor(leftsecond/(60*60*24)),
+			hour = Math.floor((leftsecond-day*24*60*60)/3600),
+			minute = Math.floor((leftsecond-day*24*60*60-hour*3600)/60),
+			second = Math.floor(leftsecond-day*24*60*60-hour*3600-minute*60);
+				
+		return "距离" + dates.sYear + "年" + dates.sMoth + "月" + dates.sDate + "日 " + dates.sHour + '时' + dates.sMinute + '分' + dates.sSecond + '秒' + ",还有："+(isNaN(day) ? day+"天" : '')+hour+"小时"+minute+"分"+second+"秒";
+	}
+	var interval = window.setInterval(function() {
+		document.getElementById(setter.elementById).innerHTML = ShowCountDown(setter.date);
+	}, setter.interval);
+	</script>
+</body>
+</html>
