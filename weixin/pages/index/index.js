@@ -23,10 +23,14 @@ Page({
       })
     })
   },
-  click:function(){
+  click:function(e){
     wx.navigateTo({
       url: '/page/component/index'
     })
     console.log("点击了文字");
+    var _self = this;
+    _self.setData({
+      motto: 'Welcome to space...'
+    })
   }
 })
