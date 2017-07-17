@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jquery.media.js</title>
+  <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>  
+  <script type="text/javascript" src="jquery.media.js"></script>
+</head>
+<body>
+  <a class="pdf" href="信息安全漏洞月通报(2015年12月).pdf"></a>
+
+  <script type="text/javascript">  
+    $(function() {  
+        $('.pdf').media({width:450, height:350});
+    });
+
+    var img= new Image();  
+    img.src = "信息安全漏洞月通报(2015年12月).pdf";//pdf地址  
+    function getPDFSIZE(){  
+         
+        alert(img.width + "__" +img.height);  
+          
+    }  
+  </script>
+  
+  <!-- <script type="text/javascript">
+  var fileUrl = 'http://10.0.71.100:2000/content/cms/2017-05/23/_1eccbfc5-9366-4d54-af59-fc5c87d22b6c.docx';
+    var html ='<iframe src="' + fileUrl + '"  width="1024"  height="680"  frameborder="0" scrolling="yes" ></iframe>';
+  
+       var reportPanel = new Ext.Panel({
+            floating: true,
+           // modal: true,
+            centered: true,
+            id: 'reportPanel',
+            width: 1024,
+            height: height + 50,
+            // scroll: 'vertical',
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'top',
+                items: [
+                    {
+                        iconMask: true,
+                        ui: 'back',
+                        iconCls: 'reply',
+                        handler: function () {
+                            location.reload();
+                        }
+                    },
+                    {
+                        xtype: 'spacer'
+                    }
+                ]
+            }],
+            hideOnMaskTap: false,
+            stopMaskTapEvent: false,
+            fullscreen: false,
+            html: html
+        });
+  
+        reportPanel.setCentered(true);
+        reportPanel.show('pop');
+  </script> -->
+</html>
