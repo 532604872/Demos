@@ -20,6 +20,44 @@
         alert(img.width + "__" +img.height);  
           
     }  
+
+    // (0)
+    (0, function(){console.log('0')})()
+
+    var a = function (callback) {
+      console.log(callback.name)
+
+      return typeof callback === 'function' && callback
+    },
+    b = function (callback) {
+      console.log(callback.name)
+      
+      return typeof callback === 'function' && callback
+    },
+    c = function (callback) {
+      console.log(callback.name)
+      
+      return typeof callback === 'function' && callback
+    },
+    d = function (callback) {
+      console.log(callback.name)
+      
+      return typeof callback === 'function' && callback
+    };
+
+    (0, a)(b)(c)(d);
+
+    (function(callback){
+      console.log('1')
+      
+      return typeof callback === 'function' && callback
+    }, function(callback){
+      console.log('2')
+
+      typeof callback === 'function' && callback()
+      return true
+    })(true)
+
   </script>
   
   <!-- <script type="text/javascript">
