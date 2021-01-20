@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "lib": ["dom", "esnext", "es5", "dom", "scripthost", "es2015"],
+    "declaration": false,
+    "declarationMap": true,
+    "noEmit": true,
+    "jsx": "react",
+    "strict": true,
+    "pretty": true,
+    "sourceMap": true,
+    /* Additional Checks */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    /*配置和 webpack.resolve.alias 相同路径映射*/
+    "baseUrl": "./",
+    "paths": {
+      "@": "app",
+      "@reg": "app/utils/reg.ts",
+      "@api": "app/utils/api.ts",
+      "@host": "app/utils/host.ts",
+      "@comp": "app/components/index.ts",
+      "@http": "app/utils/http.ts",
+      "@ws": "app/utils/ws.ts",
+      "@utils": "app/utils/utils.ts",
+      "@img": "app/assets/images",
+      "@media": "app/utils/media.ts",
+      "@variant": "app/utils/variant.ts",
+      "@mix": "app/assets/styles/common-mixins.less",
+      "@routers": "app/routers/router.config.ts",
+      "@layout": "app/assets/styles/common-layout.less",
+      "@print": "app/utils/print.ts"
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "test",
+    "release",
+    "app/main.prod.js",
+    "app/renderer.prod.js",
+    "app/dist",
+    "dll"
+  ]
+}
