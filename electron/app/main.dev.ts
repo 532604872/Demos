@@ -74,8 +74,8 @@ const createWindow = async() => {
     // width: 1280, // 1024,
     // height: 1024, // 728,
     fullscreen: true,
-    icon: getAssetPath('icon.png'), // 窗口的图标
-    webPreferences:
+    icon: getAssetPath('icon.png') // 窗口的图标
+    /* webPreferences:
       (process.env.NODE_ENV === 'development' ||
         process.env.E2E_BUILD === 'true') &&
       process.env.ERB_SECURE !== 'true'
@@ -84,7 +84,7 @@ const createWindow = async() => {
         }
         : {
           preload: path.join(__dirname, 'dist/renderer.prod.js')
-        }
+        }*/
   })
   mainWindow.maximize() // 默认最大化
 

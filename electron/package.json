@@ -2,10 +2,9 @@
   "name": "electron",
   "version": "1.0.0",
   "description": "A combined system of electron and react",
-  "main": "index.js",
   "scripts": {
     "delete": "rm -rf release && rm -rf ./app/dist",
-    "build": "concurrently \"yarn delete\" \"yarn build-main\" \"yarn build-renderer\"",
+    "build": "concurrently \"yarn delete\" \"yarn build-main\"",
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
     "build-e2e": "cross-env E2E_BUILD=true yarn build",
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.main.prod.babel.js --colors",
@@ -43,7 +42,6 @@
     "electron",
     "react"
   ],
-
   "repository": {
     "type": "git",
     "url": "git@github.com:532604872/Demos.git"
