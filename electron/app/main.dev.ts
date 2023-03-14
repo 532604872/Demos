@@ -71,10 +71,14 @@ const createWindow = async() => {
   mainWindow = new BrowserWindow({
     frame: false, // 创建无边框窗口
     show: false, // 是否应该显示窗口创建的时候
-    // width: 1280, // 1024,
-    // height: 1024, // 728,
-    fullscreen: true,
-    icon: getAssetPath('icon.png') // 窗口的图标
+    width: 1024,
+    height: 728,
+    // fullscreen: true,
+    icon: getAssetPath('icon.png'), // 窗口的图标
+    webPreferences: {
+      nodeIntegration: true, // Boolean(process.env.START_HOT),
+      webviewTag: true // Boolean(process.env.START_HOT)
+    }
     /* webPreferences:
       (process.env.NODE_ENV === 'development' ||
         process.env.E2E_BUILD === 'true') &&

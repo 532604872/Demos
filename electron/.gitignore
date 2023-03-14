@@ -67,3 +67,5 @@ launch.json
 coverage
 *.icloud
 #copy
+
+*.txt
