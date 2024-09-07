@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSS翻页效果</title>
+  <style>
+    /* 创建可滚动容器 */
+    .scroll-container {
+      height: 100vh;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+      padding: 10px;
+      scroll-snap-type: y mandatory; /* 定义滚动类型 */
+    }
+    /* Create a page container */
+    .page-container {
+      height: 100vh;
+      margin-bottom: 10px;
+      background-color: #eee;
+      border: 1px solid #999;
+      scroll-snap-align: start; /* 将容器与页面开头对齐 */
+      overflow-y: scroll;
+    }
+    .countent{
+      height: 150vh;
+      background-color: red;
+      border: 1px solid #999;
+    }
+  </style>
+</head>
+ 
+<body>
+  <div class="scroll-container">
+    <div class="page-container">
+      <h2>Page 1</h2>
+      <div class="countent"></div>
+    </div>
+    <div class="page-container">
+      <h2>Page 2</h2>
+      <div class="countent"></div>
+    </div>
+    <div class="page-container">
+      <h2>Page 3</h2>
+      <div class="countent"></div>
+    </div>
+    <div class="page-container">
+      <h2>Page 4</h2>
+      <p></p>
+    </div>
+  </div>
+</body>
+</html>
