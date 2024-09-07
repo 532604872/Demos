@@ -90,7 +90,7 @@ const createWindow = async() => {
           preload: path.join(__dirname, 'dist/renderer.prod.js')
         }*/
   })
-  mainWindow.maximize() // 默认最大化
+  // mainWindow.maximize() // 默认最大化
 
   mainWindow.loadURL(host.webPage)
   /* if (process.env.NODE_ENV === 'development' && process.env.IS_WEB === 'true') {
