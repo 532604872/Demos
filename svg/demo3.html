@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="user-scalable=0">
+  <title>Title</title>
+</head>
+<style>
+  body {
+    /*position: fixed;*/
+    /*top: 0;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    /*padding-top: 50px;*/
+    background: rgba(0, 0, 0, 0);
+  }
+
+  #container {
+    position: relative;
+    width:50%;
+    /*height: 80%;*/
+    background-color: #fff;
+    /*overflow-x: hidden;*/
+    /*overflow-y: auto;*/
+    /*padding: 10px 15px;*/
+    margin: auto;
+    border-radius: 0;
+
+    display: grid;
+    grid-template-columns: repeat(17,1fr);
+    grid-template-rows: repeat(auto-fill,25px);
+    grid-row-gap:5px;
+  }
+
+  .wordSpan, .wordSpan2 {
+    position: relative;
+    /*width: 25px;*/
+    /*height: 25px;*/
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    /*margin-top: 12px;*/
+    border: 1px solid #9E9E9E;
+    border-right: none;
+
+  }
+
+  .redLine::after {
+    content: '';
+    position: absolute;
+    border: none;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background-color: red;
+  }
+
+  .greenLine::after {
+    content: '';
+    position: absolute;
+    border: none;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background-color: green;
+  }
+
+  .blueLine::after {
+    content: '';
+    position: absolute;
+    border: none;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background-color: blue;
+  }
+
+  .orangeLine::after {
+    content: '';
+    position: absolute;
+    border: none;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background-color: orange;
+  }
+
+  .redCircle::before {
+    content: '';
+    position: absolute;
+    border: 2px solid red;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    border-radius: 50%;
+  }
+
+  .wavy-underline {
+    display: inline-block;
+    position: relative;
+    /* Customize the color and thickness of the wavy line */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 10" width="5" height="5" fill="%23000"><path d="M5,10 Q2.5,5 0,10" /></svg>');
+    background-size: 5px 5px;
+    background-repeat: repeat-x;
+  }
+
+  .wavy-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 10px;
+    width: 100%;
+    background: inherit;
+  }
+
+  .overallEvaluation {
+    background: #fff;
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 30px;
+
+  }
+
+  .immobilization {
+    background: #fff;
+    position: fixed;
+    width: 90%;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    padding: 10px;
+  }
+</style>
+<body>
+<div id="container">
+
+</div>
+<div id="overallEvaluation" class="overallEvaluation">
+  <div style="height: 30px;
+    line-height: 30px;">
+    <img style="width: 20px;height: 20px;    position: relative;
+    top: 5px;" src="https://static.qiaoxuesi.com/model/iconImg.png"/>
+    <span style="margin-left: 5px;font-size: 18px">总评</span>
+  </div>
+  <div style="margin-top: 5px;font-size: 16px" id="overallEvaluationContent">
+  </div>
+</div>
+</body>
+<script>
+
+  const data ={
+    "Title": "成长的故事",
+    "content": "  “那是一钩弯月，挑着家的梦幻；一头是爷奶的渴望，一头是儿女的摇篮。夏挡酷暑不觉累，冬挑三九不说寒！忙在一双手，情在一副肩，父亲的扁担的岁月锁不住尘封的记忆，父亲的扁担早已落满尘埃。那是父亲的扁担，自打我记事以来，那根扁担一直挑在了父亲的肩上，还蹭着扁担啊！”当时年幼，不懂此中含义，对此则无动于衷，也只当做母亲对我开的玩笑吧。后来才知道事情的大概：母亲生我那会儿，家里穷，她的身体，营养跟不上，所以奶水就少，为此，父亲不得不去砖窑厂挑砖攒钱给我买奶粉。\n  据母亲回忆说，那时，在砖窑厂里挑一担砖是两分钱，一担大概的汗衫之下露出一对红红的臂膀，我想，那时候母亲的眼里必定噙满了泪水吧！而后，母亲用热水帮父亲敷着，父亲疼得直咬牙，双腿一个劲地往外蹬。只要毛巾轻轻一碰父亲的肩膀，那块儿的皮就破了，涌出深红的脓水，母亲形容说，就像红烛的烛油，也不知是否是血，竟染红了整条毛巾。码体验、背着，我却被父亲的扁担挑着，有着说不出的兴奋。每当看见别的孩子羡慕的望着我和父亲，我总是高傲地抬起头回敬一个蔑视的眼神，心里的小九九甭提有多爽。父亲挑着我，不说话，却一路走一路笑，当时年少不解。\n  后来的一次机会，我专门问了父亲，父亲也就回答了：“等你到了我这个年龄，你当了父亲了，抱着你自己的孩子了，你就会体会到我挑着你的时候的感觉。”对于当时年龄的我来说，父亲的话似乎更为深奥，况且离我当父亲的。",
+    "wordErrorList": [],
+    "wrongSentenctList": [
+      {
+        "WrongSentence": "夏挡酷暑不觉累，冬挑三九不说寒！",
+        "Suggestion": "夏挡酷暑不觉累，冬挑三九不畏寒！"
+      },
+      {
+        "WrongSentence": "那是父亲的扁担，自打我记事以来，那根扁担一直挑在了父亲的肩上，还蹭着光，摸上去光溜溜的。",
+        "Suggestion": "那是父亲的扁担，自打我记事以来，那根扁担一直挑在父亲的肩上，还沾着光，摸上去光溜溜的。"
+      },
+      {
+        "WrongSentence": "现如今，这根扁担的大体已经有了明显的磨损，两头无奈地向下沉，形成了一个美丽的弧度，父亲再担着，恰似一钩弯月别在了父亲的肩上，滑稽又心酸。",
+        "Suggestion": "现如今，这根扁担的大体已经有了明显的磨损，两头无奈地向下沉，形成了一个美丽的弧度，父亲再担着，恰似一钩弯月别在父亲的肩上，滑稽又心酸。"
+      },
+      {
+        "WrongSentence": "很小的时候，母亲就对我说过：“孩子啊，你就是这根扁担养活的啊，等你大了啊，可千万别忘了这老扁担啊！”",
+        "Suggestion": "很小的时候，母亲就对我说过：“孩子啊，你就是这根扁担养活的啊，等你长大了啊，可千万别忘了这老扁担啊！”"
+      },
+      {
+        "WrongSentence": "当时年幼，不懂此中含义，对此则无动于衷，也只当做母亲对我开的玩笑吧。",
+        "Suggestion": "当时年幼，不懂其中的含义，对此则无动于衷，也只当做母亲对我开的玩笑吧。"
+      },
+      {
+        "WrongSentence": "母亲说，那晚她抱着我坐在门前，等着晚归的父亲。",
+        "Suggestion": "母亲说，那晚她抱着我坐在门前，等着晚归的父亲回来。"
+      },
+      {
+        "WrongSentence": "岂料，父亲一进门，二话没说，便趴在了床上，嘴里有气无力地哼哼着。",
+        "Suggestion": "岂料，父亲一进门，二话没说，便趴在床上，嘴里有气无力地哼哼着。"
+      }
+    ],
+    "BeautifulSentences": [
+      {
+        "BeautifulSentence": "父亲挑着我，不说话，却一路走一路笑，当时年少不解。",
+        "Comment": "这句话通过简洁的语言，生动地描绘了父亲挑着我走路时的情景，展现了父爱的伟大和深沉。"
+      },
+      {
+        "BeautifulSentence": "每当看见别的孩子羡慕的望着我和父亲，我总是高傲地抬起头回敬一个蔑视的眼神，心里的小九九甭提有多爽。",
+        "Comment": "这句话通过生动的描写，展现了孩子内心的自豪和满足，同时也反映了孩子对父亲的深深的依赖和感激之情。"
+      },
+      {
+        "BeautifulSentence": "父亲挑着我，不说话，却一路走一路笑，当时年少不解。",
+        "Comment": "这句话通过简洁的语言，生动地描绘了父亲挑着我走路时的情景，展现了父爱的伟大和深沉。"
+      },
+      {
+        "BeautifulSentence": "后来的一次机会，我专门问了父亲，父亲也就回答了：“等你到了我这个年龄，你当了父亲了，抱着你自己的孩子了，你就会体会到我挑着你的时候的感觉。”",
+        "Comment": "这句话通过父亲的回答，表达了父爱的无私和深沉，让人感受到了父亲的辛劳和付出。"
+      },
+      {
+        "BeautifulSentence": "对于当时年龄的我来说，父亲的话似乎更为深奥，况且离我当父亲的。",
+        "Comment": "这句话通过描写当时年幼的自己对父亲话语的理解和感受，展现了孩子对父爱的敬仰和崇拜。"
+      }
+    ],
+    "RhetoricalDescription": [
+      {
+        "RhetoricalSentence": "那是一钩弯月，挑着家的梦幻；一头是爷奶的渴望，一头是儿女的摇篮。",
+        "Review": "运用比喻手法，形象地描绘了父亲挑担的场景，增强了作文的感染力。"
+      },
+      {
+        "RhetoricalSentence": "父亲的扁担的岁月锁不住尘封的记忆，父亲的扁担早已落满尘埃。",
+        "Review": "运用排比手法，形象地表达了父亲扁担的历史和沧桑感，给人以深刻的印象。"
+      },
+      {
+        "RhetoricalSentence": "父亲再担着，恰似一钩弯月别在了父亲的肩上，滑稽又心酸。",
+        "Review": "运用比喻手法，将父亲的扁担比喻为一钩弯月，形象地表达了父亲的辛劳和心酸。"
+      }
+    ],
+    "overallEvaluation": "这篇作文通过描写父亲挑担的故事，展现了父爱的伟大和深沉。作者运用了比喻和排比等修辞手法，增强了作文的感染力。同时，作文中的优美句子也让人印象深刻。然而，作文中还存在一些错别字和表达不准确的地方，需要注意语言的准确性和流畅性。希望作者在以后的写作中能够更加注重语言的细节，提升作文的质量。",
+    "score": "83"
+  }
+
+  let overallEvaluationEl = document.getElementById("overallEvaluation");
+
+  function areRectanglesOverlapping(rectA, rectB) {
+    const x1A = rectA.x;
+    const y1A = rectA.y;
+    const widthA = rectA.width;
+    const heightA = rectA.height;
+
+    const x1B = rectB.x;
+    const y1B = rectB.y;
+    const widthB = rectB.width;
+    const heightB = rectB.height;
+
+    // 检查水平方向上的重叠
+    if (x1A + widthA < x1B || x1B + widthB < x1A) {
+      return false; // 两个矩形不重叠
+    }
+
+    // 检查垂直方向上的重叠
+    if (y1A + heightA < y1B || y1B + heightB < y1A) {
+      return false; // 两个矩形不重叠
+    }
+
+    return true; // 两个矩形重叠
+  }
+
+  //算交集
+  function getIntersection(rect1, rect2) {
+
+
+    const xMin = Math.max(rect1.x, rect2.x); // 交集矩形的左上角横坐标
+    const yMin = Math.max(rect1.y, rect2.y); // 交集矩形的左上角纵坐标
+    const xMax = Math.min(rect1.x + rect1.width, rect2.x + rect2.width); // 交集矩形的右下角横坐标
+    const yMax = Math.min(rect1.y + rect1.height, rect2.y + rect2.height); // 交集矩形的右下角纵坐标
+
+    if (xMax > xMin && yMax > yMin) {
+      // 矩形有交集
+      return {
+        x: xMin,
+        y: yMin,
+        width: xMax - xMin,
+        height: yMax - yMin
+      };
+    } else {
+      // 矩形无交集
+      return null;
+    }
+  };
+  //画批注框
+  let leftSuggestion = [];
+  let rightSuggestion = [];
+  const computerSuggestionPos = ({spanWordPos, suggestionPosText, containerEL, borderColor}) => {
+    return new Promise((resolve, reject) => {
+      const containerOffsetX = containerEL.offsetLeft;
+      const containerOffsetY = containerEL.offsetTop;
+      const containerWidth = containerEL.offsetWidth;
+      let {x, y, width, height} = spanWordPos;
+      //suggestionText的Y坐标
+      let suggestionY = (y + containerOffsetY + height / 2);
+      //suggestionText的X坐标
+      let suggestionX = 0;
+      let suggestionTextWidth = ((document.body.clientWidth-containerWidth)/2)-30;
+      let posType = "";
+
+      if (x > containerWidth / 2) { //箭头朝右
+        posType = "right"
+        suggestionX = containerOffsetX + containerWidth + 20;
+      } else { //箭头朝左
+        posType = "left";
+        suggestionX = containerOffsetX - suggestionTextWidth - 20-10;
+      }
+      let div = document.createElement('div');
+      div.style.position = 'absolute';
+      div.style.top = suggestionY + 'px';
+      div.style.left = suggestionX + 'px';
+      div.style.width = suggestionTextWidth + 'px';
+      div.style.border = `1px solid ${borderColor}`;
+      // div.style.backgroundColor = "white";
+      div.style.padding = "5px";
+      div.style.fontSize = "14px";
+      div.style.borderRadius = "10px";
+      div.style.color="#fff";
+      div.innerText = suggestionPosText;
+      document.body.appendChild(div);
+
+      setTimeout(() => {
+        //计算当前矩形是否和其他矩形重合
+        div.style.top = div.offsetTop - (div.offsetHeight / 2) + 'px';
+        let curPos = {x: div.offsetLeft, y: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight}
+        const isCoincident = (suggestionList) => {
+          let isResume = false;
+          for (let _rightSuggestion of suggestionList) {
+            let {offsetLeft, offsetTop, offsetWidth, offsetHeight} = _rightSuggestion;
+            let pos = {
+              x: offsetLeft,
+              y: offsetTop,
+              width: offsetWidth,
+              height: offsetHeight
+            }
+            let intersection = getIntersection(curPos, pos);
+            if (intersection) {
+              div.style.top = pos.y + pos.height + 10 + 'px';
+              curPos = {
+                x: div.offsetLeft,
+                y: pos.y + pos.height + 10,
+                width: div.offsetWidth,
+                height: div.offsetHeight
+              };
+
+              isResume = true;
+              break;
+            }
+          }
+          return isResume;
+        }
+        if (posType === "right") {
+          if (rightSuggestion && rightSuggestion.length > 0) {
+            let isResume = isCoincident(rightSuggestion)
+            while (isResume) {
+              isResume = isCoincident(rightSuggestion)
+            }
+          }
+          rightSuggestion.push(div);
+        } else {
+          if (leftSuggestion && leftSuggestion.length > 0) {
+            let isResume = isCoincident(leftSuggestion)
+            while (isResume) {
+              isResume = isCoincident(leftSuggestion)
+            }
+          }
+          leftSuggestion.push(div);
+        }
+        resolve({div, posType});
+      }, 100)
+    });
+  };
+
+  function drawWavyLine({svg, x1, y1, x2, y2, color, width = 2}) {
+    // 使用二次贝塞尔曲线计算控制点
+    const controlPoint1 = {x: x1 + (x2 - x1) / 4, y: y1 - Math.abs(x2 - x1) / 4};
+    const controlPoint2 = {x: x1 + (x2 - x1) * 3 / 4, y: y1 + Math.abs(x2 - x1) / 4};
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute(
+            "d",
+            `M ${x1} ${y1} Q ${controlPoint1.x} ${controlPoint1.y} ${x2 - (x2 - x1) / 2} ${y1} Q ${controlPoint2.x} ${controlPoint2.y} ${x2} ${y2}`
+    );
+    path.setAttribute("stroke", color);
+    path.setAttribute("stroke-width", width);
+    path.setAttribute("fill", "none");
+    svg.appendChild(path);
+  }
+
+  function drawLine({svg, x1, y1, x2, y2, color, width = 2}) {
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", x1);
+    line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2);
+    line.setAttribute("y2", y2);
+    line.setAttribute("stroke", color);
+    line.setAttribute("stroke-width", width);
+
+    svg.appendChild(line);
+  }
+
+  function drawCircle({svg, cx, cy, radius, color, width = 2}) {
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", cx);
+    circle.setAttribute("cy", cy);
+    circle.setAttribute("r", radius);
+    circle.setAttribute("stroke", color);
+    circle.setAttribute("stroke-width", width);
+    circle.setAttribute("fill", "none");
+
+    svg.appendChild(circle);
+  }
+
+  function drawEllipseCircle({svg, cx, cy, rx, ry, color, width = 2}) {
+    const ellipse = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    ellipse.setAttribute("cx", cx);
+    ellipse.setAttribute("cy", cy);
+    ellipse.setAttribute("rx", rx);
+    ellipse.setAttribute("ry", ry);
+
+    ellipse.setAttribute("stroke", color);
+    ellipse.setAttribute("stroke-width", width);
+    ellipse.setAttribute("fill", "none");
+    svg.appendChild(ellipse);
+  }
+
+
+  function drawText({svg, text, x, y, fontSize, color, fontFamily, fontWeight}) {
+    const textElement = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    textElement.setAttribute("x", x);
+    textElement.setAttribute("y", y);
+    textElement.setAttribute("font-size", fontSize);
+    textElement.setAttribute("fill", color);
+    textElement.setAttribute("font-family", fontFamily);
+    if (fontWeight) {
+      textElement.setAttribute("font-weight", fontWeight);
+    }
+    textElement.textContent = text;
+
+    svg.appendChild(textElement);
+  }
+
+  // function drawTextWithWrap({ svg, text, x, y, maxWidth, fontSize, lineHeight, color, fontFamily }) {
+  //     const textElement = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  //     textElement.setAttribute("x", x);
+  //     textElement.setAttribute("y", y);
+  //     textElement.setAttribute("font-size", fontSize);
+  //     textElement.setAttribute("fill", color);
+  //     textElement.setAttribute("font-family", fontFamily);
+  //
+  //     const words = text.split(' ');
+  //     let line = '';
+  //     let lineNumber = 0;
+  //
+  //     words.forEach((word) => {
+  //         const testLine = line + word + ' ';
+  //         const testWidth = svg.getComputedTextLength(testLine);
+  //         if (testWidth > maxWidth) {
+  //             const tspan = drawTspan(line, lineNumber, lineHeight);
+  //             textElement.appendChild(tspan);
+  //             lineNumber++;
+  //             line = word + ' ';
+  //         } else {
+  //             line = testLine;
+  //         }
+  //     });
+  //
+  //     const lastTspan = drawTspan(line, lineNumber, lineHeight);
+  //     textElement.appendChild(lastTspan);
+  //
+  //     svg.appendChild(textElement);
+  //
+  //     function drawTspan(text, lineNumber, lineHeight) {
+  //         const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+  //         tspan.setAttribute('x', x);
+  //         tspan.setAttribute('y', y + lineNumber * lineHeight);
+  //         tspan.textContent = text.trim();
+  //         return tspan;
+  //     }
+  // }
+
+  //画箭头
+  const drawArrow = ({pointA, pointB, color,width=2, svg}) => {
+
+    const svgNamespace = "http://www.w3.org/2000/svg";
+
+    // Create a marker
+    const marker = document.createElementNS(svgNamespace, "marker");
+    //生成一个makerID
+    const markerID = "arrow-" + Math.random().toString(36).substring(2);
+    marker.setAttribute("id", markerID);
+    marker.setAttribute("viewBox", "0 0 10 10");
+    marker.setAttribute("refX", "5");
+    marker.setAttribute("refY", "5");
+    marker.setAttribute("markerWidth", "6");
+    marker.setAttribute("markerHeight", "6");
+    marker.setAttribute("orient", "auto-start-reverse");
+
+    const polyline = document.createElementNS(svgNamespace, "polyline");
+    polyline.setAttribute("points", "0,0 10,5 0,10");
+
+    polyline.setAttribute("fill", color.toString());
+    marker.appendChild(polyline);
+
+    // Create a path
+    const path = document.createElementNS(svgNamespace, "path");
+    const controlPoint = {
+      x: (pointA.x + pointB.x) / 2,
+      y: Math.min(pointA.y, pointB.y) - 50
+    };
+
+    const d = `M ${pointA.x},${pointA.y} Q ${controlPoint.x},${controlPoint.y} ${pointB.x},${pointB.y}`;
+    path.setAttribute("d", d);
+    path.setAttribute("stroke", color);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke-width", width);
+    path.setAttribute("marker-end", `url(#${markerID})`);
+
+    svg.appendChild(marker);
+    svg.appendChild(path);
+  }
+
+  //构建句子标注框
+  const buildSentencesLabel = async ({
+                                       labelSentence,
+                                       labelText,
+                                       content,
+                                       container,
+                                       contentSpanList,
+                                       spanPositionList,
+                                       sentenceIndexList,
+                                       color,
+                                       svg, isbeautifulSentences
+                                     }) => {
+    const containerOffsetX = container.offsetLeft;
+    const containerOffsetY = container.offsetTop;
+    let sentenceErrIndexList = [];
+    let sentenceIndex = content.indexOf(labelSentence);
+    if (sentenceIndex < 0) {
+      return -1;
+    }
+    let haveIndex = sentenceIndexList.indexOf(sentenceIndex);
+    while (haveIndex !== -1) {
+      sentenceIndex = content.indexOf(labelSentence, sentenceIndex + 1);
+      haveIndex = sentenceErrIndexList.indexOf(sentenceIndex);
+    }
+    if (sentenceIndex < 0) {
+      return -1;
+    }
+    const sentenceLength = labelSentence.length;
+
+    let exText=["。","？","?","!","！","...","。。。",";"];
+
+    for (let i = 0; i < sentenceLength; i++) {
+      const spanIndex = sentenceIndex + i;
+      let pointA = {
+        x: containerOffsetX + spanPositionList[spanIndex].x,
+        y: containerOffsetY + spanPositionList[spanIndex].y + spanPositionList[spanIndex].height
+      };
+      let pointB = {
+        x: containerOffsetX + spanPositionList[spanIndex].x + spanPositionList[spanIndex].width,
+        y: containerOffsetY + spanPositionList[spanIndex].y + spanPositionList[spanIndex].height
+      };
+
+      let _text=contentSpanList[spanIndex].innerText;
+      if (exText.indexOf(_text)<0){
+        if (isbeautifulSentences) {
+          drawWavyLine({svg, x1: pointA.x, y1: pointA.y, x2: pointB.x, y2: pointB.y, color: color, width: 2});
+        } else {
+          drawLine({svg, x1: pointA.x, y1: pointA.y, x2: pointB.x, y2: pointB.y, color: color, width: 2});
+        }
+      }
+
+      //如果是最后一个字，则判断最后一个字落在哪边，用来决定箭头朝哪边
+      if (i === sentenceLength - 1) {
+        //画批注框
+        let {div: endEl, posType} = await computerSuggestionPos({
+          spanWordPos: spanPositionList[spanIndex],
+          suggestionPosText: labelText,
+          containerEL: container,
+          borderColor: color
+        });
+        if (!window.maxSuggMaxTop){
+          window.maxSuggMaxTop=0;
+        }
+        if(endEl.offsetTop+endEl.offsetHeight){
+          window.maxSuggMaxTop=Math.max(window.maxSuggMaxTop,endEl.offsetTop+endEl.offsetHeight);
+        }
+        //画箭头
+        let posA = {
+          x: containerOffsetX + spanPositionList[spanIndex].x + spanPositionList[spanIndex].width,
+          y: containerOffsetY + spanPositionList[spanIndex].y + spanPositionList[spanIndex].height
+        };
+        if (posType === "left") {
+          let minXObj = {v: 10000, spanIndex: -1};
+          for (let i = 0; i < sentenceLength; i++) {
+            const spanIndex = sentenceIndex + i;
+            let _text=contentSpanList[spanIndex].innerText;
+            if (exText.indexOf(_text)<0&&spanPositionList[spanIndex].x < minXObj.v) {
+              minXObj.v = spanPositionList[spanIndex].x;
+              minXObj.spanIndex = spanIndex;
+            }
+          }
+          posA = {
+            x: containerOffsetX + minXObj.v,
+            y: containerOffsetY + contentSpanList[minXObj.spanIndex].offsetTop + contentSpanList[minXObj.spanIndex].offsetHeight
+          }
+        } else {
+          let maxXObj = {v: -1, spanIndex: -1};
+          for (let i = 0; i < sentenceLength; i++) {
+            const spanIndex = sentenceIndex + i;
+            let _text=contentSpanList[spanIndex].innerText;
+            if (exText.indexOf(_text)<0&&spanPositionList[spanIndex].x > maxXObj.v) {
+              maxXObj.v = spanPositionList[spanIndex].x;
+              maxXObj.spanIndex = spanIndex;
+            }
+          }
+          posA = {
+            x: containerOffsetX + maxXObj.v + contentSpanList[maxXObj.spanIndex].offsetWidth,
+            y: containerOffsetY + contentSpanList[maxXObj.spanIndex].offsetTop + contentSpanList[maxXObj.spanIndex].offsetHeight
+          }
+        }
+
+        let posB = {
+          x: posType === "left" ? (endEl.offsetLeft + endEl.offsetWidth) : endEl.offsetLeft,
+          y: posType === "left" ? (endEl.offsetTop + endEl.offsetHeight / 2) : endEl.offsetTop + endEl.offsetHeight / 2
+        }
+        drawArrow({
+          pointA: posA,
+          pointB: posB,
+          color: color,
+          width: 2,
+          svg
+        });
+      }
+    }
+    return sentenceIndex;
+  }
+  //构建词组标注框
+  const buildWordLabel = ({
+                            labelWord,
+                            labelText,
+                            container,
+                            content,
+                            contentSpanList,
+                            spanPositionList,
+                            wordIndexList,
+                            color, svg
+                          }) => {
+    const containerOffsetX = container.offsetLeft;
+    const containerOffsetY = container.offsetTop;
+    let wordIndex = content.indexOf(labelWord);
+    if (wordIndex < 0) {
+      return -1;
+    }
+    let haveIndex = wordIndexList.indexOf(wordIndex);
+    while (haveIndex !== -1) {
+      wordIndex = content.indexOf(labelWord, wordIndex + 1);
+      haveIndex = wordIndexList.indexOf(wordIndex);
+    }
+    if (wordIndex < 0) {
+      return -1;
+    }
+    const typoLength = labelWord.length;
+    for (let i = 0; i < typoLength; i++) {
+      const spanIndex = wordIndex + i;
+      //  contentSpanList[spanIndex].classList.add('redCircle');
+      //计算contentSpanList[spanIndex]中心点坐标
+      let _curSpan = contentSpanList[spanIndex];
+      let pointA = {
+        x: containerOffsetX + _curSpan.offsetLeft + _curSpan.offsetWidth / 2,
+        y: containerOffsetY + _curSpan.offsetTop + _curSpan.offsetHeight / 2
+      };
+      //计算半径
+      let radius = Math.min(_curSpan.offsetWidth, _curSpan.offsetHeight) / 2;
+      //画圆
+      drawCircle({svg, cx: pointA.x, cy: pointA.y, radius, color: color, width: 1});
+      //画纠错后的文本
+      if (i === 0) {
+        drawText({
+          svg,
+          text: labelText,
+          x: containerOffsetX + _curSpan.offsetLeft + _curSpan.offsetWidth - 10,
+          y: containerOffsetY + _curSpan.offsetTop - 5,
+          fontSize: 18,
+          color: color,
+          fontFamily: "cursive",
+          fontWeight: "600"
+        })
+      }
+    }
+    return wordIndex;
+  }
+
+  window.onload = () => {
+
+    let title = data.Title;
+    let content = data.content;
+    let wordErrorList = data.wordErrorList;
+    let wrongSentenctList = data.wrongSentenctList;
+    let beautifulSentences = data.BeautifulSentences;
+    let rhetoricalDescription = data.RhetoricalDescription;
+    let overallEvaluation = data.overallEvaluation;
+
+    const container = document.getElementById('container');
+    //渲染标题
+    // if (title) {
+    //     let titleArr = title.split('');
+    //     let titleEl = document.createElement('div');
+    //     titleEl.style.border = 'none';
+    //     titleEl.style.marginTop = "10px";
+    //     titleEl.style.marginBottom = "10px";
+    //     titleEl.style.textAlign = 'center';
+    //     titleArr.forEach((word, index) => {
+    //         let wordSpan = document.createElement('span');
+    //         wordSpan.style.border = 'none';
+    //         wordSpan.className = 'wordSpan2';
+    //         wordSpan.innerText = word;
+    //         titleEl.appendChild(wordSpan);
+    //     });
+    //     container.prepend(titleEl)
+    // }
+
+    if (content) {
+      //渲染正文
+      const contentArr = content.split('');
+      contentArr.forEach((word, index) => {
+        if (word === "\n") {
+          let brEl = document.createElement("br");
+          brEl.className = "wordSpan";
+          container.appendChild(brEl);
+          return;
+        }
+        let wordSpan = document.createElement('span');
+        wordSpan.className = 'wordSpan';
+        wordSpan.innerText = word;
+        container.appendChild(wordSpan);
+      });
+
+      setTimeout(() => {
+        //创建svg画布
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.style.position = 'absolute';
+        svg.style.top = "0px";
+        svg.style.left = "0px";
+        svg.style.width = "100%";
+        svg.style.height = Math.max(document.body.offsetHeight, window.screen.height) + "px";
+        svg.style.zIndex = "100";
+        setTimeout(()=>{
+          svg.style.height = Math.max(document.body.offsetHeight, window.screen.height) + "px";
+        },1000)
+        const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+        style.textContent=`
+                      @font-face {
+      font-family: 'MyCustomFont';
+      src: url('https://static.qiaoxuesi.com/font/Antariskalia%20Signature.otf') format('truetype');
+    }
+                `;
+
+        svg.appendChild(style);
+
+        if (data.score && parseInt(data.score,10)>0){
+          setTimeout(()=>{
+
+            drawText({
+              svg,
+              text:data.score, x:container.offsetLeft+container.offsetWidth-80, y:container.offsetTop+60, fontSize:100, color:"red", fontFamily:"MyCustomFont"
+            });
+
+          },100)
+        }
+
+
+        document.body.appendChild(svg);
+
+        //获取container下所有span相对于父容器的坐标
+        const spanList = container.getElementsByClassName('wordSpan');
+        const spanListLength = spanList.length;
+        const spanPositionList = [];
+        for (let i = 0; i < spanListLength; i++) {
+          spanPositionList.push({
+            x: spanList[i].offsetLeft,
+            y: spanList[i].offsetTop,
+            width: spanList[i].offsetWidth,
+            height: spanList[i].offsetHeight,
+            word: spanList[i].innerText
+          });
+        }
+        (async () => {
+          if (wordErrorList && wordErrorList.length > 0) {
+            let wordIndexList = [];
+            for (let errorWord of wordErrorList) {
+              let wordIndex = buildWordLabel({
+                labelWord: errorWord.Typo,
+                labelText: errorWord.Suggestion,
+                container,
+                content,
+                contentSpanList: spanList,
+                spanPositionList,
+                wordIndexList: wordIndexList,
+                color: "#FF4848",
+                svg
+              });
+              if (wordIndex < 0) {
+                continue;
+              }
+              wordIndexList.push(wordIndex);
+            }
+          }
+          if (wrongSentenctList && wrongSentenctList.length > 0) {
+            let sentenceErrIndexList = [];
+            wrongSentenctList.sort((r1, r2) => {
+              return r1.index - r2.index
+            });
+            for (let errorSentences of wrongSentenctList) {
+              let sentenceIndex = await buildSentencesLabel({
+                labelSentence: errorSentences.WrongSentence,
+                labelText: errorSentences.Suggestion,
+                content,
+                container,
+                contentSpanList: spanList,
+                spanPositionList,
+                sentenceIndexList: sentenceErrIndexList,
+                color: "#FF972C",
+                svg
+              });
+              if (sentenceIndex < 0) {
+                continue;
+              }
+              sentenceErrIndexList.push(sentenceIndex);
+            }
+
+          }
+          if (beautifulSentences && beautifulSentences.length > 0) {
+            let sentenceIndexList = [];
+            for (let sentencesObj of beautifulSentences) {
+              let sentenceIndex = await buildSentencesLabel({
+                labelSentence: sentencesObj.BeautifulSentence,
+                labelText: sentencesObj.Comment,
+                content,
+                container,
+                contentSpanList: spanList,
+                spanPositionList,
+                sentenceIndexList: sentenceIndexList,
+                color: "#01C67A",
+                svg,
+                isbeautifulSentences: true
+              })
+              sentenceIndexList.push(sentenceIndex);
+            }
+          }
+          if (rhetoricalDescription && rhetoricalDescription.length > 0) {
+            let sentenceIndexList = [];
+            for (let sentencesObj of rhetoricalDescription) {
+              let sentenceIndex = await buildSentencesLabel({
+                labelSentence: sentencesObj.RhetoricalSentence,
+                labelText: sentencesObj.Review,
+                content,
+                container,
+                contentSpanList: spanList,
+                spanPositionList,
+                sentenceIndexList: sentenceIndexList,
+                color: "#3370FF",
+                svg
+              })
+              sentenceIndexList.push(sentenceIndex);
+            }
+          }
+
+          //看整体评价有没有被盖住，被盖住的话，整体评价就往下移动
+          if ((window.maxSuggMaxTop||0)>container.offsetHeight){
+            overallEvaluationEl.style.marginTop=(window.maxSuggMaxTop-container.offsetHeight)+20+"px";
+          }
+
+        })()
+      }, 200)
+
+    }
+
+    if (overallEvaluation) {
+      let overallEvaluationContentEl = document.getElementById("overallEvaluationContent");
+      overallEvaluationContentEl.innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${overallEvaluation}`;
+      setTimeout(() => {
+        let screenHeight = window.screen.height;
+        let bodyHeight = document.body.clientHeight;
+        if (bodyHeight < screenHeight - overallEvaluationEl.offsetHeight - 5) {
+          overallEvaluationEl.classList.add("immobilization");
+        }
+      }, 50);
+
+    } else {
+      overallEvaluationEl.style.display = "none";
+    }
+  }
+</script>
+</html>

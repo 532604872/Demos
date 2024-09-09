@@ -27,3 +27,7 @@
 <ol>
 	<li><a href="https://github.com/532604872/Demos/tree/master/css/demo-scroll.html">css_page_scroll</a>——CSS实现网页翻页滚动效果</li>
 </ol>
+<h4>svg：<h4>
+<ol>
+	<li><a href="https://github.com/532604872/Demos/tree/master/svg/demo3.html">svg_demo</a>——svg实现批改标记</li>
+</ol>
